@@ -13,6 +13,8 @@ npm run dev        # http://localhost:3100 se usar -- -p 3100
 
 Sem variáveis do Supabase o app roda com dados em memória (mesma lógica de negócio). Tudo funciona, inclusive tempo real entre abas.
 
+O `npm run dev` apaga a pasta `.next` antes de subir (script `predev` → `npm run clean`). Isso evita o erro `EINVAL: invalid argument, readlink ... .next\build-manifest.json`, que acontece nesta pasta sincronizada pelo OneDrive quando sobra cache de um `npm run build`. Para limpar manualmente: `npm run clean`.
+
 | Frente | URL | O que testar |
 | --- | --- | --- |
 | Site público (landing) | `/` | Hero em glassmorfismo, telas que acompanham o scroll, menu flutuante |

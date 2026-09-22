@@ -4,6 +4,8 @@
   "private": true,
   "description": "SmartBar — gestão inteligente de minibares para hotéis (SaaS B2B2C)",
   "scripts": {
+    "clean": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\"",
+    "predev": "npm run clean",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
