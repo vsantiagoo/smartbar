@@ -6,3 +6,7 @@ node_modules
 next-env.d.ts
 .vercel
 .claude/settings.local.json
+
+# Material de trabalho de imagens (gerações brutas + prompts). Fica só no disco/OneDrive.
+Imagens/
+human-output/

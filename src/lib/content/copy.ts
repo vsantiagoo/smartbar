@@ -114,12 +114,6 @@ export const marketingCopy = {
     titleAccent: "depois que o consumo está pago.",
     subtitle:
       "O hóspede lê o QR Code do quarto, paga no Pix ou lança na conta com o cartão-chave, e o frigobar destrava por 15 segundos. O estoque daquele quarto baixa no mesmo instante.",
-    /** Três provas curtas, lidas em varredura — uma por etapa do ciclo. */
-    proofs: [
-      { value: "15s", label: "entre pagar e abrir a porta" },
-      { value: "0", label: "conferência de frigobar no check-out" },
-      { value: "1 QR", label: "por quarto, sem app e sem cadastro" },
-    ],
     primaryCta: "Ver a vitrine do hóspede",
     secondaryCta: "Entrar no painel do hotel",
     scrollHint: "Role para ver como funciona",

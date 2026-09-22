@@ -4,6 +4,16 @@ Gestão inteligente de minibares para hotéis (SaaS B2B2C). O hóspede escolhe n
 
 **Stack:** Next.js 15 (App Router) · React 19 · TypeScript estrito · Tailwind CSS 3 · Supabase (PostgreSQL, Auth, Realtime) · Vercel.
 
+## Documentação
+
+| Documento | Para quê |
+| --- | --- |
+| [docs/PRD.md](docs/PRD.md) | Produto: problema, usuários, escopo, fluxos, métricas e roadmap |
+| [docs/BRANDBOOK.md](docs/BRANDBOOK.md) | Identidade visual: cores, tipografia, formas, superfícies de vidro, logo |
+| [docs/DNA-DA-MARCA.md](docs/DNA-DA-MARCA.md) | Essência da marca: propósito, valores, personalidade e tom de voz |
+
+Este README é o guia técnico (rodar, arquitetura, onde editar). Os documentos acima são a fonte de produto e de marca.
+
 ## Rodar agora (modo demonstração — sem banco)
 
 ```bash
@@ -40,7 +50,7 @@ Cada tela é uma página fina que compõe **seções independentes**. Para mudar
 | --- | --- | --- |
 | Cabeçalho fixo | `site-header.tsx` | Marca reduzida fora da barra; dentro, vidro escuro (`.glass-dark`) com o menu centralizado e o CTA à direita |
 | Menu das seções | `section-nav.tsx` | Fica dentro do cabeçalho; acende a seção visível (`use-active-section.ts`) |
-| Hero | `hero.tsx` | Fotos de hotel em crossfade (`hero-slideshow.tsx`, arquivos em `public/images/hero/`), moldura branca vazada e as três provas curtas. Vídeo de fundo **pendente** (ver nota abaixo) |
+| Hero | `hero.tsx` | Fotos de hotel em crossfade (`hero-slideshow.tsx`, arquivos em `public/images/hero/`) recortadas dentro da moldura branca vazada; margem branca em volta. O cabeçalho some ao rolar (`header-fade.tsx`) e volta pelo botão do rodapé. Vídeo de fundo **pendente** (ver nota abaixo) |
 | Como funciona | `scroll-story.tsx` | 3 telas em tela cheia que trocam conforme o scroll (crossfade) |
 | Resultados | `impact-stats.tsx` | Números de referência do Plano de Negócios |
 | Planos | `plans-grid.tsx` | Cards Básico/Plus/Premium |
@@ -103,6 +113,7 @@ ESP32 (leitor RFID) ─► /api/iot/rfid ─┐                               �
 2. Em *Authentication → Users* crie o usuário da recepção e vincule-o ao hotel (comentário no fim do `seed.sql`).
 3. Copie `.env.example` para `.env.local` e preencha `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` e `SUPABASE_SERVICE_ROLE_KEY` (nunca com prefixo `NEXT_PUBLIC_`).
 4. Em produção defina `NEXT_PUBLIC_DEMO_TOOLS=false` (as rotas `/api/mock/*` também se desligam sozinhas).
+5. Defina `IOT_DEVICE_KEY` e `PIX_WEBHOOK_TOKEN` com valores fortes. Sem `IOT_DEVICE_KEY`, a rota `/api/iot/rfid` cai numa chave-padrão de demonstração — nunca vá ao ar sem definir a sua.
 
 ## Deploy (Vercel)
 

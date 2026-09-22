@@ -67,10 +67,6 @@ export function hexToRgb(hex: string): RGB {
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
 
-export function rgbToHex([r, g, b]: RGB): string {
-  return "#" + [r, g, b].map((n) => Math.round(n).toString(16).padStart(2, "0")).join("").toUpperCase();
-}
-
 function mix(a: RGB, b: RGB, k: number): RGB {
   return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k];
 }
