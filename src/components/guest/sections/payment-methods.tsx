@@ -1,0 +1,87 @@
+"use client";
+import { BedDouble, Check, QrCode } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { guestCopy } from "@/lib/content/copy";
+import { cn } from "@/lib/utils";
+import type { PaymentMethod } from "@/lib/types";
+
+interface PaymentMethodsProps {
+  value: PaymentMethod;
+  onChange: (m: PaymentMethod) => void;
+  canChargeToRoom: boolean;
+}
+
+/** SEÇÃO · Escolha da forma de pagamento (Pix ou lançar na conta). */
+export function PaymentMethods({ value, onChange, canChargeToRoom }: PaymentMethodsProps) {
+  const c = guestCopy.checkout;
+  const options = [
+    {
+      id: "pix" as const,
+      icon: QrCode,
+      title: c.pix.title,
+      text: c.pix.text,
+      badge: <Badge tone="gold">Mais rápido</Badge>,
+      disabled: false,
+      note: undefined,
+    },
+    {
+      id: "room_charge" as const,
+      icon: BedDouble,
+      title: c.roomCharge.title,
+      text: c.roomCharge.text,
+      badge: null,
+      disabled: !canChargeToRoom,
+      note: !canChargeToRoom ? c.roomCharge.unavailable : undefined,
+    },
+  ];
+
+  return (
+    <fieldset>
+      <legend className="mb-3 px-1 text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">Forma de pagamento</legend>
+      <div className="space-y-3" role="radiogroup">
+        {options.map((o) => {
+          const selected = value === o.id;
+          return (
+            <button
+              key={o.id}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              disabled={o.disabled}
+              onClick={() => onChange(o.id)}
+              className={cn(
+                "flex w-full items-start gap-4 rounded-[28px] border p-4 text-left transition",
+                selected ? "glass-strong border-brand-700 ring-4 ring-brand-700/10" : "glass hover:bg-white/80",
+                o.disabled && "cursor-not-allowed opacity-55",
+              )}
+            >
+              <span
+                className={cn(
+                  "grid size-12 shrink-0 place-items-center rounded-2xl transition",
+                  selected ? "bg-brand-700 text-white" : "bg-brand-700/10 text-brand-700",
+                )}
+              >
+                <o.icon className="size-6" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="flex flex-wrap items-center gap-2">
+                  <span className="font-semibold text-brand-800">{o.title}</span>
+                  {o.badge}
+                </span>
+                <span className="mt-1 block text-sm leading-snug text-ink-soft">{o.note ?? o.text}</span>
+              </span>
+              <span
+                className={cn(
+                  "mt-1 grid size-6 shrink-0 place-items-center rounded-full border-2 transition",
+                  selected ? "border-brand-700 bg-brand-700 text-white" : "border-brand-700/25",
+                )}
+              >
+                {selected && <Check className="size-3.5" strokeWidth={3} />}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}

@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  As CORES (--brand-*, --gold-*, --sky-*, --ink...) são injetadas pelo layout
+  a partir de src/lib/theme.ts. Aqui ficam só superfícies e utilitários.
+*/
+:root {
+  --glass-bg: rgb(255 255 255 / 0.58);
+  --glass-bg-strong: rgb(255 255 255 / 0.82);
+  --glass-border: rgb(255 255 255 / 0.75);
+  --hotel-accent: rgb(var(--gold-500)); /* foco; whitelabel por hotel sobrescreve --gold-* */
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply font-sans text-ink antialiased;
+    background-color: rgb(var(--sky-2));
+    background-image: linear-gradient(
+      160deg,
+      rgb(var(--sky-1)) 0%,
+      rgb(var(--sky-2)) 38%,
+      rgb(var(--sky-3)) 72%,
+      rgb(var(--sky-4)) 100%
+    );
+    background-attachment: fixed;
+    min-height: 100dvh;
+    line-height: 1.6; /* Brandbook: entrelinha 1.6x */
+  }
+  h1, h2, h3, h4 {
+    @apply text-brand-800 tracking-tight;
+    line-height: 1.2;
+  }
+  :focus-visible {
+    outline: 2px solid var(--hotel-accent);
+    outline-offset: 2px;
+    border-radius: 12px;
+  }
+  ::selection { background: rgb(var(--gold-500) / 0.3); }
+}
+
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    backdrop-filter: blur(24px) saturate(1.4);
+    @apply shadow-glass;
+  }
+  .glass-strong {
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(28px) saturate(1.5);
+    backdrop-filter: blur(28px) saturate(1.5);
+    @apply shadow-glass;
+  }
+  /* Textura da marca: linhas diagonais sutis (Brandbook 5.3) */
+  .brand-diagonals {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgb(var(--brand-700) / 0.06) 0 1px,
+      transparent 1px 14px
+    );
+  }
+  /* Vidro escuro — legível sobre fundos claros e escuros (header/menu do site). */
+  .glass-dark {
+    background: rgb(8 12 20 / 0.42);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    backdrop-filter: blur(20px) saturate(1.3);
+  }
+  .tabular { font-variant-numeric: tabular-nums; }
+  .scroll-hide { scrollbar-width: none; }
+  .scroll-hide::-webkit-scrollbar { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
