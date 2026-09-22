@@ -19,7 +19,7 @@ export function ReferenceGallery() {
         <figure key={r.src} className="glass break-inside-avoid overflow-hidden rounded-3xl">
           <img src={r.src} alt={r.title} loading="lazy" className="w-full" />
           <figcaption className="p-3">
-            <p className="text-sm font-semibold text-brand-800">{r.title}</p>
+            <p className="text-sm font-semibold text-ink">{r.title}</p>
             <p className="mt-0.5 text-xs leading-snug text-ink-soft">{r.note}</p>
           </figcaption>
         </figure>

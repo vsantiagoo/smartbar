@@ -70,11 +70,13 @@ export function Wordmark({ tone = "brand", className }: { tone?: LogoTone; class
   );
 }
 
-export function Logo({ className, tone = "brand" }: { className?: string; tone?: LogoTone }) {
+/** `size="sm"` é a marca reduzida (ex.: ao lado da barra de menus do site). */
+export function Logo({ className, tone = "brand", size = "md" }: { className?: string; tone?: LogoTone; size?: "sm" | "md" }) {
+  const small = size === "sm";
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <LogoMark className={cn("size-9", tone === "brand" ? "text-brand-700" : "text-white")} />
-      <Wordmark tone={tone} className="text-[1.35rem] leading-none" />
+    <span className={cn("inline-flex items-center", small ? "gap-1.5" : "gap-2.5", className)}>
+      <LogoMark className={cn(small ? "size-7" : "size-9", tone === "brand" ? "text-brand-700" : "text-white")} />
+      <Wordmark tone={tone} className={cn("leading-none", small ? "text-[1.05rem]" : "text-[1.35rem]")} />
     </span>
   );
 }

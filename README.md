@@ -15,6 +15,12 @@ Sem variáveis do Supabase o app roda com dados em memória (mesma lógica de ne
 
 O `npm run dev` apaga a pasta `.next` antes de subir (script `predev` → `npm run clean`). Isso evita o erro `EINVAL: invalid argument, readlink ... .next\build-manifest.json`, que acontece nesta pasta sincronizada pelo OneDrive quando sobra cache de um `npm run build`. Para limpar manualmente: `npm run clean`.
 
+Se o erro aparecer no `npm run build`, é porque sobrou build antigo que o OneDrive converteu em atalho de nuvem (o arquivo fica com o atributo `ReparsePoint` e o Node não consegue lê-lo). Apague a pasta pelo PowerShell e rode de novo:
+
+```powershell
+Remove-Item .next -Recurse -Force
+```
+
 | Frente | URL | O que testar |
 | --- | --- | --- |
 | Site público (landing) | `/` | Hero em glassmorfismo, telas que acompanham o scroll, menu flutuante |
@@ -32,14 +38,14 @@ Cada tela é uma página fina que compõe **seções independentes**. Para mudar
 
 | Seção | Arquivo | Observação |
 | --- | --- | --- |
-| Cabeçalho fixo | `site-header.tsx` | Vidro escuro (`.glass-dark`), legível sobre qualquer fundo |
-| Hero | `hero.tsx` | Vídeo de fundo **pendente** (ver nota abaixo); hoje usa gradiente animado |
+| Cabeçalho fixo | `site-header.tsx` | Marca reduzida fora da barra; dentro, vidro escuro (`.glass-dark`) com o menu centralizado e o CTA à direita |
+| Menu das seções | `section-nav.tsx` | Fica dentro do cabeçalho; acende a seção visível (`use-active-section.ts`) |
+| Hero | `hero.tsx` | Fotos de hotel em crossfade (`hero-slideshow.tsx`, arquivos em `public/images/hero/`), moldura branca vazada e as três provas curtas. Vídeo de fundo **pendente** (ver nota abaixo) |
 | Como funciona | `scroll-story.tsx` | 3 telas em tela cheia que trocam conforme o scroll (crossfade) |
 | Resultados | `impact-stats.tsx` | Números de referência do Plano de Negócios |
 | Planos | `plans-grid.tsx` | Cards Básico/Plus/Premium |
 | Explorar agora | `quick-links.tsx` | Atalhos para hóspede/admin/design system |
 | CTA final + rodapé | `final-cta.tsx` | |
-| Menu flutuante | `floating-nav.tsx` | Pílula fixa, acende a seção visível (`use-active-section.ts`) |
 
 > **Vídeo do hero pendente.** O pedido é um vídeo de 15s (16:9, 1080p, multi-take, sem SFX) gerado com Seedance 2.5 via CLI Higgsfield. A conta Higgsfield está no plano gratuito com 10 créditos; o mínimo técnico do modelo (4s, 480p, sem áudio) já custa 12 créditos — não dá para gerar nem um teste. Assim que a conta tiver crédito, gere com `higgsfield generate create seedance_2_5 --mode t2v --duration 15 --aspect-ratio 16:9 --resolution 1080p --bitrate-mode high --generate-audio true`, salve em `public/videos/hero.mp4` e troque `HERO_VIDEO_SRC` em `hero.tsx`.
 
@@ -66,7 +72,8 @@ Cada tela é uma página fina que compõe **seções independentes**. Para mudar
 - **Cores:** `src/lib/theme.ts` (única fonte). Ou abra `/design-system`, ajuste no editor (tem paletas prontas e checagem de contraste), clique em **Copiar tema** e cole em `DEFAULT_THEME`. Cada cor gera a escala 50→950.
 - **Marca:** `src/components/ui/logo.tsx` — ícone (frigobar + cadeado + ondas animadas em degradê) e `Wordmark` (Plus Jakarta Sans). Nunca reescreva o texto "SmartBar" à mão em outro componente.
 - **Textos:** `src/lib/content/copy.ts` — a voz da marca por seção (vitrine, checkout, Pix, sucesso, painel, site público).
-- **Forma** (raios, sombras, animações): `tailwind.config.ts`; superfícies de vidro em `src/app/globals.css`.
+- **Forma** (raios, sombras, animações): `tailwind.config.ts`; superfícies de vidro em `src/app/globals.css` — `.glass`/`.glass-strong` (cards claros), `.glass-navy` (card de destaque), `.glass-dark` (header/menu do site) e `.glass-tint` (botões e itens ativos: vidro + uma cor translúcida ao lado, ex. `glass-tint bg-brand-700/85`).
+- **Movimento no scroll:** `src/lib/marketing/use-scroll-progress.ts` (`useSmoothScroll`, amortecimento em `damping`), `scroll-story.tsx` (pausa de cada tela em `HOLD`), `<Reveal>` em `src/components/ui/reveal.tsx` (entrada ao aparecer na tela).
 - **Componentes base:** `src/components/ui/`.
 - **Whitelabel por hotel** (plano Premium): `hotels.brand` (`primary`, `accent`) sobrescreve as cores só na área do hóspede.
 

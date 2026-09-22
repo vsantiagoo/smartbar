@@ -123,7 +123,7 @@ export function CommandBar({ hotelName, rooms, offlineCount }: { hotelName: stri
               } else if (e.key === "Enter") go(results[active]);
               else if (e.key === "Escape") input.current?.blur();
             }}
-            className="h-12 min-w-0 flex-1 bg-transparent text-[1.05rem] text-brand-900 placeholder:text-ink-faint focus:outline-none"
+            className="h-12 min-w-0 flex-1 bg-transparent text-[1.05rem] text-ink placeholder:text-ink-faint focus:outline-none"
           />
           <kbd className="mr-2 hidden items-center gap-1 rounded-full bg-brand-700/8 px-3 py-1.5 font-mono text-xs text-ink-soft sm:flex">
             <span className="text-sm">⌘</span>K
@@ -152,7 +152,7 @@ export function CommandBar({ hotelName, rooms, offlineCount }: { hotelName: stri
                     onMouseEnter={() => setActive(i)}
                     className={cn(
                       "flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition",
-                      i === active ? "bg-brand-700 text-white" : "text-brand-900 hover:bg-white/70",
+                      i === active ? "bg-brand-700 text-white" : "text-ink hover:bg-white/70",
                     )}
                   >
                     <span className={cn("grid size-9 place-items-center rounded-xl", i === active ? "bg-white/15" : "bg-brand-700/10 text-brand-700")}>
@@ -175,7 +175,7 @@ export function CommandBar({ hotelName, rooms, offlineCount }: { hotelName: stri
           <button
             key={c.label}
             onClick={() => router.push(c.href)}
-            className="glass rounded-full px-4 py-2 text-sm font-semibold text-brand-800 transition hover:bg-white/80 active:scale-[0.97]"
+            className="glass rounded-full px-4 py-2 text-sm font-semibold text-ink transition hover:bg-white/80 active:scale-[0.97]"
           >
             {c.label}
           </button>

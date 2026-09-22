@@ -39,7 +39,7 @@ export const DEFAULT_THEME: ThemeColors = {
   accent: "#F39200",
   success: "#27AE60",
   danger: "#E74C3C",
-  text: "#2C3E50",
+  text: "#2D3D34", // verde-escuro (antes: #2C3E50 azulado)
   skyTop: "#CFDCEE",
   skyBottom: "#F6EDE4",
 };

@@ -8,7 +8,7 @@ export function GuestHeader({ hotelName, roomNumber }: { hotelName: string; room
       <div className="flex min-w-0 items-center gap-3">
         <LogoMark className="size-10 shrink-0 text-brand-700" />
         <div className="min-w-0 leading-tight">
-          <p className="truncate text-sm font-semibold text-brand-800">{hotelName}</p>
+          <p className="truncate text-sm font-semibold text-ink">{hotelName}</p>
           <p className="text-xs text-ink-soft">Minibar SmartBar</p>
         </div>
       </div>

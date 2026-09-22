@@ -1,7 +1,7 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { marketingCopy } from "@/lib/content/copy";
-import { useScrollProgress, usePrefersReducedMotion } from "@/lib/marketing/use-scroll-progress";
+import { pinnedProgress, smoothstep, usePrefersReducedMotion, useSmoothScroll } from "@/lib/marketing/use-scroll-progress";
 import { cn } from "@/lib/utils";
 
 const PANEL_BG = [
@@ -11,18 +11,55 @@ const PANEL_BG = [
 ];
 
 /**
+ * Trecho de cada passo em que a troca acontece. Fora dele a tela fica parada
+ * (0.22 → os primeiros e últimos 22% de cada passo seguram a tela inteira).
+ */
+const HOLD = 0.22;
+
+/**
  * SEÇÃO · "Telas que acompanham o scroll" (scrollytelling), estilo Orbit:
  * a viewport fica presa (`sticky`) enquanto o usuário rola por dentro desta
  * seção; a cada trecho, o fundo e o texto trocam em crossfade.
+ *
+ * Fluidez: o progresso é amortecido (useSmoothScroll) e a troca usa curva S
+ * com pausa em cada tela; os estilos são escritos direto no DOM a cada quadro,
+ * sem re-render. O texto sobe/desce em parallax e o fundo faz um leve zoom.
  *
  * Com "reduzir movimento" ativo, cai para 3 blocos empilhados normais —
  * sem sticky nem crossfade.
  */
 export function ScrollStory() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
+  const panels = useRef<(HTMLDivElement | null)[]>([]);
+  const contents = useRef<(HTMLDivElement | null)[]>([]);
   const { steps } = marketingCopy.story;
   const reduced = usePrefersReducedMotion();
-  const { index, local } = useScrollProgress(ref, steps.length);
+  const [active, setActive] = useState(0);
+
+  useSmoothScroll(
+    () => pinnedProgress(ref.current),
+    (progress) => {
+      const pos = progress * (steps.length - 1);
+      steps.forEach((_, i) => {
+        // d: distância (em passos) entre a tela i e a posição atual, já com a pausa aplicada.
+        const raw = pos - i;
+        const base = Math.floor(raw);
+        const d = base + smoothstep(HOLD, 1 - HOLD, raw - base);
+        const opacity = Math.max(0, 1 - Math.abs(d));
+        const panel = panels.current[i];
+        const content = contents.current[i];
+        if (panel) {
+          panel.style.opacity = String(opacity);
+          panel.style.visibility = opacity < 0.002 ? "hidden" : "visible";
+          panel.style.transform = `scale(${1 + Math.abs(d) * 0.06})`;
+        }
+        if (content) {
+          content.style.transform = `translate3d(0, ${d * -56}px, 0)`;
+        }
+      });
+      setActive(Math.min(steps.length - 1, Math.round(pos)));
+    },
+  );
 
   if (reduced) {
     return (
@@ -37,34 +74,46 @@ export function ScrollStory() {
   }
 
   return (
-    <section id="como-funciona" ref={ref} className="relative scroll-mt-24" style={{ height: `${steps.length * 100}dvh` }}>
-      <div className="sticky top-0 h-dvh overflow-hidden">
-        {steps.map((s, i) => {
-          const opacity = i === index ? 1 - local : i === index + 1 ? local : 0;
-          if (opacity <= 0.001) return null;
-          return (
+    <section id="como-funciona" ref={ref} className="relative scroll-mt-24" style={{ height: `${steps.length * 110}dvh` }}>
+      <div className="sticky top-0 h-dvh overflow-hidden bg-brand-950">
+        {steps.map((s, i) => (
+          <div
+            key={s.n}
+            ref={(el) => {
+              panels.current[i] = el;
+            }}
+            className={cn(
+              "absolute inset-0 flex items-center justify-center bg-gradient-to-br px-6 will-change-[opacity,transform]",
+              PANEL_BG[i],
+            )}
+            style={{ opacity: i === 0 ? 1 : 0, visibility: i === 0 ? "visible" : "hidden" }}
+            aria-hidden={active !== i}
+          >
             <div
-              key={s.n}
-              className={cn("absolute inset-0 flex items-center justify-center bg-gradient-to-br px-6", PANEL_BG[i])}
-              style={{ opacity }}
-              aria-hidden={opacity < 0.5}
+              ref={(el) => {
+                contents.current[i] = el;
+              }}
+              className="max-w-2xl text-white will-change-transform"
             >
-              <div className="max-w-2xl -translate-y-2 text-white" style={{ transform: `translateY(${(1 - opacity) * 16}px)` }}>
-                <Panel step={s} kicker={i === 0 ? marketingCopy.story.kicker : undefined} />
-              </div>
+              <Panel step={s} kicker={i === 0 ? marketingCopy.story.kicker : undefined} />
             </div>
-          );
-        })}
+          </div>
+        ))}
 
         <div className="pointer-events-none absolute inset-x-0 bottom-10 flex justify-center gap-2">
           {steps.map((s, i) => (
             <span
               key={s.n}
-              className={cn("h-1.5 rounded-full bg-white/30 transition-all", i === index ? "w-8 bg-white" : "w-1.5")}
+              className={cn(
+                "h-1.5 rounded-full bg-white/30 transition-all duration-500 ease-out",
+                i === active ? "w-8 bg-white" : "w-1.5",
+              )}
             />
           ))}
         </div>
       </div>
+      {/* Degradê que dissolve o azul-marinho na seção clara seguinte (sem corte seco). */}
+      <div className="pointer-events-none absolute inset-x-0 top-[calc(100%-2px)] h-48 bg-gradient-to-b from-brand-950 via-brand-950/40 to-transparent" aria-hidden />
     </section>
   );
 }

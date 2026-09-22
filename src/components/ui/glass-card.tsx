@@ -7,8 +7,8 @@ type Pad = "none" | "sm" | "md" | "lg";
 const surfaces: Record<Surface, string> = {
   glass: "glass",
   strong: "glass-strong",
-  solid: "bg-white shadow-soft border border-white",
-  navy: "bg-brand-800 text-white shadow-soft border border-white/10",
+  solid: "glass-strong",
+  navy: "glass-navy text-white",
 };
 const pads: Record<Pad, string> = { none: "", sm: "p-4", md: "p-5 sm:p-6", lg: "p-6 sm:p-8" };
 

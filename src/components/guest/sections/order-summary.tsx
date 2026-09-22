@@ -16,7 +16,7 @@ export function OrderSummary({ lines, title = "Resumo do pedido" }: { lines: Sum
       <ul className="mt-3 space-y-2.5">
         {lines.map((l) => (
           <li key={l.name} className="flex items-baseline justify-between gap-3 text-[0.95rem]">
-            <span className="min-w-0 truncate text-brand-900">
+            <span className="min-w-0 truncate text-ink">
               <span className="tabular mr-2 font-semibold text-ink-soft">{l.quantity}×</span>
               {l.name}
             </span>
@@ -26,7 +26,7 @@ export function OrderSummary({ lines, title = "Resumo do pedido" }: { lines: Sum
       </ul>
       <div className="mt-4 flex items-baseline justify-between border-t border-brand-700/10 pt-4">
         <span className="font-medium text-ink-soft">Total</span>
-        <span className="tabular text-2xl font-bold text-brand-800">{formatBRL(total)}</span>
+        <span className="tabular text-2xl font-bold text-ink">{formatBRL(total)}</span>
       </div>
     </GlassCard>
   );

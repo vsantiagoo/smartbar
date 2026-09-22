@@ -1,61 +1,93 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-export interface ScrollProgress {
-  /** 0 → topo do container ainda não alcançou o topo da viewport · 1 → fim do container saiu pelo topo. */
-  progress: number;
-  /** Passo atual (0-based) dentro de `steps`. */
-  index: number;
-  /** Progresso local (0–1) da transição para o próximo passo. */
-  local: number;
-}
-
 /**
- * Progresso de rolagem de um container "pinado" (scrollytelling): o container
- * tem `steps * 100dvh` de altura; por dentro, uma seção `sticky` mostra o passo
- * atual e faz crossfade para o próximo conforme o usuário rola.
+ * Progresso de rolagem SUAVIZADO: em vez de saltar para a posição exata a
+ * cada evento de scroll, o valor persegue o alvo com amortecimento
+ * (interpolação exponencial, independente da taxa de quadros). O resultado é
+ * entregue a `onFrame` a cada quadro, sem re-render do React — o chamador
+ * escreve direto no `style` dos elementos, o que mantém 60fps.
  *
- * Respeita `prefers-reduced-motion`: quando ativo, retorna sempre o último
- * passo parado (sem crossfade), e o chamador deve preferir layout estático.
+ * `measure` devolve o alvo (normalmente 0–1) lendo o layout atual.
+ * `damping`: fração do caminho percorrida por quadro a 60fps (0.1 = mais
+ * macio e lento · 0.3 = mais colado ao dedo).
+ *
+ * Com "reduzir movimento" ativo, entrega o alvo direto, sem amortecer.
  */
-export function useScrollProgress(ref: React.RefObject<HTMLElement | null>, steps: number): ScrollProgress {
-  const [state, setState] = useState<ScrollProgress>({ progress: 0, index: 0, local: 0 });
-  const reduced = useRef(false);
+export function useSmoothScroll(
+  measure: () => number,
+  onFrame: (value: number) => void,
+  damping = 0.14,
+): void {
+  const measureRef = useRef(measure);
+  const frameRef = useRef(onFrame);
+  measureRef.current = measure;
+  frameRef.current = onFrame;
 
   useEffect(() => {
-    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced.current) return;
-
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let current = Number.NaN;
     let raf = 0;
-    const compute = () => {
+    let last = 0;
+
+    const tick = (now: number) => {
+      const target = measureRef.current();
+      const dt = last ? Math.min(64, now - last) : 16.667;
+      last = now;
+      if (Number.isNaN(current) || reduced) {
+        current = target;
+      } else {
+        const k = 1 - Math.pow(1 - damping, dt / 16.667);
+        current += (target - current) * k;
+        if (Math.abs(target - current) < 0.0004) current = target;
+      }
+      frameRef.current(current);
+      raf = current === target ? 0 : requestAnimationFrame(tick);
+    };
+    const kick = () => {
+      if (raf) return;
+      last = 0;
+      raf = requestAnimationFrame(tick);
+    };
+
+    // Em aba oculta o navegador não entrega quadros; ao voltar, recomeçamos o laço.
+    const onVisible = () => {
+      if (document.visibilityState !== "visible") return;
+      if (raf) cancelAnimationFrame(raf);
       raf = 0;
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const progress = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
-      const stepFloat = progress * (steps - 1);
-      const index = Math.min(steps - 1, Math.floor(stepFloat));
-      const local = stepFloat - index;
-      setState({ progress, index, local });
+      kick();
     };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(compute);
-    };
-    compute();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+
+    kick();
+    window.addEventListener("scroll", kick, { passive: true });
+    window.addEventListener("resize", kick);
+    document.addEventListener("visibilitychange", onVisible);
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("scroll", kick);
+      window.removeEventListener("resize", kick);
+      document.removeEventListener("visibilitychange", onVisible);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [ref, steps]);
-
-  return state;
+  }, [damping]);
 }
 
-/** true quando o sistema pede menos animação — desliga o crossfade de scroll. */
+/** Quanto um container "pinado" já foi rolado: 0 no topo, 1 quando o fim sai pela viewport. */
+export function pinnedProgress(el: HTMLElement | null): number {
+  if (!el) return 0;
+  const rect = el.getBoundingClientRect();
+  const total = rect.height - window.innerHeight;
+  return total > 0 ? clamp01(-rect.top / total) : 0;
+}
+
+export const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+/** Curva S (0→1) entre `a` e `b`: parada no início e no fim, rápida no meio. */
+export function smoothstep(a: number, b: number, v: number): number {
+  const t = clamp01((v - a) / (b - a));
+  return t * t * (3 - 2 * t);
+}
+
+/** true quando o sistema pede menos animação — desliga o scrollytelling. */
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(false);
   useEffect(() => {

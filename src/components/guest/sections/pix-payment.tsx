@@ -47,7 +47,7 @@ export function PixPayment({ tx, showDemoTools }: { tx: PublicTransaction; showD
           <QRCodeSVG value={code || "smartbar"} size={176} level="M" fgColor="currentColor" bgColor="#FFFFFF" className="text-brand-800" />
         </div>
         <p className="tabular mt-4 text-sm text-ink-soft">
-          Expira em <span className="font-semibold text-brand-800">{formatClock(left)}</span>
+          Expira em <span className="font-semibold text-ink">{formatClock(left)}</span>
         </p>
 
         <Button variant={copied ? "accent" : "primary"} size="lg" className="mt-5 w-full" onClick={copy} icon={copied ? <Check className="size-5" /> : <Copy className="size-5" />}>

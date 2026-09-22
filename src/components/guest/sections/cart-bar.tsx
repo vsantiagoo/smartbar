@@ -27,13 +27,13 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
           onClick={() => setOpen(true)}
           className="glass-strong pointer-events-auto flex w-full animate-fade-up items-center gap-3 rounded-full p-2 pr-5 text-left transition active:scale-[0.98]"
         >
-          <span className="relative grid size-12 place-items-center rounded-full bg-brand-700 text-white">
+          <span className="glass-tint relative grid size-12 place-items-center rounded-full bg-brand-700/85 text-white">
             <ShoppingBag className="size-5" />
-            <span className="tabular absolute -right-1 -top-1 grid size-5 place-items-center rounded-full bg-gold-500 text-[11px] font-bold text-brand-950">
+            <span className="tabular absolute -right-1 -top-1 grid size-5 place-items-center rounded-full bg-gold-500 text-[11px] font-bold text-ink">
               {count}
             </span>
           </span>
-          <span className="flex-1 text-sm font-semibold text-brand-800">{guestCopy.catalog.cartCta(count)}</span>
+          <span className="flex-1 text-sm font-semibold text-ink">{guestCopy.catalog.cartCta(count)}</span>
           <span className="tabular text-base font-bold text-brand-700">{formatBRL(cents)}</span>
         </button>
       </div>
@@ -46,7 +46,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
           <div className="space-y-3">
             <div className="flex items-baseline justify-between">
               <span className="text-sm text-ink-soft">Total</span>
-              <span className="tabular text-2xl font-bold text-brand-800">{formatBRL(cents)}</span>
+              <span className="tabular text-2xl font-bold text-ink">{formatBRL(cents)}</span>
             </div>
             <Link href={checkoutHref} className={buttonClasses("primary", "lg", "w-full")}>
               Continuar
@@ -60,7 +60,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
             <li key={item.id} className="flex items-center gap-3 py-3">
               <ProductTile iconKey={item.iconKey} className="size-14 shrink-0" />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-brand-800">{item.name}</p>
+                <p className="truncate text-sm font-semibold text-ink">{item.name}</p>
                 <p className="tabular text-sm text-ink-soft">{formatBRL(item.priceCents)}</p>
               </div>
               <Stepper label={item.name} value={quantity} max={item.available} onChange={(n) => setQuantity(item.id, n)} />

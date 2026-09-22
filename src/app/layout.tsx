@@ -1,6 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 import { Doto, Plus_Jakarta_Sans } from "next/font/google";
 import { DEFAULT_THEME, THEME_STORAGE_KEY, themeToVars, varsToCss } from "@/lib/theme";
 import "./globals.css";
@@ -35,7 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="pt-BR"
-      className={`${GeistSans.variable} ${GeistMono.variable} ${doto.variable} ${jakarta.variable} scroll-smooth`}
+      /* O texto usa a fonte do sistema (ver fontFamily.sans em tailwind.config.ts). */
+      className={`${doto.variable} ${jakarta.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <head>

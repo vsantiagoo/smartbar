@@ -24,7 +24,7 @@ export function EmptyState({
       <span className="mb-4 grid size-14 place-items-center rounded-3xl bg-brand-700/10 text-brand-700">
         <Icon className="size-6" />
       </span>
-      <p className="text-base font-semibold text-brand-800">{title}</p>
+      <p className="text-base font-semibold text-ink">{title}</p>
       {description && <p className="mt-1 max-w-xs text-sm text-ink-soft">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>
@@ -76,8 +76,8 @@ export function LiveDot({ tone = "ok", className }: { tone?: "ok" | "warn"; clas
 export function DotNumber({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <span
-      className={cn("tabular font-dot font-extrabold leading-none tracking-tight text-brand-800", className)}
-      style={{ fontFamily: "var(--font-dot), var(--font-geist-mono), monospace" }}
+      className={cn("tabular font-dot font-extrabold leading-none tracking-tight text-ink", className)}
+      style={{ fontFamily: "var(--font-dot), ui-monospace, SFMono-Regular, monospace" }}
     >
       {children}
     </span>

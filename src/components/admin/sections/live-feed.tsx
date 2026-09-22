@@ -31,7 +31,7 @@ export function LiveFeed({ transactions, freshIds, bare = false }: { transaction
                     <Icon className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="flex flex-wrap items-center gap-2 text-[0.95rem] font-semibold text-brand-800">
+                    <span className="flex flex-wrap items-center gap-2 text-[0.95rem] font-semibold text-ink">
                       Quarto {t.roomNumber}
                       {fresh && <Badge tone="gold">Novo</Badge>}
                     </span>
@@ -40,7 +40,7 @@ export function LiveFeed({ transactions, freshIds, bare = false }: { transaction
                     </span>
                   </span>
                   <span className="shrink-0 text-right">
-                    <span className="tabular block font-bold text-brand-800">{formatBRL(t.totalCents)}</span>
+                    <span className="tabular block font-bold text-ink">{formatBRL(t.totalCents)}</span>
                     <span className="block text-xs text-ink-faint">
                       {t.method === "pix" ? "Pix" : "Na conta"}
                       {now !== null && ` · ${timeAgo(t.authorizedAt ?? t.createdAt, now)}`}

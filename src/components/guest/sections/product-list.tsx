@@ -48,7 +48,7 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
             >
               <ProductTile iconKey={p.iconKey} className="size-[72px] shrink-0" />
               <div className="min-w-0 flex-1">
-                <p className="line-clamp-2 font-semibold leading-snug text-brand-800">{p.name}</p>
+                <p className="line-clamp-2 font-semibold leading-snug text-ink">{p.name}</p>
                 <p className="truncate text-sm text-ink-soft">{p.description}</p>
                 <div className="mt-1.5 flex items-center gap-2">
                   <span className="tabular font-bold text-brand-700">{formatBRL(p.priceCents)}</span>
@@ -63,7 +63,7 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
                 <button
                   onClick={() => setQuantity(p.id, 1)}
                   aria-label={`Adicionar ${p.name}`}
-                  className="grid size-11 shrink-0 place-items-center rounded-full bg-brand-700 text-white shadow-press transition hover:bg-brand-800 active:scale-90"
+                  className="glass-tint grid size-11 shrink-0 place-items-center rounded-full bg-brand-700/85 text-white transition hover:bg-brand-800/90 active:scale-90"
                 >
                   <Plus className="size-5" />
                 </button>

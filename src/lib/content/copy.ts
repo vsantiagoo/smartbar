@@ -109,11 +109,17 @@ export const marketingCopy = {
     cta: "Entrar no painel",
   },
   hero: {
-    eyebrow: "SmartBar / Minibar inteligente para hotéis",
-    title: "Cada consumo pago antes de abrir.",
-    titleAccent: "Nenhum item some.",
+    eyebrow: "Minibar inteligente · Pix ou cartão-chave",
+    title: "A trava só abre",
+    titleAccent: "depois que o consumo está pago.",
     subtitle:
-      "O hóspede escolhe no celular, paga no Pix e a trava do frigobar libera sozinha. Chega de checagem por rádio no check-out.",
+      "O hóspede lê o QR Code do quarto, paga no Pix ou lança na conta com o cartão-chave, e o frigobar destrava por 15 segundos. O estoque daquele quarto baixa no mesmo instante.",
+    /** Três provas curtas, lidas em varredura — uma por etapa do ciclo. */
+    proofs: [
+      { value: "15s", label: "entre pagar e abrir a porta" },
+      { value: "0", label: "conferência de frigobar no check-out" },
+      { value: "1 QR", label: "por quarto, sem app e sem cadastro" },
+    ],
     primaryCta: "Ver a vitrine do hóspede",
     secondaryCta: "Entrar no painel do hotel",
     scrollHint: "Role para ver como funciona",
@@ -194,5 +200,6 @@ export const marketingCopy = {
     title: "Pronto para transformar hospedagem em receita?",
     subtitle: "Solicite uma demonstração e veja o faturamento recuperado em tempo real. 20 minutos, sem compromisso.",
     cta: "Ver a vitrine do hóspede",
+    backToTop: "Voltar ao início",
   },
 } as const;

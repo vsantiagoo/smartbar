@@ -12,7 +12,7 @@ export function RestockCallout({ rooms, items }: { rooms: number; items: number 
         <PackageCheck className="size-5" />
       </span>
       <div>
-        <p className={`text-lg font-semibold ${ok ? "text-brand-800" : "text-white"}`}>
+        <p className={`text-lg font-semibold ${ok ? "text-ink" : "text-white"}`}>
           {ok ? "Estoque em dia" : `${rooms} ${rooms === 1 ? "quarto precisa" : "quartos precisam"} de reposição`}
         </p>
         <p className={`mt-1 text-sm ${ok ? "text-ink-soft" : "text-white/70"}`}>

@@ -30,8 +30,18 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        // Fonte do sistema operacional (San Francisco no Apple, Segoe UI no Windows, Roboto no Android).
+        // Nomes com espaço precisam de aspas: o Tailwind escreve a lista como está.
+        sans: [
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "'Segoe UI'",
+          "Roboto",
+          "'Helvetica Neue'",
+          "Arial",
+          "sans-serif",
+        ],
+        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "'Liberation Mono'", "monospace"],
       },
       borderRadius: {
         "4xl": "2rem",

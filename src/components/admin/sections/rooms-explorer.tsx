@@ -92,20 +92,20 @@ export function RoomsExplorer({ hotelId, rooms }: { hotelId: string; rooms: Room
                       <BedDouble className="size-6" />
                     </span>
                     <div>
-                      <p className="tabular text-2xl font-bold leading-none text-brand-800">{room.number}</p>
+                      <p className="tabular text-2xl font-bold leading-none text-ink">{room.number}</p>
                       <p className="mt-1 text-xs text-ink-soft">Andar {room.floor ?? "—"}</p>
                     </div>
                   </div>
                   {restockCount > 0 && <Badge tone="danger">Repor {restockCount}</Badge>}
                 </div>
-                <p className="mt-4 truncate text-sm font-medium text-brand-900">{guestName ?? "Quarto vago"}</p>
+                <p className="mt-4 truncate text-sm font-medium text-ink">{guestName ?? "Quarto vago"}</p>
                 <div className="mt-3 flex items-center justify-between border-t border-brand-700/10 pt-3">
                   <span className="flex items-center gap-2 text-xs text-ink-soft">
                     {room.deviceOnline ? <Wifi className="size-3.5 text-ok-500" /> : <WifiOff className="size-3.5 text-crimson-500" />}
                     {room.lockState === "unlocked" ? <LockOpen className="size-3.5 text-gold-600" /> : <Lock className="size-3.5" />}
                     {room.lockState === "unlocked" ? "Aberto" : "Trancado"}
                   </span>
-                  <span className="tabular text-sm font-semibold text-brand-800">{guestName ? formatBRL(spentCents) : "—"}</span>
+                  <span className="tabular text-sm font-semibold text-ink">{guestName ? formatBRL(spentCents) : "—"}</span>
                 </div>
               </Link>
             </li>

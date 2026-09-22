@@ -16,7 +16,7 @@ export function Stepper({ value, max, onChange, label, className }: StepperProps
     <div
       role="group"
       aria-label={`Quantidade de ${label}`}
-      className={cn("inline-flex items-center rounded-full bg-brand-700 p-1 text-white shadow-press", className)}
+      className={cn("glass-tint inline-flex items-center rounded-full bg-brand-700/85 p-1 text-white", className)}
     >
       <button
         type="button"

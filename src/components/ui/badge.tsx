@@ -9,7 +9,7 @@ const tones: Record<BadgeTone, { wrap: string; dot: string }> = {
   ok: { wrap: "bg-ok-500/12 text-ok-600", dot: "bg-ok-500" },
   warn: { wrap: "bg-gold-500/15 text-gold-600", dot: "bg-gold-500" },
   danger: { wrap: "bg-crimson-500/10 text-crimson-600", dot: "bg-crimson-500" },
-  gold: { wrap: "bg-gold-500 text-brand-950", dot: "bg-brand-950" },
+  gold: { wrap: "bg-gold-500 text-ink", dot: "bg-brand-950" },
 };
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {

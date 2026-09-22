@@ -17,9 +17,9 @@ export function TopProducts({ items }: { items: DashboardSnapshot["topProducts"]
           {items.map((p) => (
             <li key={p.name}>
               <div className="mb-1.5 flex items-baseline justify-between gap-3 text-sm">
-                <span className="min-w-0 truncate font-medium text-brand-800">{p.name}</span>
+                <span className="min-w-0 truncate font-medium text-ink">{p.name}</span>
                 <span className="tabular shrink-0 text-ink-soft">
-                  {p.quantity} un · <span className="font-semibold text-brand-800">{formatBRL(p.cents)}</span>
+                  {p.quantity} un · <span className="font-semibold text-ink">{formatBRL(p.cents)}</span>
                 </span>
               </div>
               <Meter value={p.cents} max={max} label={`Faturamento de ${p.name}`} />

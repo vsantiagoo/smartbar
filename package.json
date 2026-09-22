@@ -4,7 +4,7 @@
   "private": true,
   "description": "SmartBar — gestão inteligente de minibares para hotéis (SaaS B2B2C)",
   "scripts": {
-    "clean": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\"",
+    "clean": "node -e \"const fs=require('fs');fs.rmSync('.next',{recursive:true,force:true,maxRetries:5,retryDelay:200});if(fs.existsSync('.next')){console.error('Nao consegui apagar .next (OneDrive?). Rode: Remove-Item .next -Recurse -Force');process.exit(1)}\"",
     "predev": "npm run clean",
     "dev": "next dev",
     "build": "next build",
@@ -16,7 +16,6 @@
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",
     "clsx": "^2.1.1",
-    "geist": "^1.7.2",
     "lucide-react": "^1.47.0",
     "next": "^15.5.25",
     "qrcode.react": "^4.2.0",

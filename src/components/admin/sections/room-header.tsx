@@ -10,7 +10,7 @@ export function RoomHeader({ detail }: { detail: RoomDetail }) {
   const { room, stay } = detail;
   return (
     <div>
-      <Link href="/admin/quartos" className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-brand-800">
+      <Link href="/admin/quartos" className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-ink">
         <ArrowLeft className="size-4" /> Quartos
       </Link>
       <GlassCard pad="lg" className="flex flex-wrap items-center justify-between gap-5">
@@ -23,7 +23,7 @@ export function RoomHeader({ detail }: { detail: RoomDetail }) {
             <p className="mt-2 text-ink-soft">
               {stay ? (
                 <>
-                  <span className="font-semibold text-brand-800">{stay.guestName}</span> · check-in {formatDateTime(stay.checkInAt)}
+                  <span className="font-semibold text-ink">{stay.guestName}</span> · check-in {formatDateTime(stay.checkInAt)}
                 </>
               ) : (
                 "Sem estadia ativa"

@@ -41,7 +41,7 @@ export function AdminSidebar({ hotelName, email, restockCount, demo }: NavProps)
               aria-current={active ? "page" : undefined}
               className={cn(
                 "flex h-12 items-center gap-3 rounded-full px-4 text-[0.95rem] font-semibold transition",
-                active ? "bg-brand-700 text-white shadow-press" : "text-ink-soft hover:bg-white/70 hover:text-brand-800",
+                active ? "glass-tint bg-brand-700/80 text-white" : "text-ink-soft hover:bg-white/70 hover:text-ink",
               )}
             >
               <Icon className="size-[19px]" />
@@ -59,7 +59,7 @@ export function AdminSidebar({ hotelName, email, restockCount, demo }: NavProps)
       <div className="rounded-3xl bg-white/50 p-3">
         <p className="truncate px-1 text-xs text-ink-soft">{email}</p>
         <form action={logoutAction}>
-          <button className="mt-2 flex h-9 w-full items-center justify-center gap-2 rounded-full text-sm font-semibold text-brand-800 transition hover:bg-white/80">
+          <button className="mt-2 flex h-9 w-full items-center justify-center gap-2 rounded-full text-sm font-semibold text-ink transition hover:bg-white/80">
             <LogOut className="size-4" /> Sair
           </button>
         </form>
@@ -85,7 +85,7 @@ export function AdminBottomNav({ restockCount }: Pick<NavProps, "restockCount">)
             aria-current={active ? "page" : undefined}
             className={cn(
               "relative flex h-14 flex-1 flex-col items-center justify-center gap-0.5 rounded-full text-[11px] font-semibold transition",
-              active ? "bg-brand-700 text-white" : "text-ink-soft",
+              active ? "glass-tint bg-brand-700/80 text-white" : "text-ink-soft",
             )}
           >
             <Icon className="size-5" />

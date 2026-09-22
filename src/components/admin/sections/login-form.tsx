@@ -10,11 +10,11 @@ export function LoginForm({ demoEmail, demoPassword }: { demoEmail?: string; dem
   return (
     <form action={action} className="mt-7 space-y-4">
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium text-brand-800">E-mail</span>
+        <span className="mb-1.5 block text-sm font-medium text-ink">E-mail</span>
         <Input name="email" type="email" autoComplete="username" required defaultValue={demoEmail} placeholder="voce@hotel.com.br" />
       </label>
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium text-brand-800">Senha</span>
+        <span className="mb-1.5 block text-sm font-medium text-ink">Senha</span>
         <Input name="password" type="password" autoComplete="current-password" required defaultValue={demoPassword} placeholder="••••••••" />
       </label>
       {state.error && (

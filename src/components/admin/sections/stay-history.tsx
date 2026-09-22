@@ -31,7 +31,7 @@ export function StayHistory({ transactions }: { transactions: Transaction[] }) {
                   <Icon className="size-[18px]" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-brand-800">
+                  <p className="text-sm font-semibold text-ink">
                     {t.items.map((i) => `${i.quantity}× ${i.productName}`).join(" · ")}
                   </p>
                   <p className="mt-0.5 text-xs text-ink-soft">
@@ -39,7 +39,7 @@ export function StayHistory({ transactions }: { transactions: Transaction[] }) {
                   </p>
                 </div>
                 <div className="shrink-0 text-right">
-                  <p className="tabular font-bold text-brand-800">{formatBRL(t.totalCents)}</p>
+                  <p className="tabular font-bold text-ink">{formatBRL(t.totalCents)}</p>
                   <Badge tone={s.tone} className="mt-1">{s.label}</Badge>
                 </div>
               </li>

@@ -155,7 +155,7 @@ export function ThemeEditor() {
                 setDrafts({});
                 update(p.theme);
               }}
-              className="glass flex items-center gap-2.5 rounded-full py-1.5 pl-2 pr-4 text-sm font-semibold text-brand-800 transition hover:bg-white/80"
+              className="glass flex items-center gap-2.5 rounded-full py-1.5 pl-2 pr-4 text-sm font-semibold text-ink transition hover:bg-white/80"
             >
               <span className="flex -space-x-1.5">
                 {[p.theme.primary, p.theme.secondary, p.theme.accent].map((c) => (
@@ -184,7 +184,7 @@ export function ThemeEditor() {
                 />
               </label>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-brand-800">{r.label}</p>
+                <p className="text-sm font-semibold text-ink">{r.label}</p>
                 <p className="truncate text-xs text-ink-soft">{r.hint}</p>
               </div>
               <input

@@ -33,7 +33,7 @@ export function Segmented<T extends string>({ options, value, onChange, label, c
             onClick={() => onChange(o.value)}
             className={cn(
               "inline-flex h-9 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition",
-              active ? "bg-brand-700 text-white shadow-press" : "text-ink-soft hover:bg-white/70 hover:text-brand-800",
+              active ? "glass-tint bg-brand-700/80 text-white" : "text-ink-soft hover:bg-white/70 hover:text-ink",
             )}
           >
             {o.label}

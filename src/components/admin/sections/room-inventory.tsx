@@ -17,10 +17,10 @@ export function RoomInventory({ lines }: { lines: RoomInventoryLine[] }) {
               <ProductTile iconKey={l.iconKey} className="size-11 shrink-0 rounded-2xl" />
               <div className="min-w-0 flex-1">
                 <div className="mb-1.5 flex items-center justify-between gap-2">
-                  <span className="truncate text-sm font-medium text-brand-800">{l.productName}</span>
+                  <span className="truncate text-sm font-medium text-ink">{l.productName}</span>
                   <span className="tabular flex shrink-0 items-center gap-2 text-sm">
                     {low && <Badge tone="danger">Repor</Badge>}
-                    <span className="font-semibold text-brand-800">{l.quantity}</span>
+                    <span className="font-semibold text-ink">{l.quantity}</span>
                     <span className="text-ink-faint">/ {l.parLevel}</span>
                   </span>
                 </div>

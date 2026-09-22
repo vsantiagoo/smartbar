@@ -78,7 +78,7 @@ export function CheckoutScreen({ catalog, hotelId, roomId, canChargeToRoom, base
   return (
     <main className="space-y-6">
       <div>
-        <Link href={baseHref} className="mb-3 inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-brand-800">
+        <Link href={baseHref} className="mb-3 inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-ink">
           <ArrowLeft className="size-4" /> Vitrine
         </Link>
         <h1 className="text-[1.75rem] font-bold">{c.title}</h1>

@@ -19,7 +19,7 @@ export function HowItWorks() {
               <span className="grid size-9 place-items-center rounded-2xl bg-brand-700/10 text-brand-700">
                 <Icon className="size-[18px]" />
               </span>
-              <p className="mt-3 text-sm font-semibold text-brand-800">{s.title}</p>
+              <p className="mt-3 text-sm font-semibold text-ink">{s.title}</p>
               <p className="mt-0.5 text-xs leading-snug text-ink-soft">{s.text}</p>
             </li>
           );

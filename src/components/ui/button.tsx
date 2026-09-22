@@ -9,13 +9,14 @@ const base =
   "inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition " +
   "duration-200 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50";
 
+/** Todas as variantes são vidro (ver .glass-tint em globals.css); a cor fica translúcida. */
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-brand-700 text-white shadow-press hover:bg-brand-800",
-  accent: "bg-gold-500 text-brand-950 shadow-[0_8px_20px_-8px_rgb(var(--gold-500)/0.7)] hover:bg-gold-400",
-  danger: "bg-crimson-500 text-white shadow-[0_8px_20px_-8px_rgb(var(--crimson-500)/0.6)] hover:bg-crimson-600",
-  glass: "glass text-brand-800 hover:bg-white/80",
-  soft: "bg-brand-700/10 text-brand-800 hover:bg-brand-700/15",
-  ghost: "text-brand-800 hover:bg-white/60",
+  primary: "glass-tint bg-brand-700/85 text-white hover:bg-brand-800/90",
+  accent: "glass-tint bg-gold-500/85 text-ink hover:bg-gold-400/90",
+  danger: "glass-tint bg-crimson-500/85 text-white hover:bg-crimson-600/90",
+  glass: "glass text-ink hover:bg-white/80",
+  soft: "glass-tint border-white/60 bg-white/40 text-ink hover:bg-white/60",
+  ghost: "border border-transparent text-ink hover:border-white/60 hover:bg-white/50 hover:backdrop-blur-md",
 };
 
 const sizes: Record<ButtonSize, string> = {

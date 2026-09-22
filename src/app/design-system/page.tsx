@@ -45,7 +45,7 @@ export default function DesignSystemPage() {
         </p>
         <nav className="mt-6 flex flex-wrap gap-2 text-sm font-semibold" aria-label="Seções">
           {["referencias", "cores", "tipografia", "forma", "acoes", "campos", "dados", "feedback"].map((id) => (
-            <a key={id} href={`#${id}`} className="glass rounded-full px-4 py-2 capitalize text-brand-800 hover:bg-white/80">
+            <a key={id} href={`#${id}`} className="glass rounded-full px-4 py-2 capitalize text-ink hover:bg-white/80">
               {id}
             </a>
           ))}
@@ -64,7 +64,7 @@ export default function DesignSystemPage() {
         <ThemeEditor />
       </Section>
 
-      <Section id="tipografia" title="Tipografia" hint="Neo-grotesca (Geist, com Helvetica/Arial de reserva), entrelinha 1,6. Números de destaque em fonte pontilhada.">
+      <Section id="tipografia" title="Tipografia" hint="Fonte do sistema (San Francisco, Segoe UI ou Roboto, conforme o aparelho), entrelinha 1,6. Números de destaque em fonte pontilhada.">
         <GlassCard className="space-y-5">
           <p className="text-[2rem] font-bold leading-tight">Título H1 · 32/Bold</p>
           <p className="text-2xl font-semibold">Seção H2 · 24/Semibold</p>
@@ -83,7 +83,7 @@ export default function DesignSystemPage() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {(["glass", "strong", "solid", "navy"] as const).map((s) => (
             <GlassCard key={s} surface={s} className="min-h-32">
-              <p className={`font-semibold ${s === "navy" ? "text-white" : "text-brand-800"}`}>surface="{s}"</p>
+              <p className={`font-semibold ${s === "navy" ? "text-white" : "text-ink"}`}>surface="{s}"</p>
               <p className={`mt-1 text-sm ${s === "navy" ? "text-white/70" : "text-ink-soft"}`}>GlassCard</p>
             </GlassCard>
           ))}

@@ -27,7 +27,7 @@ export function RfidWaiting({ tx, showDemoTools }: { tx: PublicTransaction; show
         <p className="mt-5 flex items-center justify-center gap-2 text-sm text-ink-soft">
           <LoaderCircle className="size-4 animate-spin text-brand-500" />
           {c.waiting}
-          <span className="tabular font-semibold text-brand-800">{formatClock(left)}</span>
+          <span className="tabular font-semibold text-ink">{formatClock(left)}</span>
         </p>
       </GlassCard>
 

@@ -65,7 +65,7 @@ export function PaymentMethods({ value, onChange, canChargeToRoom }: PaymentMeth
               </span>
               <span className="min-w-0 flex-1">
                 <span className="flex flex-wrap items-center gap-2">
-                  <span className="font-semibold text-brand-800">{o.title}</span>
+                  <span className="font-semibold text-ink">{o.title}</span>
                   {o.badge}
                 </span>
                 <span className="mt-1 block text-sm leading-snug text-ink-soft">{o.note ?? o.text}</span>

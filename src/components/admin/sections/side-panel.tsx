@@ -77,7 +77,7 @@ function RestockTab({ needs }: { needs: DashboardSnapshot["restockNeeds"] }) {
             <Link href={`/admin/quartos/${g.room}`} className="flex items-center gap-3 rounded-2xl bg-white/55 p-3 transition hover:bg-white/85">
               <span className="tabular grid size-10 shrink-0 place-items-center rounded-xl bg-brand-700 text-sm font-bold text-white">{g.room}</span>
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-semibold text-brand-800">{g.items.join(", ")}</span>
+                <span className="block truncate text-sm font-semibold text-ink">{g.items.join(", ")}</span>
                 <span className="block text-xs text-ink-soft">+{g.missing} un. para repor</span>
               </span>
               <Badge tone="danger">{g.items.length}</Badge>
@@ -104,7 +104,7 @@ function DevicesTab({ rooms }: { rooms: DashboardSnapshot["rooms"] }) {
               {r.number}
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-semibold text-brand-800">{r.deviceId ?? "Sem dispositivo"}</span>
+              <span className="block truncate text-sm font-semibold text-ink">{r.deviceId ?? "Sem dispositivo"}</span>
               <span className="flex items-center gap-1.5 text-xs text-ink-soft">
                 {r.deviceOnline ? <Wifi className="size-3 text-ok-500" /> : <WifiOff className="size-3 text-crimson-500" />}
                 {r.deviceOnline ? "Online" : "Sem sinal"}
