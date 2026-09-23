@@ -1,5 +1,6 @@
 import { FinalCta } from "@/components/marketing/final-cta";
 import { Hero } from "@/components/marketing/hero";
+import { HomeBridge } from "@/components/marketing/home-bridge";
 import { ImpactStats } from "@/components/marketing/impact-stats";
 import { PlansGrid } from "@/components/marketing/plans-grid";
 import { QuickLinks } from "@/components/marketing/quick-links";
@@ -17,6 +18,7 @@ export default function HomePage() {
     <main className="relative">
       <SiteHeader />
       <Hero />
+      <HomeBridge />
       <ScrollStory />
       <ImpactStats />
       <PlansGrid />

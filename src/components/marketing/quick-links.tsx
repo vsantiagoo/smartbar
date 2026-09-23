@@ -32,7 +32,7 @@ export function QuickLinks() {
                 <Reveal delay={i * 100} className="h-full">
                   <Link
                     href={ROUTES[item.route]!}
-                    className="glass group flex h-full flex-col rounded-[28px] p-6 transition duration-300 hover:-translate-y-1 hover:bg-white/80"
+                    className="glass group flex h-full flex-col rounded-[28px] p-6 transition duration-300 hover:-translate-y-1 hover:bg-white/20"
                   >
                     <span className="glass-tint grid size-11 place-items-center rounded-2xl bg-brand-700/80 text-white">
                       <Icon className="size-5" />

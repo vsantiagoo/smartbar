@@ -33,7 +33,7 @@ Remove-Item .next -Recurse -Force
 
 | Frente | URL | O que testar |
 | --- | --- | --- |
-| Site público (landing) | `/` | Hero em glassmorfismo, telas que acompanham o scroll, menu flutuante |
+| Site público (landing) | `/` | Hero com fotos, declaração com cadeado 3D interativo, cards de vidro, menu responsivo |
 | Hóspede (QR do quarto) | `/h/hotel-aurora/q/aurora-101` | Vitrine → carrinho → checkout → Pix → trava liberada |
 | Painel do hotel | `/admin` | Login demo: `recepcao@hotelaurora.com.br` / `smartbar123` |
 | Design system | `/design-system` | Referências, **editor de cores ao vivo**, componentes |
@@ -48,10 +48,11 @@ Cada tela é uma página fina que compõe **seções independentes**. Para mudar
 
 | Seção | Arquivo | Observação |
 | --- | --- | --- |
-| Cabeçalho fixo | `site-header.tsx` | Marca reduzida fora da barra; dentro, vidro escuro (`.glass-dark`) com o menu centralizado e o CTA à direita |
-| Menu das seções | `section-nav.tsx` | Fica dentro do cabeçalho; acende a seção visível (`use-active-section.ts`) |
+| Cabeçalho fixo | `site-header.tsx` | ≥1024px: grade de 3 colunas (marca · barra centralizada · espaço). <1024px: marca + botão de menu (`mobile-menu.tsx`) que abre as seções num painel de vidro |
+| Menu das seções | `section-nav.tsx` | Barra do desktop; acende a seção visível (`use-active-section.ts`) |
 | Hero | `hero.tsx` | Fotos de hotel em crossfade (`hero-slideshow.tsx`, arquivos em `public/images/hero/`) recortadas dentro da moldura branca vazada; margem branca em volta. O cabeçalho some ao rolar (`header-fade.tsx`) e volta pelo botão do rodapé. Vídeo de fundo **pendente** (ver nota abaixo) |
-| Como funciona | `scroll-story.tsx` | 3 telas em tela cheia que trocam conforme o scroll (crossfade) |
+| Declaração | `home-bridge.tsx` | "A trava só abre depois que o consumo está pago." + cadeado 3D (`lock-3d.tsx`: malha em canvas, gira sozinho, destrava só à direita no hover, arrasta com retorno de mola) |
+| Como funciona | `scroll-story.tsx` | Bloco escuro com título, texto de apoio à direita e 3 cards de vidro |
 | Resultados | `impact-stats.tsx` | Números de referência do Plano de Negócios |
 | Planos | `plans-grid.tsx` | Cards Básico/Plus/Premium |
 | Explorar agora | `quick-links.tsx` | Atalhos para hóspede/admin/design system |
@@ -83,7 +84,7 @@ Cada tela é uma página fina que compõe **seções independentes**. Para mudar
 - **Marca:** `src/components/ui/logo.tsx` — ícone (frigobar + cadeado + ondas animadas em degradê) e `Wordmark` (Plus Jakarta Sans). Nunca reescreva o texto "SmartBar" à mão em outro componente.
 - **Textos:** `src/lib/content/copy.ts` — a voz da marca por seção (vitrine, checkout, Pix, sucesso, painel, site público).
 - **Forma** (raios, sombras, animações): `tailwind.config.ts`; superfícies de vidro em `src/app/globals.css` — `.glass`/`.glass-strong` (cards claros), `.glass-navy` (card de destaque), `.glass-dark` (header/menu do site) e `.glass-tint` (botões e itens ativos: vidro + uma cor translúcida ao lado, ex. `glass-tint bg-brand-700/85`).
-- **Movimento no scroll:** `src/lib/marketing/use-scroll-progress.ts` (`useSmoothScroll`, amortecimento em `damping`), `scroll-story.tsx` (pausa de cada tela em `HOLD`), `<Reveal>` em `src/components/ui/reveal.tsx` (entrada ao aparecer na tela).
+- **Movimento no scroll:** `src/lib/marketing/use-scroll-progress.ts` (`useSmoothScroll`, amortecimento em `damping`), `<Reveal>` em `src/components/ui/reveal.tsx` (entrada ao aparecer na tela).
 - **Componentes base:** `src/components/ui/`.
 - **Whitelabel por hotel** (plano Premium): `hotels.brand` (`primary`, `accent`) sobrescreve as cores só na área do hóspede.
 

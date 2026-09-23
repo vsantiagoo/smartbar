@@ -30,7 +30,7 @@ export function HeaderFade({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div ref={ref} className="fixed inset-x-0 top-0 z-40 px-4 pt-6 will-change-[transform,opacity] sm:pt-9">
+    <div ref={ref} className="fixed inset-x-0 top-0 z-40 px-6 pt-6 will-change-[transform,opacity] sm:px-9 sm:pt-9">
       {children}
     </div>
   );

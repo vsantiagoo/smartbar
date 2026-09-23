@@ -43,10 +43,7 @@ export function Hero() {
         <Badge tone="gold" className="mx-auto">
           {c.eyebrow}
         </Badge>
-        <h1 className="mt-5 text-[2rem] font-bold leading-[1.08] text-white sm:mt-6 sm:text-[3.4rem]">
-          {c.title} <span className="text-gold-400">{c.titleAccent}</span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-xl text-sm text-white/75 sm:mt-5 sm:text-lg">{c.subtitle}</p>
+        <p className="mx-auto mt-6 max-w-xl text-base text-white/80 sm:mt-7 sm:text-xl">{c.subtitle}</p>
 
         <div className="mt-7 flex flex-wrap items-center justify-center gap-3 sm:mt-9">
           <Link href="/h/hotel-aurora/q/aurora-101" className={buttonClasses("accent", "lg")}>
@@ -61,10 +58,10 @@ export function Hero() {
         </div>
       </HeroParallax>
 
-      {/* Em telas baixas o indicador encostaria nas provas — aí ele não aparece. */}
+      {/* Em telas baixas o indicador encostaria nos botões — aí ele não aparece. */}
       <a
         href="#como-funciona"
-        className="glass-tint absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 rounded-full bg-white/5 px-4 py-2 text-xs font-medium text-white/70 transition hover:bg-white/15 hover:text-white [@media(min-height:680px)]:flex"
+        className="glass-tint absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 whitespace-nowrap rounded-full bg-white/5 px-4 py-2 text-xs font-medium text-white/70 transition hover:bg-white/15 hover:text-white [@media(min-height:680px)]:flex"
       >
         {c.scrollHint}
         <ChevronDown className="size-4 animate-bounce" />

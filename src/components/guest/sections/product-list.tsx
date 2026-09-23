@@ -44,11 +44,11 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
           return (
             <li
               key={p.id}
-              className={cn("glass flex items-center gap-4 rounded-[28px] p-3 pr-4 transition", soldOut && "opacity-60")}
+              className={cn("glass flex items-center gap-3 rounded-[28px] p-3 pr-4 transition sm:gap-4", soldOut && "opacity-60")}
             >
-              <ProductTile iconKey={p.iconKey} className="size-[72px] shrink-0" />
+              <ProductTile iconKey={p.iconKey} className="size-14 shrink-0 sm:size-[72px]" />
               <div className="min-w-0 flex-1">
-                <p className="line-clamp-2 font-semibold leading-snug text-ink">{p.name}</p>
+                <p className="font-semibold leading-snug text-ink">{p.name}</p>
                 <p className="truncate text-sm text-ink-soft">{p.description}</p>
                 <div className="mt-1.5 flex items-center gap-2">
                   <span className="tabular font-bold text-brand-700">{formatBRL(p.priceCents)}</span>

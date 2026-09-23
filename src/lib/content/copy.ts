@@ -107,35 +107,34 @@ export const marketingCopy = {
   ],
   header: {
     cta: "Entrar no painel",
+    ctaShort: "Entrar",
+    openMenu: "Abrir menu",
+    closeMenu: "Fechar menu",
   },
   hero: {
     eyebrow: "Minibar inteligente · Pix ou cartão-chave",
-    title: "A trava só abre",
-    titleAccent: "depois que o consumo está pago.",
     subtitle:
       "O hóspede lê o QR Code do quarto, paga no Pix ou lança na conta com o cartão-chave, e o frigobar destrava por 15 segundos. O estoque daquele quarto baixa no mesmo instante.",
     primaryCta: "Ver a vitrine do hóspede",
     secondaryCta: "Entrar no painel do hotel",
     scrollHint: "Role para ver como funciona",
   },
+  /** Declaração da marca, sozinha na tela clara entre o hero e o "Como funciona". */
+  statement: {
+    title: "A trava só abre",
+    titleAccent: "depois que o consumo está pago.",
+  },
   story: {
-    kicker: "Como funciona",
-    steps: [
-      {
-        n: "01",
-        title: "O hóspede escolhe no celular.",
-        text: "Um QR Code por quarto. Sem baixar app, sem criar conta — a vitrine abre na hora.",
-      },
-      {
-        n: "02",
-        title: "O pagamento confirma o consumo.",
-        text: "Pix instantâneo ou lançamento na conta do quarto, validado pelo próprio cartão-chave.",
-      },
-      {
-        n: "03",
-        title: "A trava libera. O estoque se atualiza.",
-        text: "15 segundos de acesso e o item some do estoque daquele quarto — sem conferência manual.",
-      },
+    eyebrow: "DO QUARTO AO CAIXA, SEM ATRITO",
+    signLabel: "SMARTBAR · MINIBAR INTELIGENTE",
+    title: "Entre o consumo",
+    titleAccent: "e o pagamento garantido.",
+    subtitle:
+      "O consumo do hóspede vira receita registrada. Sem conferência no check-out, sem perda de estoque, sem cobrança surpresa.",
+    cards: [
+      { n: "01", icon: "qr", title: "O hóspede escolhe no celular", text: "Um QR Code por quarto, sem app." },
+      { n: "02", icon: "lock", title: "Paga e destrava.", text: "Pix ou cartão-chave em segundos." },
+      { n: "03", icon: "stock", title: "Estoque atualiza.", text: "Baixa automática, painel em tempo real." },
     ],
   },
   stats: {
