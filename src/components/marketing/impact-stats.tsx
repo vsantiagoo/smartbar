@@ -1,4 +1,3 @@
-import { DotNumber } from "@/components/ui/primitives";
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
 import { GlowBackdrop } from "./glow-backdrop";
@@ -22,7 +21,13 @@ export function ImpactStats() {
           {c.items.map((item, i) => (
             <Reveal key={item.label} delay={i * 90} className="h-full">
               <div className="glass h-full rounded-[28px] px-4 py-7">
-                <DotNumber className="text-[2.4rem] sm:text-[2.8rem]">{item.value}</DotNumber>
+                {/* Plus Jakarta Sans, a mesma da logo: o número vira um gesto da marca. */}
+                <span
+                  className="tabular block font-extrabold leading-none tracking-tight text-ink text-[2.4rem] sm:text-[2.8rem]"
+                  style={{ fontFamily: "var(--font-logo), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}
+                >
+                  {item.value}
+                </span>
                 <p className="mt-2 text-sm text-ink-soft">{item.label}</p>
               </div>
             </Reveal>

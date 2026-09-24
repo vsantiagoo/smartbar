@@ -40,20 +40,38 @@ export function Hero() {
       </div>
 
       <HeroParallax>
-        <Badge tone="gold" className="mx-auto">
+        {/* Vidro no lugar do dourado sólido: sobre a foto, o texto vai a branco. */}
+        <Badge tone="gold" className="glass bg-white/10 text-white">
           {c.eyebrow}
         </Badge>
-        <p className="mx-auto mt-6 max-w-xl text-base text-white/80 sm:mt-7 sm:text-xl">{c.subtitle}</p>
+        {/* -0.0469em = os -3px pedidos no tamanho cheio (64px), proporcional quando a tela encolhe. */}
+        <h1
+          className="mt-6 whitespace-pre-line text-white"
+          style={{ fontSize: "clamp(34px,6.4vw,64px)", fontWeight: 400, lineHeight: 1.06, letterSpacing: "-0.0469em" }}
+        >
+          {c.title}
+        </h1>
 
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-3 sm:mt-9">
-          <Link href="/h/hotel-aurora/q/aurora-101" className={buttonClasses("accent", "lg")}>
-            {c.primaryCta} <ArrowRight className="size-5" />
+        <p
+          className="max-w-xl whitespace-pre-line text-white/75"
+          style={{ margin: "23px 0 28px", fontSize: "14px", lineHeight: 1.9 }}
+        >
+          {c.subtitle}
+        </p>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <Link href="/h/hotel-aurora/q/aurora-101" className={buttonClasses("accent", "lg", "h-12 px-7 text-[0.95rem]")}>
+            {c.primaryCta} <ArrowRight className="size-[18px]" />
           </Link>
           <Link
             href="/admin"
-            className={buttonClasses("ghost", "lg", "glass-tint border-white/25 bg-white/10 text-white hover:border-white/40 hover:bg-white/20")}
+            className={buttonClasses(
+              "ghost",
+              "lg",
+              "glass-tint h-12 border-white/25 bg-white/10 px-7 text-[0.95rem] text-white hover:border-white/40 hover:bg-white/20",
+            )}
           >
-            <LayoutDashboard className="size-5" /> {c.secondaryCta}
+            <LayoutDashboard className="size-[18px]" /> {c.secondaryCta}
           </Link>
         </div>
       </HeroParallax>

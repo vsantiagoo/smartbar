@@ -25,13 +25,15 @@ export function HeroParallax({ children }: { children: ReactNode }) {
   );
 
   return (
-    /* pt-* afasta o conteúdo da barra do cabeçalho, que é fixa no topo. */
+    /* pt-* afasta o conteúdo da barra do cabeçalho, que fica no topo da seção.
+       max-w-6xl + px-6/sm:px-10 repetem a caixa do cabeçalho (`header-fade.tsx`),
+       então o texto alinhado à esquerda nasce na mesma margem da marca. */
     <div
       ref={ref}
       /* select-none: sem marca-texto no hero — a seleção dourada suja a foto de fundo. */
-      className="relative mx-auto max-w-3xl select-none px-6 pt-12 text-center text-white will-change-[transform,opacity] sm:pt-16"
+      className="relative w-full select-none px-6 pt-12 text-left text-white will-change-[transform,opacity] sm:px-10 sm:pt-16"
     >
-      {children}
+      <div className="mx-auto max-w-6xl">{children}</div>
     </div>
   );
 }

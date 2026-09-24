@@ -108,13 +108,13 @@ export const marketingCopy = {
   header: {
     cta: "Entrar no painel",
     ctaShort: "Entrar",
-    openMenu: "Abrir menu",
-    closeMenu: "Fechar menu",
   },
   hero: {
     eyebrow: "Minibar inteligente · Pix ou cartão-chave",
+    /* As quebras de linha (\n) são propositais — ver `whitespace-pre-line` em hero.tsx. */
+    title: "A tecnologia do consumo\nsem atrito.",
     subtitle:
-      "O hóspede lê o QR Code do quarto, paga no Pix ou lança na conta com o cartão-chave, e o frigobar destrava por 15 segundos. O estoque daquele quarto baixa no mesmo instante.",
+      "Pagamento instantâneo. Liberação imediata.\nControle total para o hotel. Zero prejuízo para a operação.",
     primaryCta: "Ver a vitrine do hóspede",
     secondaryCta: "Entrar no painel do hotel",
     scrollHint: "Role para ver como funciona",

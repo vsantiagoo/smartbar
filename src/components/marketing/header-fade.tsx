@@ -30,7 +30,12 @@ export function HeaderFade({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div ref={ref} className="fixed inset-x-0 top-0 z-40 px-6 pt-6 will-change-[transform,opacity] sm:px-9 sm:pt-9">
+    /*
+      `absolute` (e não `fixed`): o cabeçalho pertence à primeira tela e sobe
+      junto com ela. Fixo no topo da janela, ele ficava parado enquanto o texto
+      do hero subia — e acabava passando por cima do título.
+    */
+    <div ref={ref} className="absolute inset-x-0 top-0 z-40 px-6 pt-5 will-change-[transform,opacity] sm:px-10 sm:pt-9">
       {children}
     </div>
   );
