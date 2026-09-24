@@ -30,7 +30,19 @@ const SWING = 1.2; // rad
 const HINGE_X = -R;
 const CENTER_Y = 9;
 const FOCAL = 380;
-const VIEW = 146; // unidades do modelo que cabem no lado menor do canvas
+/* O enquadramento NÃO é um número fixo: no início medimos o maior raio que o
+   desenho alcança em todas as poses possíveis (giro ocioso, inclinação do
+   arraste, cadeado aberto) e a escala sai daí. Assim ele fica o maior possível
+   dentro da caixa sem nunca ser cortado num ângulo específico. */
+const EDGE_PAD = 7; // folga em px para a espessura do traço e o brilho
+const FLOAT = 4; // amplitude da flutuação vertical, em unidades do modelo
+/**
+ * Quanto a caixa do cadeado pode avançar para fora da seção antes de ele travar.
+ * A malha desenhada nunca encosta na parede da sua caixa, então essa folga é o
+ * que deixa o cadeado chegar perto da linha que separa as telas — e só ali o
+ * bloqueio dispara.
+ */
+const GRACE = 44;
 
 interface Vtx {
   mx: number;
@@ -253,10 +265,22 @@ export function Lock3D({ className }: { className?: string }) {
     if (!wrap || !canvas || !ctx) return;
 
     const { edges, shackleVerts, bodyVerts, rails } = buildMesh();
-    const [ir, ig, ib] = readRgb("--ink", [45, 61, 52]);
     const [gr, gg, gb] = readRgb("--gold-500", [243, 146, 0]);
-    const inkA = (a: number) => `rgba(${ir},${ig},${ib},${a.toFixed(3)})`;
     const goldA = (a: number) => `rgba(${gr},${gg},${gb},${a.toFixed(3)})`;
+
+    /*
+      Degradê "neon" da malha, de cima para baixo: o azul da marca no arco
+      (a parte que prende) esquenta até o dourado no corpo (a parte que libera).
+      São os tokens do sistema — nenhum hex novo. Fica opaco: a transparência
+      de cada aresta vem do `globalAlpha`, então basta UM degradê por redimensionamento.
+    */
+    const NEON: [number, [number, number, number]][] = [
+      [0, readRgb("--brand-700", [27, 58, 107])],
+      [0.38, readRgb("--brand-600", [58, 85, 127])],
+      [0.6, readRgb("--brand-500", [89, 111, 147])],
+      [0.78, readRgb("--gold-400", [245, 167, 48])],
+      [1, readRgb("--gold-500", [243, 146, 0])],
+    ];
 
     const particles = PARTICLES.map((p) => ({
       rail: p.rail as number,
@@ -285,17 +309,23 @@ export function Lock3D({ className }: { className?: string }) {
       velY: 0,
       tiltX: 0,
       tiltY: 0,
+      /** Enquanto `t` não passar disso, a trava fica fechada (depois de escapar da mão). */
+      holdClosedUntil: 0,
     };
 
     let w = 0;
     let h = 0;
     let dpr = 1;
+    let mesh: CanvasGradient | string = "#000";
     const resize = () => {
       dpr = Math.min(2, window.devicePixelRatio || 1);
       w = canvas.clientWidth;
       h = canvas.clientHeight;
       canvas.width = Math.max(1, Math.round(w * dpr));
       canvas.height = Math.max(1, Math.round(h * dpr));
+      const g = ctx.createLinearGradient(0, 0, 0, h || 1);
+      for (const [stop, [r, gg2, b]] of NEON) g.addColorStop(stop, `rgb(${r},${gg2},${b})`);
+      mesh = g;
     };
     resize();
 
@@ -339,6 +369,59 @@ export function Lock3D({ className }: { className?: string }) {
     const tmp = { sx: 0, sy: 0, sz: 0 };
     const paths: Path2D[][] = [[], [], []];
 
+    /*
+      Varre as poses extremas — giro ocioso, tremor, inclinação máxima do
+      arraste e cadeado aberto — e devolve o maior afastamento do centro que o
+      desenho chega a ter (à escala 1). É o que substitui o enquadramento
+      chutado: de posse desse raio, a escala é sempre a maior que ainda cabe.
+    */
+    const measureFitRadius = (yawSpan: number, pitchSpan: number): number => {
+      const keepS = S;
+      const keepOx = ox;
+      const keepOy = oy;
+      S = 1;
+      ox = 0;
+      oy = 0;
+      let r = 1;
+      const look = (v: Vtx, useT: boolean) => {
+        project(useT ? v.tx : v.mx, useT ? v.ty : v.my, useT ? v.tz : v.mz, tmp);
+        r = Math.max(r, Math.abs(tmp.sx), Math.abs(tmp.sy));
+      };
+      for (const open of [0, 1.1]) {
+        liftP = clamp(open / 0.4, 0, 1);
+        swingA = -SWING * clamp((open - 0.3) / 0.7, 0, 1.12);
+        for (const v of shackleVerts) openXform(v);
+        for (let i = 0; i <= 12; i++) {
+          const yaw = -0.42 - yawSpan + (2 * yawSpan * i) / 12;
+          for (let j = 0; j <= 8; j++) {
+            const pitch = 0.2 - pitchSpan + (2 * pitchSpan * j) / 8;
+            for (const roll of [-0.05, 0.05]) {
+              cyw = Math.cos(yaw);
+              syw = Math.sin(yaw);
+              cpt = Math.cos(pitch);
+              spt = Math.sin(pitch);
+              crl = Math.cos(roll);
+              srl = Math.sin(roll);
+              for (const v of shackleVerts) look(v, true);
+              for (const v of bodyVerts) look(v, false);
+            }
+          }
+        }
+      }
+      S = keepS;
+      ox = keepOx;
+      oy = keepOy;
+      return r;
+    };
+    /*
+      Dois raios: o do repouso (giro ocioso + tremor + abertura no hover) e o
+      do arraste, que inclina bem mais. Se usássemos só o segundo, o cadeado
+      ficaria pequeno o tempo todo por causa de uma pose rara — então a escala
+      cede aos poucos, acompanhando a própria inclinação de quem arrasta.
+    */
+    const fitIdle = measureFitRadius(0.69, 0.06) + FLOAT;
+    const fitDrag = measureFitRadius(1.29, 0.51) + FLOAT;
+
     const draw = () => {
       const t = st.t;
       const idle = reduced ? 0 : 1;
@@ -358,7 +441,8 @@ export function Lock3D({ className }: { className?: string }) {
       spt = Math.sin(pitch);
       crl = Math.cos(roll);
       srl = Math.sin(roll);
-      S = Math.min(w, h) / VIEW;
+      const tilted = clamp(Math.max(Math.abs(st.tiltX) / 0.45, Math.abs(st.tiltY) / 0.6), 0, 1);
+      S = Math.max(0.1, Math.min(w, h) / 2 - EDGE_PAD) / (fitIdle + (fitDrag - fitIdle) * tilted);
       ox = w / 2;
       oy = h / 2 + idle * Math.sin(t * 0.6) * 4 * S;
 
@@ -415,14 +499,24 @@ export function Lock3D({ className }: { className?: string }) {
       ctx.clearRect(0, 0, w, h);
       ctx.lineCap = "round";
       const boost = 1 + 0.18 * clamp(st.open, 0, 1);
+      ctx.strokeStyle = mesh;
       for (let tier = 0; tier < 3; tier++) {
-        ctx.lineWidth = TIER_WIDTH[tier]!;
         for (let b = 0; b < BUCKETS; b++) {
           const n = (b + 0.5) / BUCKETS;
-          ctx.strokeStyle = inkA(Math.min(1, TIER_ALPHA[tier]! * (0.22 + 0.78 * n) * boost));
+          const a = Math.min(1, TIER_ALPHA[tier]! * (0.22 + 0.78 * n) * boost);
+          // Brilho: só as arestas da frente ganham um traço largo e translúcido
+          // por baixo — é o que dá o halo de neon sem borrar a malha inteira.
+          if (tier === 0 && n > 0.45) {
+            ctx.globalAlpha = a * 0.17;
+            ctx.lineWidth = TIER_WIDTH[tier]! * 6;
+            ctx.stroke(paths[tier]![b]!);
+          }
+          ctx.globalAlpha = a;
+          ctx.lineWidth = TIER_WIDTH[tier]!;
           ctx.stroke(paths[tier]![b]!);
         }
       }
+      ctx.globalAlpha = 1;
 
       if (reduced) return;
 
@@ -477,7 +571,8 @@ export function Lock3D({ className }: { className?: string }) {
     const step = (dt: number) => {
       st.t += dt;
       const soft = reduced;
-      [st.open, st.openV] = spring(st.open, st.openV, st.hover ? 1 : 0, soft ? 400 : 70, soft ? 40 : 11, dt);
+      const wantsOpen = st.hover && st.t >= st.holdClosedUntil;
+      [st.open, st.openV] = spring(st.open, st.openV, wantsOpen ? 1 : 0, soft ? 400 : 70, soft ? 40 : 11, dt);
 
       if (st.drag) {
         st.velX *= 0.9;
@@ -562,6 +657,39 @@ export function Lock3D({ className }: { className?: string }) {
       wrap.setPointerCapture(e.pointerId);
       wrap.style.zIndex = "20";
     };
+    /*
+      O cadeado vive dentro da sua seção. Aqui saem os limites do arraste em
+      pixels, medidos entre a caixa dele e a da seção — recalculados a cada
+      movimento porque a página pode ter rolado.
+    */
+    const dragLimits = () => {
+      const section = wrap.closest("section");
+      if (!section) return null;
+      const s = section.getBoundingClientRect();
+      const b = wrap.getBoundingClientRect();
+      const homeLeft = b.left - st.x;
+      const homeTop = b.top - st.y;
+      return {
+        x0: Math.min(s.left - homeLeft, s.right - homeLeft - b.width) - GRACE,
+        x1: Math.max(s.left - homeLeft, s.right - homeLeft - b.width) + GRACE,
+        y0: Math.min(s.top - homeTop, s.bottom - homeTop - b.height) - GRACE,
+        y1: Math.max(s.top - homeTop, s.bottom - homeTop - b.height) + GRACE,
+      };
+    };
+
+    /** Escapou da mão: treme, fecha a trava e volta sozinho para o lugar. */
+    const snapHome = (e: PointerEvent) => {
+      st.drag = false;
+      st.shakeAt = st.t;
+      st.holdClosedUntil = st.t + 0.9;
+      st.vx = 0;
+      st.vy = 0;
+      st.velX = 0;
+      st.velY = 0;
+      if (wrap.hasPointerCapture(e.pointerId)) wrap.releasePointerCapture(e.pointerId);
+      wrap.style.zIndex = "";
+    };
+
     const onMove = (e: PointerEvent) => {
       if (!st.drag) return;
       const now = performance.now();
@@ -571,8 +699,23 @@ export function Lock3D({ className }: { className?: string }) {
       st.lastX = e.clientX;
       st.lastY = e.clientY;
       st.lastT = now;
-      st.x = e.clientX - st.grabX;
-      st.y = e.clientY - st.grabY;
+
+      const wantX = e.clientX - st.grabX;
+      const wantY = e.clientY - st.grabY;
+      const lim = dragLimits();
+      if (!lim) {
+        st.x = wantX;
+        st.y = wantY;
+        return;
+      }
+      // Livre dentro da seção; ao alcançar a linha que a separa da tela
+      // vizinha, o cadeado trava na mão e volta sozinho.
+      if (wantX < lim.x0 || wantX > lim.x1 || wantY < lim.y0 || wantY > lim.y1) {
+        snapHome(e);
+        return;
+      }
+      st.x = wantX;
+      st.y = wantY;
     };
     const onUp = (e: PointerEvent) => {
       if (!st.drag) return;

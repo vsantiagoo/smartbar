@@ -1,3 +1,4 @@
+import { EdgeGlow } from "@/components/marketing/edge-glow";
 import { FinalCta } from "@/components/marketing/final-cta";
 import { Hero } from "@/components/marketing/hero";
 import { HomeBridge } from "@/components/marketing/home-bridge";
@@ -17,6 +18,7 @@ export default function HomePage() {
   return (
     <main className="relative">
       <SiteHeader />
+      <EdgeGlow />
       <Hero />
       <HomeBridge />
       <ScrollStory />
