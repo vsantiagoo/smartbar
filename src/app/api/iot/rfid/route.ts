@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { simulationAllowed } from "@/lib/config";
 import { rfidSchema } from "@/lib/schemas";
 import { handleRfidTap } from "@/lib/services/rfid";
 
@@ -20,8 +21,11 @@ function safeEqual(a: string, b: string): boolean {
  * 403 → { ok: false, reason }             (cartão não pertence à estadia / sem pedido)
  */
 export async function POST(request: Request) {
-  const expected = process.env.IOT_DEVICE_KEY ?? "smartbar-demo-key";
-  if (!safeEqual(request.headers.get("x-device-key") ?? "", expected)) {
+  // Sem IOT_DEVICE_KEY configurada a rota fica fechada — a chave de demonstração
+  // só vale fora de produção. Um deploy que esqueça a variável recusa tudo em vez
+  // de aceitar uma chave que qualquer um conhece.
+  const expected = process.env.IOT_DEVICE_KEY ?? (simulationAllowed ? "smartbar-demo-key" : null);
+  if (!expected || !safeEqual(request.headers.get("x-device-key") ?? "", expected)) {
     return NextResponse.json({ ok: false, reason: "unauthorized" }, { status: 401 });
   }
   const parsed = rfidSchema.safeParse(await request.json().catch(() => null));
