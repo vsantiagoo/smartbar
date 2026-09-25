@@ -4,6 +4,7 @@ import { LogoMark, Wordmark } from "@/components/ui/logo";
 import { buttonClasses } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
+import { BackToTopButton } from "./back-to-top";
 import { DayNightLens } from "./day-night-lens";
 import { DEMO_HOTEL_SLUG, DEMO_ROOM_TOKEN, isDemoMode } from "@/lib/config";
 
@@ -18,8 +19,11 @@ export function FinalCta() {
         ela cabe inteira — céu e arquitetura — sem `cover` cortar nada. No
         celular a altura vem do conteúdo e a foto é enquadrada, como convém a
         uma tela estreita.
+
+        `flex-col` existe por causa do `mt-auto` dos botões: é ele que os
+        empurra para o pé da seção quando sobra altura.
       */
-      className="relative isolate scroll-mt-24 overflow-hidden bg-brand-950 px-6 pb-10 pt-24 text-white sm:px-10 sm:pt-32 md:min-h-[55.9vw]"
+      className="relative isolate flex touch-pan-y scroll-mt-24 flex-col overflow-hidden bg-brand-950 px-6 pb-10 pt-24 text-white sm:px-10 sm:pt-32 md:min-h-[55.9vw]"
     >
       {/*
         Fundo vivo: a foto do hotel muda de hora sob o cursor. O véu por cima
@@ -43,22 +47,29 @@ export function FinalCta() {
       <Reveal className="mx-auto max-w-2xl text-center">
         <h2 className="text-[2.2rem] font-bold leading-[1.15] text-white sm:text-[2.8rem]">{c.title}</h2>
         <p className="mx-auto mt-4 max-w-lg text-white/70">{c.subtitle}</p>
-        <Link href={`/h/${DEMO_HOTEL_SLUG}/q/${DEMO_ROOM_TOKEN}`} className={buttonClasses("accent", "lg", "mt-8")}>
+      </Reveal>
+
+      {/*
+        Os botões ficam no pé da seção, e não sob o texto: no meio da foto eles
+        cortavam a fachada do hotel e ocupavam justo a faixa onde a lente do
+        tempo é manuseada. `mt-auto` cola o bloco na base sempre que a seção
+        tem altura de sobra; no celular, sem `min-h`, o `pt-16` dá o respiro.
+      */}
+      <Reveal className="mt-auto flex flex-col items-center gap-3 pt-16">
+        <Link href={`/h/${DEMO_HOTEL_SLUG}/q/${DEMO_ROOM_TOKEN}`} className={buttonClasses("accent", "lg")}>
           {c.cta} <ArrowRight className="size-5" />
         </Link>
 
-        {/* Caminho de volta: o cabeçalho some conforme a página desce (header-fade.tsx). */}
-        <div className="mt-6">
-          <a
-            href="#inicio"
-            className={buttonClasses("ghost", "sm", "glass-tint border-white/20 bg-white/5 text-white/80 hover:border-white/40 hover:bg-white/15 hover:text-white")}
-          >
-            <ArrowUp className="size-4" /> {c.backToTop}
-          </a>
-        </div>
+        {/* Caminho de volta: o cabeçalho some conforme a página desce (header-fade.tsx).
+            Mesmo comportamento da seta de canto — vem do mesmo lugar. */}
+        <BackToTopButton
+          className={buttonClasses("ghost", "sm", "glass-tint border-white/20 bg-white/5 text-white/80 hover:border-white/40 hover:bg-white/15 hover:text-white")}
+        >
+          <ArrowUp className="size-4" /> {c.backToTop}
+        </BackToTopButton>
       </Reveal>
 
-      <div className="mx-auto mt-24 flex max-w-6xl flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/50">
+      <div className="mx-auto mt-10 flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/50">
         <span className="flex items-center gap-2">
           <LogoMark className="size-6 text-white/70" />
           <Wordmark tone="light" className="text-sm text-white/70" />

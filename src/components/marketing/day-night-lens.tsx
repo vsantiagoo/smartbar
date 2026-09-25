@@ -7,7 +7,13 @@ import { cn } from "@/lib/utils";
 const R_FRAC = 0.2;
 const R_MIN = 200;
 const R_MAX = 440;
-/** Fração do caminho percorrida por quadro a 60fps ao perseguir o ponteiro. */
+/**
+ * Teto do piso em telas pequenas: num celular de 375px um raio de 200px cobre
+ * a foto inteira e a lente deixa de ser lente. O piso vira uma fração do menor
+ * lado para o recorte continuar lendo como um círculo dentro da cena.
+ */
+const R_MIN_FRAC = 0.34;
+/** Fração do caminho percorrida por quadro a 60fps ao perseguir o alvo. */
 const DAMPING = 0.085;
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
@@ -22,9 +28,15 @@ const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
  * em fases diferentes e respiram fora de compasso. É o que dá o contorno vivo,
  * sem filtro de ruído (que custaria caro a cada quadro).
  *
- * Sem ponteiro, a lente não fica parada: ela vagueia devagar numa figura de
- * Lissajous. Quando o cursor entra, ela o persegue com amortecimento; quando
- * sai, volta a vaguear.
+ * Quem move a lente depende do aparelho:
+ *
+ *  · PONTEIRO FINO — ela persegue o cursor com amortecimento. Sem cursor por
+ *    perto, vagueia devagar numa figura de Lissajous.
+ *
+ *  · TOQUE — não existe cursor pairando, então quem conduz é a ROLAGEM: a
+ *    lente varre a fachada na diagonal conforme a seção cruza a janela. Um
+ *    arraste do dedo assume o controle enquanto durar. Sem isso o celular
+ *    ficava só com o passeio ocioso, e a tela parecia não responder a nada.
  *
  * Nada disso re-renderiza React: o laço escreve variáveis CSS direto no
  * elemento, como o resto das animações da página. Com "reduzir movimento",
@@ -37,6 +49,8 @@ export function DayNightLens({ className }: { className?: string }) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root || reduced) return;
+
+    const toque = window.matchMedia("(hover: none)").matches;
 
     let w = 0;
     let h = 0;
@@ -57,6 +71,18 @@ export function DayNightLens({ className }: { className?: string }) {
     let raf = 0;
     const t0 = performance.now();
 
+    /**
+     * Quanto do rodapé já subiu: 0 quando ele encosta na base da janela, 1
+     * quando terminou de entrar. A régua é a ALTURA DO PRÓPRIO RODAPÉ, e não a
+     * janela inteira, porque ele é a última seção da página — medido, a rolagem
+     * acaba com 44% do percurso feito se a conta usar a janela, e a lente
+     * nunca chegaria ao outro lado da fachada.
+     */
+    const progressoScroll = () => {
+      const r = root.getBoundingClientRect();
+      return clamp((window.innerHeight - r.top) / Math.max(1, r.height), 0, 1);
+    };
+
     const frame = (now: number) => {
       if (!visivel) {
         raf = 0;
@@ -65,15 +91,24 @@ export function DayNightLens({ className }: { className?: string }) {
       const t = (now - t0) / 1000;
 
       if (!comPonteiro) {
-        // Passeio lento: duas senoides de períodos incomensuráveis, então o
-        // caminho nunca se repete de forma perceptível.
-        alvoX = w * (0.5 + 0.23 * Math.sin(t * 0.13) + 0.06 * Math.sin(t * 0.37 + 1.7));
-        alvoY = h * (0.5 + 0.16 * Math.sin(t * 0.19 + 1.1) + 0.05 * Math.sin(t * 0.43));
+        if (toque) {
+          // Varredura na diagonal, de baixo à esquerda para cima à direita,
+          // conforme a página sobe. As senoides por cima impedem que a lente
+          // fique imóvel quando a rolagem para.
+          const q = progressoScroll();
+          alvoX = w * (0.24 + 0.52 * q + 0.05 * Math.sin(t * 0.31));
+          alvoY = h * (0.72 - 0.44 * q + 0.04 * Math.sin(t * 0.43 + 1.1));
+        } else {
+          // Passeio lento: duas senoides de períodos incomensuráveis, então o
+          // caminho nunca se repete de forma perceptível.
+          alvoX = w * (0.5 + 0.23 * Math.sin(t * 0.13) + 0.06 * Math.sin(t * 0.37 + 1.7));
+          alvoY = h * (0.5 + 0.16 * Math.sin(t * 0.19 + 1.1) + 0.05 * Math.sin(t * 0.43));
+        }
       }
       x += (alvoX - x) * DAMPING;
       y += (alvoY - y) * DAMPING;
 
-      const r = clamp(w * R_FRAC, R_MIN, R_MAX);
+      const r = clamp(w * R_FRAC, Math.min(R_MIN, Math.min(w, h) * R_MIN_FRAC), R_MAX);
       // Os dois bolsões: órbitas pequenas, em sentidos e fases diferentes.
       const ax = x + r * 0.1 * Math.sin(t * 0.61);
       const ay = y + r * 0.08 * Math.cos(t * 0.47 + 0.6);
@@ -98,6 +133,8 @@ export function DayNightLens({ className }: { className?: string }) {
     };
 
     const onMove = (e: PointerEvent) => {
+      // No toque, `pointermove` só chega com o dedo na tela — e é exatamente
+      // aí que a pessoa quer conduzir a lente à mão.
       const r = root.getBoundingClientRect();
       comPonteiro = true;
       alvoX = e.clientX - r.left;
@@ -106,6 +143,11 @@ export function DayNightLens({ className }: { className?: string }) {
     };
     const onLeave = () => {
       comPonteiro = false;
+    };
+    /* Dedo levantado (ou gesto tomado para rolar): a lente volta a ser
+       conduzida pela rolagem. */
+    const onUp = () => {
+      if (toque) comPonteiro = false;
     };
 
     const io = new IntersectionObserver(
@@ -123,12 +165,16 @@ export function DayNightLens({ className }: { className?: string }) {
     const pai = root.parentElement ?? root;
     pai.addEventListener("pointermove", onMove);
     pai.addEventListener("pointerleave", onLeave);
+    pai.addEventListener("pointerup", onUp);
+    pai.addEventListener("pointercancel", onUp);
     return () => {
       io.disconnect();
       ro.disconnect();
       if (raf) cancelAnimationFrame(raf);
       pai.removeEventListener("pointermove", onMove);
       pai.removeEventListener("pointerleave", onLeave);
+      pai.removeEventListener("pointerup", onUp);
+      pai.removeEventListener("pointercancel", onUp);
     };
   }, [reduced]);
 
