@@ -6,9 +6,9 @@ import { GlowBackdrop } from "./glow-backdrop";
 export function ImpactStats() {
   const c = marketingCopy.stats;
   return (
-    <section id="resultados" className="relative isolate scroll-mt-24 px-6 py-24 sm:py-32">
+    <section id="resultados" className="relative isolate px-6 py-16 sm:px-10 sm:py-20">
       <GlowBackdrop />
-      <div className="mx-auto max-w-5xl text-center">
+      <div className="mx-auto max-w-6xl text-center">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{c.kicker}</p>
           <h2 className="mt-3 text-[2.4rem] font-bold leading-[1.1] sm:text-[3.2rem]">
@@ -20,7 +20,8 @@ export function ImpactStats() {
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {c.items.map((item, i) => (
             <Reveal key={item.label} delay={i * 90} className="h-full">
-              <div className="glass h-full rounded-[28px] px-4 py-7">
+              {/* O raio vem do próprio `.glass-frost` (29px, como na referência). */}
+              <div className="glass-frost shake-hover h-full px-4 py-7">
                 {/* Plus Jakarta Sans, a mesma da logo: o número vira um gesto da marca. */}
                 <span
                   className="tabular block font-extrabold leading-none tracking-tight text-ink text-[2.4rem] sm:text-[2.8rem]"

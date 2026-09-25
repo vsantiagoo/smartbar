@@ -16,9 +16,14 @@ const ROUTES: Record<string, string> = {
 export function QuickLinks() {
   const c = marketingCopy.explore;
   return (
-    <section id="explorar" className="relative isolate scroll-mt-24 px-6 py-24 sm:py-32">
+    /*
+        Respiro desigual de propósito: menos em cima (o conteúdo sobe e o vazio
+        acima do "Explorar agora" encolhe) e mais embaixo, para os cards não
+        ficarem encostados no degradê escuro do rodapé.
+      */
+      <section id="explorar" className="relative isolate px-6 pb-24 pt-10 sm:px-10 sm:pb-28 sm:pt-12">
       <GlowBackdrop />
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{c.kicker}</p>
           <h2 className="mt-3 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>

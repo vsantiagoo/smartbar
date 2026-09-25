@@ -1,6 +1,7 @@
 import { ArrowUpRight, Boxes, Lock, QrCode, type LucideIcon } from "lucide-react";
 import { LogoMark } from "@/components/ui/logo";
 import { Reveal } from "@/components/ui/reveal";
+import { CenterAnchor } from "./center-anchor";
 import { marketingCopy } from "@/lib/content/copy";
 
 const ICONS: Record<string, LucideIcon> = { qr: QrCode, lock: Lock, stock: Boxes };
@@ -15,8 +16,10 @@ export function ScrollStory() {
   return (
     <section
       id="como-funciona"
-      className="relative scroll-mt-24 overflow-hidden rounded-t-[2.5rem] bg-brand-950 px-6 py-20 text-white sm:rounded-t-[3.5rem] sm:py-28"
+      className="relative overflow-hidden bg-brand-950 px-6 py-20 text-white sm:px-10 sm:py-28"
     >
+      {/* Esta seção cabe inteira na tela: o menu para com ela no meio, não no topo. */}
+      <CenterAnchor target="como-funciona" />
       <Reveal className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/55">{c.eyebrow}</span>

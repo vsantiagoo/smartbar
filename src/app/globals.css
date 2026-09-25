@@ -68,6 +68,47 @@
     backdrop-filter: blur(28px) saturate(1.5);
     @apply shadow-glass;
   }
+  /*
+    Vidro FOSCO — os valores exatos do painel de escrita da referência (Orbit):
+    tinta cinza-azulada bem diluída, desfoque alto e pouca saturação, aro branco
+    e uma sombra larga e baixa que descola o card do fundo. O relevo vem do fio
+    de luz no topo (--glass-rim), não do preenchimento.
+  */
+  .glass-frost {
+    /* #dbe4e51f */
+    background: rgb(219 228 229 / 0.122);
+    /* #ffffff59 */
+    border: 1px solid rgb(255 255 255 / 0.35);
+    border-radius: 29px;
+    -webkit-backdrop-filter: blur(26px) saturate(1.05);
+    backdrop-filter: blur(26px) saturate(1.05);
+    box-shadow:
+      /* --glass-rim: inset 0 1px 0 #fff6 */
+      inset 0 1px 0 rgb(255 255 255 / 0.4),
+      /* 0 14px 44px #142b3c16 */
+      0 14px 44px rgb(20 43 60 / 0.086);
+    transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /*
+    Tremor curto ao passar o mouse — o mesmo gesto do cadeado da declaração:
+    o elemento reage ao toque e volta ao lugar. Toca uma vez por entrada.
+  */
+  @keyframes nudge-shake {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    18% { transform: translate3d(-3px, 1px, 0) rotate(-0.45deg); }
+    38% { transform: translate3d(3px, -1px, 0) rotate(0.4deg); }
+    58% { transform: translate3d(-2px, 1px, 0) rotate(-0.28deg); }
+    78% { transform: translate3d(2px, 0, 0) rotate(0.16deg); }
+    100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  }
+  .shake-hover:hover {
+    animation: nudge-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .shake-hover:hover { animation: none; }
+  }
+
   /* Textura da marca: linhas diagonais sutis (Brandbook 5.3) */
   .brand-diagonals {
     background-image: repeating-linear-gradient(

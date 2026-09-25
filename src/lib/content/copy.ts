@@ -141,7 +141,7 @@ export const marketingCopy = {
     kicker: "Resultados de referência",
     title: "De 22% de perda.",
     titleAccent: "Para menos de 1%.",
-    subtitle: "Comparativo do setor sem sistema de pagamento prévio (Plano de Negócios), não uma medição de cliente.",
+    subtitle: "Média de referência do setor para operações tradicionais.",
     items: [
       { value: "-95%", label: "Perda de estoque (shrinkage)" },
       { value: "75%", label: "Mais rápido no check-out" },
@@ -149,36 +149,131 @@ export const marketingCopy = {
       { value: "60×", label: "Mais barato que vending machines" },
     ],
   },
+  /**
+   * Planos — Plano de Negócios, seções 6 a 9.
+   *
+   * A matriz original cruza 5 perfis de cliente × 3 módulos. Uma tabela dessas
+   * na landing afasta em vez de vender, então ela virou UM seletor de perfil
+   * que troca só os preços dos três cards: o visitante vê o valor dele, e o
+   * desconto por porte fica evidente ao trocar de aba.
+   *
+   * `segments[].prices` segue SEMPRE a ordem de `tiers` (Básico, Plus, Premium).
+   */
   plans: {
     kicker: "Planos",
-    title: "Cresça do QR Code ao whitelabel.",
-    subtitle: "Preços de referência do catálogo — ajuste por hotel na implantação.",
-    items: [
+    title: "Do tradicional ao digital: transforme a experiência do seu hóspede!",
+    subtitle: "O preço acompanha o porte da operação. Escolha o seu perfil para ver os valores.",
+    segmentLabel: "Perfil da operação",
+    segments: [
+      {
+        id: "anfitriao",
+        label: "Airbnb / anfitrião",
+        note: "Até 15 imóveis",
+        unit: "/imóvel/mês",
+        prices: [
+          { price: "R$ 14,90", minimum: "mínimo R$ 149/mês" },
+          { price: "R$ 24,90", minimum: "mínimo R$ 249/mês" },
+          { price: "R$ 39,90", minimum: "mínimo R$ 490/mês" },
+        ],
+      },
+      {
+        id: "temporada",
+        label: "Temporada",
+        note: "Aluguel esporádico, sem estrutura hoteleira",
+        unit: "/mês fixo",
+        prices: [
+          { price: "R$ 19,90", minimum: "controle de consumo básico" },
+          { price: "R$ 34,90", minimum: "com automação do compartimento" },
+          { price: "Sob consulta", minimum: "fale com a gente" },
+        ],
+      },
+      {
+        id: "pequeno",
+        label: "Hotel · 20 a 50 quartos",
+        note: "",
+        unit: "/quarto/mês",
+        prices: [
+          { price: "R$ 14,90", minimum: "mínimo R$ 299/mês" },
+          { price: "R$ 24,90", minimum: "mínimo R$ 490/mês" },
+          { price: "R$ 39,90", minimum: "mínimo R$ 990/mês" },
+        ],
+      },
+      {
+        id: "medio",
+        label: "Hotel · 50 a 100 quartos",
+        note: "",
+        unit: "/quarto/mês",
+        prices: [
+          { price: "R$ 12,90", minimum: "mínimo R$ 650/mês" },
+          { price: "R$ 21,90", minimum: "mínimo R$ 1.100/mês" },
+          { price: "R$ 34,90", minimum: "mínimo R$ 1.750/mês" },
+        ],
+      },
+      {
+        id: "grande",
+        label: "Hotel · 100+ quartos",
+        note: "",
+        unit: "/quarto/mês",
+        prices: [
+          { price: "R$ 10,90", minimum: "mínimo R$ 1.100/mês" },
+          { price: "R$ 18,90", minimum: "mínimo R$ 1.900/mês" },
+          { price: "R$ 29,90", minimum: "mínimo R$ 3.000/mês" },
+        ],
+      },
+    ],
+    tiers: [
       {
         tier: "Básico",
-        price: "R$ 14,90",
-        unit: "/quarto/mês",
-        minimum: "mínimo R$ 299/mês",
-        features: ["QR Code dinâmico", "Catálogo e carrinho", "Pix copia e cola", "Dashboard básico"],
+        tagline: "QR Code digital, sem trava",
+        features: [
+          "QR Code dinâmico por quarto",
+          "Checkout do hóspede com Pix dinâmico",
+          "Painel de produtos e preços",
+          "Alerta de compra por WhatsApp ou e-mail",
+        ],
         highlight: false,
       },
       {
         tier: "Plus",
-        price: "R$ 24,90",
-        unit: "/quarto/mês",
-        minimum: "mínimo R$ 490/mês",
-        features: ["Tudo do Básico", "Acionamento da trava IoT", "Estoque em tempo real", "Suporte 24/7"],
+        tagline: "Automação IoT + trava",
+        features: [
+          "Tudo do Básico",
+          "Trava destrava em menos de 2s após o Pix",
+          "Estoque em tempo real",
+          "Suporte prioritário 24/7",
+        ],
         highlight: true,
       },
       {
         tier: "Premium",
-        price: "R$ 39,90",
-        unit: "/quarto/mês",
-        minimum: "mínimo R$ 990/mês",
-        features: ["Tudo do Plus", "Integração com o PMS", "IA preditiva de consumo", "Whitelabel + SLA 2h"],
+        tagline: "Enterprise & PMS",
+        features: [
+          "Tudo do Plus",
+          "Integração com o PMS (Totvs, Hospedin)",
+          "IA preditiva de consumo por perfil",
+          "Whitelabel próprio + SLA de 2h",
+        ],
         highlight: false,
       },
     ],
+    /** Taxa única, cobrada na implantação (seção 8 do Plano de Negócios). */
+    setup: {
+      title: "Implantação",
+      text: "Taxa única, cobrada uma vez, conforme o porte.",
+      items: [
+        { label: "Anfitriões e temporada", value: "R$ 350 a R$ 600" },
+        { label: "Hotéis de 20 a 50 quartos", value: "R$ 1.200 a R$ 1.800" },
+        { label: "Hotéis acima de 50 quartos", value: "R$ 2.000 a R$ 4.500" },
+      ],
+      note: "Inclui configuração da conta, catálogo e o primeiro lote de QR Codes. Acima de 50 quartos, também homologação de rede e treinamento da governança.",
+    },
+    /** Funcionalidades fora do padrão (seção 8 do Plano de Negócios). */
+    custom: {
+      title: "Customização",
+      text: "Funcionalidades extras e integrações específicas.",
+      note: "Caso o estabelecimento necessite de integrações específicas ou funções que o sistema padrão não possui, será realizada uma análise técnica de viabilidade. O custo de desenvolvimento avulso pode variar de acordo com a complexidade da solicitação.",
+    },
+    cta: "Explorar planos",
   },
   explore: {
     kicker: "Explorar agora",

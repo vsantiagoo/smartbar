@@ -10,7 +10,7 @@ import { DEMO_HOTEL_SLUG, DEMO_ROOM_TOKEN, isDemoMode } from "@/lib/config";
 export function FinalCta() {
   const c = marketingCopy.finalCta;
   return (
-    <footer id="contato" className="relative scroll-mt-24 bg-brand-950 px-6 pb-10 pt-24 text-white sm:pt-32">
+    <footer id="contato" className="relative scroll-mt-24 bg-brand-950 px-6 pb-10 pt-24 text-white sm:px-10 sm:pt-32">
       {/* Degradê de entrada: a seção clara escurece aos poucos até o rodapé. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-[calc(100%-2px)] h-24 bg-gradient-to-t sm:h-28 from-brand-950 via-brand-950/40 to-transparent" aria-hidden />
       <Reveal className="mx-auto max-w-2xl text-center">
