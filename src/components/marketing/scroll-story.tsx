@@ -70,12 +70,6 @@ export function ScrollStory() {
           })}
         </div>
       </Reveal>
-
-      {/* Dissolve o azul-marinho na seção clara seguinte (sem corte seco). */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-950 to-transparent"
-        aria-hidden
-      />
     </section>
   );
 }

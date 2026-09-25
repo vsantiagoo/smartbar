@@ -71,21 +71,7 @@ export function useSmoothScroll(
   }, [damping]);
 }
 
-/** Quanto um container "pinado" já foi rolado: 0 no topo, 1 quando o fim sai pela viewport. */
-export function pinnedProgress(el: HTMLElement | null): number {
-  if (!el) return 0;
-  const rect = el.getBoundingClientRect();
-  const total = rect.height - window.innerHeight;
-  return total > 0 ? clamp01(-rect.top / total) : 0;
-}
-
 export const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
-
-/** Curva S (0→1) entre `a` e `b`: parada no início e no fim, rápida no meio. */
-export function smoothstep(a: number, b: number, v: number): number {
-  const t = clamp01((v - a) / (b - a));
-  return t * t * (3 - 2 * t);
-}
 
 /** true quando o sistema pede menos animação — desliga o scrollytelling. */
 export function usePrefersReducedMotion(): boolean {

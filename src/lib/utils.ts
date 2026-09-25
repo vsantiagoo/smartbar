@@ -10,10 +10,6 @@ export function formatBRL(cents: number): string {
   return brl.format(cents / 100);
 }
 
-export function formatTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-}
-
 export function formatDateTime(iso: string): string {
   return new Date(iso).toLocaleString("pt-BR", {
     day: "2-digit",
@@ -32,8 +28,4 @@ export function timeAgo(iso: string, now: number = Date.now()): string {
   const h = Math.round(m / 60);
   if (h < 24) return `há ${h} h`;
   return `há ${Math.round(h / 24)} d`;
-}
-
-export function sleep(ms: number): Promise<void> {
-  return new Promise((r) => setTimeout(r, ms));
 }

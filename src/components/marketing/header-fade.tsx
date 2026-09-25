@@ -10,8 +10,8 @@ const FADE_OUT_AT = 0.55;
  * traz de volta ao subir. O movimento acompanha o scroll amortecido, igual ao
  * resto da página. Enquanto invisível, ele não recebe clique nem teclado.
  *
- * Depois que ele some, o caminho de volta é o botão "Voltar ao início" no
- * rodapé (`final-cta.tsx`).
+ * Depois que ele some, o caminho de volta é a seta no canto de cada seção e o
+ * botão escrito por extenso no rodapé — os dois em `back-to-top.tsx`.
  */
 export function HeaderFade({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);

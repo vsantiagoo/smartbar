@@ -9,7 +9,6 @@ export const checkoutSchema = z.object({
     .min(1)
     .max(30),
 });
-export type CheckoutInput = z.infer<typeof checkoutSchema>;
 
 export const rfidSchema = z.object({
   deviceId: z.string().min(1),
