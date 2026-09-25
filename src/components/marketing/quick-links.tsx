@@ -3,6 +3,7 @@ import Link from "next/link";
 import { marketingCopy } from "@/lib/content/copy";
 import { DEMO_HOTEL_SLUG, DEMO_ROOM_TOKEN } from "@/lib/config";
 import { Reveal } from "@/components/ui/reveal";
+import { BackToTop } from "./back-to-top";
 import { GlowBackdrop } from "./glow-backdrop";
 
 const ICONS = { guest: Smartphone, admin: LayoutDashboard, design: Palette } as const;
@@ -22,6 +23,7 @@ export function QuickLinks() {
         ficarem encostados no degradê escuro do rodapé.
       */
       <section id="explorar" className="relative isolate px-6 pb-24 pt-10 sm:px-10 sm:pb-28 sm:pt-12">
+      <BackToTop />
       <GlowBackdrop />
       <div className="mx-auto max-w-6xl">
         <Reveal>

@@ -4,6 +4,7 @@ import { Hero } from "@/components/marketing/hero";
 import { HomeBridge } from "@/components/marketing/home-bridge";
 import { ImpactStats } from "@/components/marketing/impact-stats";
 import { PlansGrid } from "@/components/marketing/plans-grid";
+import { ProductReveal } from "@/components/marketing/product-reveal";
 import { QuickLinks } from "@/components/marketing/quick-links";
 import { ScrollStory } from "@/components/marketing/scroll-story";
 import { SiteHeader } from "@/components/marketing/site-header";
@@ -25,6 +26,7 @@ export default function HomePage() {
       <ImpactStats />
       <PlansGrid />
       <QuickLinks />
+      <ProductReveal />
       <FinalCta />
     </main>
   );

@@ -4,15 +4,42 @@ import { LogoMark, Wordmark } from "@/components/ui/logo";
 import { buttonClasses } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
+import { DayNightLens } from "./day-night-lens";
 import { DEMO_HOTEL_SLUG, DEMO_ROOM_TOKEN, isDemoMode } from "@/lib/config";
 
 /** SEÇÃO · Chamada final + rodapé, no padrão de encerramento do Orbit. */
 export function FinalCta() {
   const c = marketingCopy.finalCta;
   return (
-    <footer id="contato" className="relative scroll-mt-24 bg-brand-950 px-6 pb-10 pt-24 text-white sm:px-10 sm:pt-32">
-      {/* Degradê de entrada: a seção clara escurece aos poucos até o rodapé. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[calc(100%-2px)] h-24 bg-gradient-to-t sm:h-28 from-brand-950 via-brand-950/40 to-transparent" aria-hidden />
+    <footer
+      id="contato"
+      /*
+        min-h em vw: dá ao rodapé a MESMA proporção da foto (1920×1072), então
+        ela cabe inteira — céu e arquitetura — sem `cover` cortar nada. No
+        celular a altura vem do conteúdo e a foto é enquadrada, como convém a
+        uma tela estreita.
+      */
+      className="relative isolate scroll-mt-24 overflow-hidden bg-brand-950 px-6 pb-10 pt-24 text-white sm:px-10 sm:pt-32 md:min-h-[55.9vw]"
+    >
+      {/*
+        Fundo vivo: a foto do hotel muda de hora sob o cursor. O véu por cima
+        segura o contraste do texto branco — sem ele, o céu claro do meio-dia
+        engoliria o título.
+      */}
+      <DayNightLens className="absolute inset-0 -z-10" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-brand-950/42" />
+      {/* O escuro vai para onde o texto está, não para a foto inteira: um oval
+          no centro segura o contraste do título e deixa o céu e as pontas da
+          arquitetura à vista. A faixa de baixo fecha a página. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 52% at 50% 44%, rgb(var(--brand-950) / 0.74), transparent 72%), linear-gradient(to bottom, transparent 62%, rgb(var(--brand-950) / 0.88))",
+        }}
+      />
+
       <Reveal className="mx-auto max-w-2xl text-center">
         <h2 className="text-[2.2rem] font-bold leading-[1.15] text-white sm:text-[2.8rem]">{c.title}</h2>
         <p className="mx-auto mt-4 max-w-lg text-white/70">{c.subtitle}</p>

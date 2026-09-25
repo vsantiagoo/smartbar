@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
+import { BackToTop } from "./back-to-top";
 import { Lock3D } from "./lock-3d";
 
 /**
@@ -14,7 +15,8 @@ import { Lock3D } from "./lock-3d";
 export function HomeBridge() {
   const c = marketingCopy.statement;
   return (
-    <section className="px-6 py-12 sm:px-10 sm:py-16">
+    <section className="relative px-6 py-12 sm:px-10 sm:py-16">
+      <BackToTop />
       <Reveal className="mx-auto flex max-w-6xl flex-col items-center gap-2 md:flex-row md:justify-between md:gap-6">
         <h2
           className="max-w-3xl flex-1 self-start text-ink md:self-center"

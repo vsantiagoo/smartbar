@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { Segmented } from "@/components/ui/segmented";
 import { marketingCopy } from "@/lib/content/copy";
 import { cn } from "@/lib/utils";
+import { BackToTop } from "./back-to-top";
 import { GlowBackdrop } from "./glow-backdrop";
 
 /**
@@ -61,6 +62,7 @@ export function PlansGrid() {
       conteúdo na primeira tela, sem mostrar nada da seção anterior.
     */
     <section id="planos" className="relative isolate px-6 py-16 sm:-scroll-mt-14 sm:px-10 sm:py-20">
+      <BackToTop />
       <GlowBackdrop flip />
       <div className="mx-auto max-w-6xl">
         {/* Caixa mais larga que a das outras seções: o título daqui é uma frase

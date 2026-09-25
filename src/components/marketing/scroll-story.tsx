@@ -1,6 +1,7 @@
 import { ArrowUpRight, Boxes, Lock, QrCode, type LucideIcon } from "lucide-react";
 import { LogoMark } from "@/components/ui/logo";
 import { Reveal } from "@/components/ui/reveal";
+import { BackToTop } from "./back-to-top";
 import { CenterAnchor } from "./center-anchor";
 import { marketingCopy } from "@/lib/content/copy";
 
@@ -20,6 +21,7 @@ export function ScrollStory() {
     >
       {/* Esta seção cabe inteira na tela: o menu para com ela no meio, não no topo. */}
       <CenterAnchor target="como-funciona" />
+      <BackToTop tone="light" />
       <Reveal className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/55">{c.eyebrow}</span>
@@ -48,7 +50,7 @@ export function ScrollStory() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-3 sm:grid-cols-3">
+        <div className="mt-10 grid gap-3 lg:grid-cols-3">
           {c.cards.map((card) => {
             const Icon = ICONS[card.icon] ?? QrCode;
             return (
