@@ -1,6 +1,7 @@
 "use client";
 import { useRef, type ReactNode } from "react";
-import { clamp01, useSmoothScroll } from "@/lib/marketing/use-scroll-progress";
+import { useSmoothScroll } from "@/lib/marketing/use-scroll-progress";
+import { clamp01 } from "@/lib/utils";
 
 /**
  * Conteúdo do hero que se afasta com suavidade ao rolar: sobe um pouco mais

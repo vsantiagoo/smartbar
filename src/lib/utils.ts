@@ -5,6 +5,11 @@ export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
+/** Prende um número entre dois limites. */
+export const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+/** O caso de sempre: progresso de 0 a 1. */
+export const clamp01 = (v: number) => clamp(v, 0, 1);
+
 const brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 export function formatBRL(cents: number): string {
   return brl.format(cents / 100);

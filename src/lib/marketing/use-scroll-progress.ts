@@ -71,8 +71,6 @@ export function useSmoothScroll(
   }, [damping]);
 }
 
-export const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
-
 /** true quando o sistema pede menos animação — desliga o scrollytelling. */
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(false);

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { usePrefersReducedMotion } from "@/lib/marketing/use-scroll-progress";
-import { cn } from "@/lib/utils";
+import { clamp, cn } from "@/lib/utils";
 
 /** Raio da lente em fração da largura, com piso e teto em px. */
 const R_FRAC = 0.2;
@@ -15,8 +15,6 @@ const R_MAX = 440;
 const R_MIN_FRAC = 0.34;
 /** Fração do caminho percorrida por quadro a 60fps ao perseguir o alvo. */
 const DAMPING = 0.085;
-
-const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
 /**
  * Lente do tempo: a foto do hotel de DIA é a base; sob o cursor, uma área de

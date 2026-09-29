@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "@/lib/marketing/use-scroll-progress";
-import { cn } from "@/lib/utils";
+import { clamp, cn } from "@/lib/utils";
 
 /* ─────────────────────────────── Geometria ───────────────────────────────
    Espaço do modelo com y crescendo para baixo. Corpo = caixa chanfrada
@@ -234,8 +234,6 @@ function readRgb(name: string, fallback: [number, number, number]): [number, num
   const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim().split(/\s+/).map(Number);
   return raw.length === 3 && raw.every((n) => Number.isFinite(n)) ? (raw as [number, number, number]) : fallback;
 }
-
-const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
 /** Mola amortecida em subpassos (estável mesmo com quadros longos). */
 function spring(pos: number, vel: number, target: number, k: number, c: number, dt: number): [number, number] {

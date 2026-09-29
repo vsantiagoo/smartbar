@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "@/lib/marketing/use-scroll-progress";
+import { clamp01 } from "@/lib/utils";
 import { BackToTop } from "./back-to-top";
 
 /** Duração da montagem automática da primeira vez, em segundos (ponteiro fino). */
@@ -15,7 +16,6 @@ const GESTO_MIN = 8;
 const ZOOM_FROM = 0.965;
 const ZOOM_TO = 1.0;
 
-const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 /** Desaceleração longa no fim — o produto assenta em vez de parar seco. */
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 4);
 

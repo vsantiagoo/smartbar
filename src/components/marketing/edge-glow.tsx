@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
-import { clamp01, useSmoothScroll } from "@/lib/marketing/use-scroll-progress";
+import { useSmoothScroll } from "@/lib/marketing/use-scroll-progress";
+import { clamp01 } from "@/lib/utils";
 
 /** Em que fração da primeira tela a moldura termina de acender. */
 const FADE_IN_AT = 0.45;

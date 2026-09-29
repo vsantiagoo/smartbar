@@ -1,6 +1,7 @@
 "use client";
 import { useRef, type ReactNode } from "react";
-import { clamp01, useSmoothScroll } from "@/lib/marketing/use-scroll-progress";
+import { useSmoothScroll } from "@/lib/marketing/use-scroll-progress";
+import { clamp01 } from "@/lib/utils";
 
 /** A partir de quanto da primeira tela o cabeçalho já sumiu por completo. */
 const FADE_OUT_AT = 0.55;
