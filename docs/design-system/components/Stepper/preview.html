@@ -1,0 +1,24 @@
+<!-- @dsCard group="Formulário" height=150 subtitle="Quantidade do item: − 1 + · o + desliga no estoque máximo" -->
+<style>
+  body{margin:0;padding:22px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#2d3d34;line-height:1.6;background:linear-gradient(160deg,#cfdcee 0%,#dee2ea 38%,#ebe8e7 72%,#f6ede4 100%)}
+  .lbl{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5b6861;margin:0 0 8px}
+  .row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end}
+  .st{display:inline-flex;align-items:center;border-radius:999px;background:rgba(27,58,107,.85);color:#fff;padding:4px;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);box-shadow:0 1px 0 0 rgba(255,255,255,.45) inset,0 -1px 0 0 rgba(255,255,255,.08) inset,0 10px 28px -12px rgba(16,34,63,.45)}
+  .st button{width:36px;height:36px;border:0;border-radius:999px;background:transparent;color:#fff;display:grid;place-items:center;cursor:pointer;transition:.2s;font-family:inherit}
+  .st button:hover{background:rgba(255,255,255,.15)}
+  .st button:active{transform:scale(.9)}
+  .st button:disabled{opacity:.35;cursor:default}
+  .st button:disabled:hover{background:transparent}
+  .st output{min-width:28px;text-align:center;font-size:.875rem;font-weight:700;font-variant-numeric:tabular-nums}
+  svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+</style>
+<div class="row">
+  <div><p class="lbl">Interativo (máx. 4)</p>
+    <div class="st" id="a"><button aria-label="Remover um" data-d="-1"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button><output>1</output><button aria-label="Adicionar um" data-d="1"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+  <div><p class="lbl">No máximo</p>
+    <div class="st"><button aria-label="Remover um"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button><output>4</output><button aria-label="Adicionar um" disabled><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+</div>
+<script>
+  var box=document.getElementById('a'),out=box.querySelector('output');
+  box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var n=Math.max(0,Math.min(4,+out.textContent+ +b.dataset.d));out.textContent=n;box.querySelector('[data-d="1"]').disabled=n>=4;});
+</script>

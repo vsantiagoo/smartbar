@@ -1,5 +1,5 @@
 import { ArrowUpRight, Boxes, Lock, QrCode, type LucideIcon } from "lucide-react";
-import { LogoMark } from "@/components/ui/logo";
+import { Logo } from "@/components/ui/logo";
 import { Reveal } from "@/components/ui/reveal";
 import { BackToTop } from "./back-to-top";
 import { CenterAnchor } from "./center-anchor";
@@ -27,7 +27,7 @@ export function ScrollStory() {
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/55">{c.eyebrow}</span>
           {/* Só a partir de 640px: no celular o selo disputava a linha com a sobrescrita. */}
           <span className="hidden items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-white/55 sm:inline-flex">
-            <LogoMark className="size-5 text-white" />
+            <Logo tone="light" intro="inview" wordmarkClassName="hidden" className="[--logo-size:1.25rem]" />
             {c.signLabel}
           </span>
         </div>

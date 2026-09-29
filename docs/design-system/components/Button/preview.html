@@ -1,0 +1,35 @@
+<!-- @dsCard group="Ações" height=230 subtitle="Seis variantes, quatro tamanhos — todas de vidro" -->
+<style>
+  body{margin:0;padding:22px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);line-height:1.6;
+    background:linear-gradient(160deg,var(--sky-1) 0%,var(--sky-2) 38%,var(--sky-3) 72%,var(--sky-4) 100%)}
+  .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .lbl{font-size:.75rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);width:100%;margin:2px 0 -4px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;
+    border-radius:var(--radius-pill);font-weight:600;white-space:nowrap;transition:.2s;height:44px;padding:0 24px;font-size:.95rem}
+  .btn:active{transform:scale(.97)}
+  .btn:focus-visible{outline:2px solid var(--gold-500);outline-offset:2px}
+  .tint{border:1px solid rgba(255,255,255,.3);
+    backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);
+    box-shadow:inset 0 1px 0 0 rgba(255,255,255,.45),inset 0 -1px 0 0 rgba(255,255,255,.08),0 10px 28px -12px rgba(16,34,63,.45)}
+  .glass{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);
+    backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);
+    box-shadow:inset 0 1px 0 0 rgba(255,255,255,.45),0 10px 28px -12px rgba(16,34,63,.45)}
+</style>
+<div class="row">
+  <span class="lbl">Variantes · tamanho md, 44px — o alvo de toque</span>
+  <button class="btn tint" style="background:rgba(27,58,107,.85);color:#fff">Pagar com Pix</button>
+  <button class="btn tint" style="background:rgba(243,146,0,.85);color:var(--ink)">Liberar trava</button>
+  <button class="btn tint" style="background:rgba(196,30,58,.85);color:#fff">Cancelar pedido</button>
+  <button class="btn glass" style="color:var(--ink)">Ver extrato</button>
+  <button class="btn tint" style="background:rgba(255,255,255,.4);border-color:rgba(255,255,255,.6);color:var(--ink)">Depois</button>
+  <button class="btn" style="background:transparent;border:1px solid transparent;color:var(--ink)">Voltar</button>
+</div>
+<div class="row" style="margin-top:20px">
+  <span class="lbl">Tamanhos e estado</span>
+  <button class="btn tint" style="background:rgba(27,58,107,.85);color:#fff;height:36px;padding:0 16px;font-size:.875rem">sm · 36</button>
+  <button class="btn tint" style="background:rgba(27,58,107,.85);color:#fff">md · 44</button>
+  <button class="btn tint" style="background:rgba(27,58,107,.85);color:#fff;height:56px;padding:0 32px;font-size:1rem">lg · 56</button>
+  <button class="btn tint" style="background:rgba(27,58,107,.85);color:#fff;width:44px;padding:0" aria-label="Adicionar">+</button>
+  <button class="btn tint" style="background:rgba(27,58,107,.85);color:#fff;opacity:.5;cursor:not-allowed">Desabilitado</button>
+</div>

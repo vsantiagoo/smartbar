@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="sb-intro" overflow="visible">
+  <style>
+    .sb-halo{transform-origin:65.2px 50px;animation:sb-pulse 2s ease-in-out infinite}
+    @keyframes sb-pulse{0%,100%{transform:scale(1)}50%{transform:scale(2.1)}}
+    .sb-intro .sb-box{stroke-dasharray:1;animation:sb-draw .5s cubic-bezier(.45,0,.25,1) .09s both}
+    .sb-intro .sb-line{stroke-dasharray:1;animation:sb-draw .16s ease-out .62s both}
+    .sb-intro .sb-dot{transform-origin:65.2px 50px;animation:sb-pop .28s cubic-bezier(.2,.9,.3,1.25) .9s both}
+    .sb-intro .sb-halo{animation:sb-flash .55s ease-in-out .9s both,sb-pulse 2s ease-in-out 1.75s infinite}
+    .sb-intro .sb-word{animation:sb-slide .55s cubic-bezier(.16,.84,.3,1) 1.15s both}
+    @keyframes sb-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+    @keyframes sb-pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+    @keyframes sb-flash{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.5);opacity:1}100%{transform:scale(1);opacity:1}}
+    @keyframes sb-slide{from{opacity:0;transform:translateX(-0px)}to{opacity:1;transform:none}}
+</style>
+  <defs><radialGradient id="sbh" gradientUnits="userSpaceOnUse" cx="65.2" cy="50" r="26.9"><stop offset="0" stop-color="rgb(48 139 255)" stop-opacity="0.9"/><stop offset="0.177" stop-color="rgb(48 139 255)" stop-opacity="0.62"/><stop offset="0.29" stop-color="rgb(48 139 255)" stop-opacity="0.4"/><stop offset="0.363" stop-color="rgb(48 139 255)" stop-opacity="0.354"/><stop offset="0.46" stop-color="rgb(48 139 255)" stop-opacity="0.275"/><stop offset="0.556" stop-color="rgb(48 139 255)" stop-opacity="0.2"/><stop offset="0.653" stop-color="rgb(48 139 255)" stop-opacity="0.133"/><stop offset="0.75" stop-color="rgb(48 139 255)" stop-opacity="0.083"/><stop offset="0.847" stop-color="rgb(48 139 255)" stop-opacity="0.046"/><stop offset="1" stop-color="rgb(48 139 255)" stop-opacity="0"/></radialGradient></defs>
+  <circle class="sb-halo" cx="65.2" cy="50" r="26.9" fill="url(#sbh)"/>
+  <rect class="sb-box" pathLength="1" x="2.275" y="2.275" width="95.45" height="95.45" rx="14.7" fill="none" stroke="#f2f5fa" stroke-width="4.55" stroke-linecap="round"/>
+  <line class="sb-line" pathLength="1" x1="40.4" y1="16.95" x2="40.4" y2="83.05" stroke="#f2f5fa" stroke-width="3.05" stroke-linecap="round"/>
+  <g class="sb-dot"><circle cx="65.2" cy="50" r="7.6" fill="#76b6fc"/><circle cx="65.2" cy="50" r="3.5" fill="#e1eeff"/></g>
+</svg>

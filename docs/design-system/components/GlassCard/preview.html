@@ -1,0 +1,36 @@
+<!-- @dsCard group="Superfícies" height=250 subtitle="A superfície padrão, com SectionTitle e os quatro paddings" -->
+<style>
+  body{margin:0;padding:22px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);line-height:1.6;
+    background:linear-gradient(160deg,var(--sky-1) 0%,var(--sky-2) 38%,var(--sky-3) 72%,var(--sky-4) 100%)}
+  .grade{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
+  .card{border-radius:var(--radius-card);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);
+    backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);
+    box-shadow:inset 0 1px 0 0 rgba(255,255,255,.45),inset 0 -1px 0 0 rgba(255,255,255,.08),0 10px 28px -12px rgba(16,34,63,.45)}
+  .navy{border-radius:var(--radius-card);background:rgba(21,46,85,.82);border:1px solid rgba(255,255,255,.14);color:#fff;
+    backdrop-filter:blur(28px) saturate(1.4);-webkit-backdrop-filter:blur(28px) saturate(1.4);
+    box-shadow:inset 0 1px 0 0 rgba(255,255,255,.18),0 24px 60px -24px rgba(10,22,41,.6)}
+  .pad-md{padding:24px}.pad-sm{padding:16px}
+  h2{font-size:1.125rem;font-weight:600;margin:0;line-height:1.3;letter-spacing:-.01em}
+  .hint{font-size:.875rem;color:var(--ink-soft);margin:2px 0 0}
+  .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .lin{display:flex;justify-content:space-between;font-size:.875rem;padding:6px 0;border-top:1px solid rgba(45,61,52,.08)}
+  .num{font-variant-numeric:tabular-nums}
+  .pill{border-radius:var(--radius-pill);padding:4px 10px;font-size:.75rem;font-weight:600;background:rgba(39,174,96,.12);color:var(--ok-600);white-space:nowrap}
+</style>
+<div class="grade">
+  <div class="card pad-md">
+    <div class="head">
+      <div><h2>Consumo do quarto 208</h2><p class="hint">Desde o check-in, 14 mar</p></div>
+      <span class="pill">Pago</span>
+    </div>
+    <div class="lin"><span>Água com gás · 2</span><span class="num">R$ 18,00</span></div>
+    <div class="lin"><span>Chocolate ao leite</span><span class="num">R$ 22,00</span></div>
+    <div class="lin" style="font-weight:700"><span>Total</span><span class="num">R$ 40,00</span></div>
+  </div>
+  <div class="navy pad-md">
+    <h2 style="color:#fff">Receita recuperada</h2>
+    <p class="hint" style="color:rgba(255,255,255,.72)">Últimos 30 dias</p>
+    <p style="font-size:2.2rem;font-weight:800;margin:10px 0 0;letter-spacing:-.02em" class="num">R$ 4.820</p>
+  </div>
+</div>

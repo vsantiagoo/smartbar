@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogoMark, Wordmark } from "@/components/ui/logo";
+import { Logo } from "@/components/ui/logo";
 import { buttonClasses } from "@/components/ui/button";
 import { marketingCopy } from "@/lib/content/copy";
 import { HeaderFade } from "./header-fade";
@@ -20,10 +20,13 @@ import { SectionNav } from "./section-nav";
 export function SiteHeader() {
   const c = marketingCopy.header;
   const brand = (
-    <span className="inline-flex items-center gap-2 pr-5 sm:pr-7">
-      <LogoMark className="size-7 shrink-0 text-white sm:size-8" />
-      {/* O letreiro só entra a 1024px: antes disso ele (e seu espelho) comeriam o menu. */}
-      <Wordmark tone="light" className="hidden text-[1.05rem] leading-none lg:inline" />
+    <span className="inline-flex pr-5 sm:pr-7">
+      {/*
+        Celular: só o ícone, com a luz pulsando. A partir de 1024px entra o texto:
+        antes disso ele (e seu espelho) comeriam o menu. A entrada animada roda a
+        cada carga/recarga da página.
+      */}
+      <Logo tone="light" className="[--logo-size:1.75rem] sm:[--logo-size:2rem]" wordmarkClassName="hidden lg:inline-block" />
     </span>
   );
   return (

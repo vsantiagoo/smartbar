@@ -1,0 +1,69 @@
+<!-- @dsCover -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartBar Design System</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+    padding:60px 64px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:linear-gradient(145deg,#0e1f3d 0%,#1b3a6b 55%,#2d5aa0 100%);
+    color:#fff;position:relative;overflow:hidden}
+  /* grid de fundo */
+  body::before{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+    background-size:48px 48px;pointer-events:none}
+  /* brilho dourado no canto */
+  body::after{content:"";position:absolute;top:-120px;right:-80px;
+    width:500px;height:500px;border-radius:50%;
+    background:radial-gradient(circle,rgba(243,146,0,.18) 0%,transparent 70%);
+    pointer-events:none}
+
+  .logo{display:inline-flex;align-items:center;gap:calc(var(--logo-size)*.163)}
+  .sb-word{display:inline-block;font-family:Arial,'Helvetica Neue',Helvetica,'Liberation Sans',sans-serif;font-weight:700;line-height:1;white-space:nowrap}
+  .sb-halo{transform-origin:65.2px 50px;animation:sb-pulse 2s ease-in-out infinite}
+  @keyframes sb-pulse{0%,100%{transform:scale(1)}50%{transform:scale(2.1)}}
+  .sb-intro .sb-box{stroke-dasharray:1;animation:sb-draw .5s cubic-bezier(.45,0,.25,1) .09s both}
+  .sb-intro .sb-line{stroke-dasharray:1;animation:sb-draw .16s ease-out .62s both}
+  .sb-intro .sb-dot{transform-origin:65.2px 50px;animation:sb-pop .28s cubic-bezier(.2,.9,.3,1.25) .9s both}
+  .sb-intro .sb-halo{animation:sb-flash .55s ease-in-out .9s both,sb-pulse 2s ease-in-out 1.75s infinite}
+  .sb-intro .sb-word{animation:sb-slide .55s cubic-bezier(.16,.84,.3,1) 1.15s both}
+  @keyframes sb-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+  @keyframes sb-pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+  @keyframes sb-flash{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.5);opacity:1}100%{transform:scale(1);opacity:1}}
+  @keyframes sb-slide{from{opacity:0;transform:translateX(calc(var(--logo-size)*-.191))}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+  .tag{display:inline-flex;align-items:center;gap:6px;
+    background:rgba(243,146,0,.15);border:1px solid rgba(243,146,0,.35);
+    border-radius:999px;padding:4px 14px;font-size:.78rem;font-weight:600;
+    color:rgba(243,146,0,1);letter-spacing:.04em;text-transform:uppercase;
+    margin-bottom:20px}
+  h1{font-size:clamp(2.4rem,5vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:16px;max-width:640px}
+  .lead{font-size:1.1rem;color:rgba(255,255,255,.65);max-width:520px;line-height:1.6;margin-bottom:52px}
+  .chips{display:flex;gap:12px;flex-wrap:wrap}
+  .chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+    border-radius:8px;padding:8px 16px;font-size:.85rem;font-weight:500;color:rgba(255,255,255,.8)}
+  .version{position:absolute;bottom:40px;right:64px;font-size:.78rem;color:rgba(255,255,255,.3);
+    font-weight:500;letter-spacing:.04em}
+</style>
+</head>
+<body>
+  <div style="margin-bottom:56px"><span class="logo sb-intro" style="--logo-size:56px"><svg viewBox="0 0 100 100" aria-hidden="true" style="width:var(--logo-size);height:var(--logo-size);overflow:visible;flex:none"><defs><radialGradient id="sbh4" gradientUnits="userSpaceOnUse" cx="65.2" cy="50" r="26.9"><stop offset="0" stop-color="rgb(48 139 255)" stop-opacity="0.9"/><stop offset="0.177" stop-color="rgb(48 139 255)" stop-opacity="0.62"/><stop offset="0.29" stop-color="rgb(48 139 255)" stop-opacity="0.4"/><stop offset="0.363" stop-color="rgb(48 139 255)" stop-opacity="0.354"/><stop offset="0.46" stop-color="rgb(48 139 255)" stop-opacity="0.275"/><stop offset="0.556" stop-color="rgb(48 139 255)" stop-opacity="0.2"/><stop offset="0.653" stop-color="rgb(48 139 255)" stop-opacity="0.133"/><stop offset="0.75" stop-color="rgb(48 139 255)" stop-opacity="0.083"/><stop offset="0.847" stop-color="rgb(48 139 255)" stop-opacity="0.046"/><stop offset="1" stop-color="rgb(48 139 255)" stop-opacity="0"/></radialGradient></defs><circle class="sb-halo" cx="65.2" cy="50" r="26.9" fill="url(#sbh4)"/><rect class="sb-box" pathLength="1" x="2.275" y="2.275" width="95.45" height="95.45" rx="14.7" fill="none" stroke="#f2f5fa" stroke-width="4.55" stroke-linecap="round"/><line class="sb-line" pathLength="1" x1="40.4" y1="16.95" x2="40.4" y2="83.05" stroke="#f2f5fa" stroke-width="3.05" stroke-linecap="round"/><g class="sb-dot"><circle cx="65.2" cy="50" r="7.6" fill="#76b6fc"/><circle cx="65.2" cy="50" r="3.5" fill="#e1eeff"/></g></svg><span class="sb-word" style="font-size:calc(var(--logo-size)*.637)"><span style="color:#f2f5fa">Smart</span><span style="color:#4da3ff">Bar</span></span></span></div>
+
+  <span class="tag">Design System</span>
+  <h1>Fundações do produto SmartBar</h1>
+  <p class="lead">Tokens, componentes e regras de composição para o painel de gestão de minibar hoteleiro. Um sistema de vidro sobre azul-marinho.</p>
+
+  <div class="chips">
+    <span class="chip">Next.js 15 · React 19</span>
+    <span class="chip">Tailwind 3 · TypeScript</span>
+    <span class="chip">Glassmorphism</span>
+    <span class="chip">Fonte do sistema · Arial (marca) · Doto</span>
+  </div>
+
+  <div class="version">v1.1 · 2026</div>
+</body>
+</html>

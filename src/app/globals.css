@@ -175,3 +175,60 @@
   }
   .reveal { opacity: 1; transform: none; }
 }
+
+/*
+  Logo SmartBar 2.0 — movimento e proporções medidos quadro a quadro nos vídeos e
+  GIFs de referência (ver components/ui/logo.tsx). Puro CSS: a entrada roda a cada
+  carga/recarga da página; depois, só a luz azul pulsa (ciclo de 2 s, repouso → 2,1×
+  o raio do halo → repouso). `.sb-intro` no ancestral liga a entrada; sem ele a
+  logo já aparece completa e só a luz pulsa.
+*/
+:root {
+  --sb-ink: 242 245 250; /* traço e "Smart" sobre fundo escuro */
+  --sb-blue: 77 163 255; /* "Bar" */
+}
+.sb-halo {
+  transform-origin: 65.2px 50px;
+  animation: sb-pulse 2s ease-in-out infinite;
+}
+@keyframes sb-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(2.1); }
+}
+.sb-intro .sb-box {
+  stroke-dasharray: 1;
+  animation: sb-draw 0.5s cubic-bezier(0.45, 0, 0.25, 1) 0.09s both;
+}
+.sb-intro .sb-line {
+  stroke-dasharray: 1;
+  animation: sb-draw 0.16s ease-out 0.62s both;
+}
+.sb-intro .sb-dot {
+  transform-origin: 65.2px 50px;
+  animation: sb-pop 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.25) 0.9s both;
+}
+.sb-intro .sb-halo {
+  animation:
+    sb-flash 0.55s ease-in-out 0.9s both,
+    sb-pulse 2s ease-in-out 1.75s infinite;
+}
+.sb-intro .sb-word {
+  animation: sb-slide 0.55s cubic-bezier(0.16, 0.84, 0.3, 1) 1.15s both;
+}
+@keyframes sb-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes sb-pop {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes sb-flash {
+  0% { transform: scale(0.4); opacity: 0; }
+  55% { transform: scale(1.5); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes sb-slide {
+  from { opacity: 0; transform: translateX(calc(var(--logo-size, 2.25rem) * -0.191)); }
+  to { opacity: 1; transform: none; }
+}

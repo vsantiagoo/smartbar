@@ -1,0 +1,34 @@
+<!-- @dsCard group="Formulário" height=170 subtitle="Campo em pílula; o foco é anel largo, não borda grossa" -->
+<style>
+  body{margin:0;padding:22px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);line-height:1.6;
+    background:linear-gradient(160deg,var(--sky-1) 0%,var(--sky-2) 38%,var(--sky-3) 72%,var(--sky-4) 100%)}
+  .grade{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .lbl{font-size:.75rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);display:block;margin:0 0 6px}
+  .f{height:44px;width:100%;box-sizing:border-box;border-radius:var(--radius-pill);border:1px solid rgba(255,255,255,.8);
+    background:rgba(255,255,255,.7);padding:0 20px;font-size:.95rem;color:var(--ink);font-family:inherit;
+    box-shadow:inset 0 1px 2px rgba(20,44,84,.06);transition:.2s;outline:none}
+  .f::placeholder{color:var(--ink-faint)}
+  .f:focus{border-color:var(--brand-300);background:#fff;box-shadow:inset 0 1px 2px rgba(20,44,84,.06),0 0 0 4px rgba(27,58,107,.1)}
+  .busca{position:relative}
+  .busca .f{padding-left:44px}
+  .lupa{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--ink-faint);pointer-events:none}
+  .foco{border-color:var(--brand-300);background:#fff;box-shadow:inset 0 1px 2px rgba(20,44,84,.06),0 0 0 4px rgba(27,58,107,.1)}
+</style>
+<div class="grade">
+  <div>
+    <label class="lbl" for="p1">Campo</label>
+    <input id="p1" class="f" placeholder="Número do quarto">
+  </div>
+  <div>
+    <label class="lbl" for="p2">Em foco</label>
+    <input id="p2" class="f foco" value="208">
+  </div>
+</div>
+<div style="margin-top:14px">
+  <label class="lbl" for="p3">SearchField</label>
+  <div class="busca">
+    <svg class="lupa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="p3" class="f" type="search" placeholder="Buscar produto ou quarto">
+  </div>
+</div>

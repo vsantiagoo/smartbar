@@ -1,0 +1,26 @@
+<!-- @dsCard group="Formulário" height=170 subtitle="Abas em pílula de vidro (tablist) com contador opcional" -->
+<style>
+  body{margin:0;padding:22px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#2d3d34;line-height:1.6;background:linear-gradient(160deg,#cfdcee 0%,#dee2ea 38%,#ebe8e7 72%,#f6ede4 100%)}
+  .lbl{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5b6861;margin:0 0 8px}
+  .row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end}
+  .sg{display:inline-flex;max-width:100%;gap:4px;padding:4px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.45),inset 0 -1px 0 0 rgba(255,255,255,.08),0 10px 28px -12px rgba(16,34,63,.45);overflow-x:auto;scrollbar-width:none}
+  .sg::-webkit-scrollbar{display:none}
+  .sg button{display:inline-flex;align-items:center;gap:8px;flex:none;height:36px;padding:0 16px;border:1px solid transparent;border-radius:999px;background:transparent;color:#5b6861;font:600 .875rem/1 inherit;font-family:inherit;cursor:pointer;transition:.2s}
+  .sg button:hover{background:rgba(255,255,255,.7);color:#2d3d34}
+  .sg button[aria-selected="true"]{background:rgba(27,58,107,.8);color:#fff;border-color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);box-shadow:0 1px 0 0 rgba(255,255,255,.45) inset,0 -1px 0 0 rgba(255,255,255,.08) inset,0 10px 28px -12px rgba(16,34,63,.45)}
+  .sg .n{font-variant-numeric:tabular-nums;border-radius:999px;padding:0 6px;font-size:.75rem;background:rgba(27,58,107,.1);color:#1b3a6b}
+  .sg [aria-selected="true"] .n{background:rgba(255,255,255,.2);color:#fff}
+</style>
+<p class="lbl">Filtro de quartos</p>
+<div class="sg" role="tablist" aria-label="Filtro de quartos" id="s1">
+  <button role="tab" aria-selected="true">Todos <span class="n">12</span></button>
+  <button role="tab" aria-selected="false">Repor <span class="n">3</span></button>
+  <button role="tab" aria-selected="false">Em ordem <span class="n">9</span></button>
+</div>
+<p class="lbl" style="margin-top:18px">Sem contador</p>
+<div class="sg" role="tablist" aria-label="Categorias" id="s2">
+  <button role="tab" aria-selected="true">Bebidas</button><button role="tab" aria-selected="false">Snacks</button><button role="tab" aria-selected="false">Higiene</button>
+</div>
+<script>
+  ['s1','s2'].forEach(function(id){var g=document.getElementById(id);g.addEventListener('click',function(e){var b=e.target.closest('[role=tab]');if(!b)return;g.querySelectorAll('[role=tab]').forEach(function(t){t.setAttribute('aria-selected',t===b)});});});
+</script>

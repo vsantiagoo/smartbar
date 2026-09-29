@@ -1,0 +1,30 @@
+<!-- @dsCard group="Superfícies" height=300 subtitle="As seis superfícies de vidro, sobre a mesma foto" -->
+<style>
+  body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);line-height:1.6}
+  .palco{position:relative;padding:22px;min-height:256px;
+    background:
+      radial-gradient(circle at 18% 22%, var(--gold-300) 0 12%, transparent 45%),
+      radial-gradient(circle at 78% 68%, var(--brand-500) 0 14%, transparent 50%),
+      radial-gradient(circle at 55% 12%, var(--crimson-300) 0 8%, transparent 38%),
+      linear-gradient(160deg,var(--sky-1) 0%,var(--sky-2) 38%,var(--sky-3) 72%,var(--sky-4) 100%)}
+  .grade{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .c{border-radius:var(--radius-card);padding:14px}
+  .n{font-size:.8rem;font-weight:700;margin:0 0 2px}
+  .u{font-size:.7rem;margin:0;opacity:.85}
+  .glass{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.45),inset 0 -1px 0 0 rgba(255,255,255,.08),0 10px 28px -12px rgba(16,34,63,.45)}
+  .strong{background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.75);backdrop-filter:blur(28px) saturate(1.5);-webkit-backdrop-filter:blur(28px) saturate(1.5);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.9),inset 0 -1px 0 0 rgba(255,255,255,.25),0 18px 50px -20px rgba(21,46,85,.35)}
+  .frost{background:rgba(219,228,229,.122);border:1px solid rgba(255,255,255,.35);border-radius:var(--radius-frost);backdrop-filter:blur(26px) saturate(1.05);-webkit-backdrop-filter:blur(26px) saturate(1.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 14px 44px rgba(20,43,60,.086)}
+  .navy{background:rgba(21,46,85,.82);border:1px solid rgba(255,255,255,.14);color:#fff;backdrop-filter:blur(28px) saturate(1.4);-webkit-backdrop-filter:blur(28px) saturate(1.4);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.18),0 24px 60px -24px rgba(10,22,41,.6)}
+  .dark{background:rgba(8,12,20,.42);border:1px solid rgba(255,255,255,.12);color:#fff;backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3)}
+  .tint{background:rgba(27,58,107,.85);color:#fff;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.45),inset 0 -1px 0 0 rgba(255,255,255,.08),0 10px 28px -12px rgba(16,34,63,.45)}
+</style>
+<div class="palco">
+  <div class="grade">
+    <div class="c glass"><p class="n">.glass</p><p class="u">Cartão sobre fundo claro. Branco 10%, desfoque 16.</p></div>
+    <div class="c strong"><p class="n">.glass-strong</p><p class="u">Quando o texto precisa ser lido. Branco 82%, desfoque 28.</p></div>
+    <div class="c frost"><p class="n">.glass-frost</p><p class="u">Painel de escrita. Cinza-azulado 12%, desfoque 26.</p></div>
+    <div class="c navy"><p class="n">.glass-navy</p><p class="u">Cartão de destaque. brand-800 82%.</p></div>
+    <div class="c dark"><p class="n">.glass-dark</p><p class="u">Cabeçalho sobre foto. Preto-azulado 42%.</p></div>
+    <div class="c tint"><p class="n">.glass-tint + bg-</p><p class="u">Botões e itens ativos. Sem cor própria: ela vem do bg ao lado.</p></div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" overflow="visible">
+  <defs><radialGradient id="sbh" gradientUnits="userSpaceOnUse" cx="65.2" cy="50" r="26.9"><stop offset="0" stop-color="rgb(48 139 255)" stop-opacity="0.9"/><stop offset="0.177" stop-color="rgb(48 139 255)" stop-opacity="0.62"/><stop offset="0.29" stop-color="rgb(48 139 255)" stop-opacity="0.4"/><stop offset="0.363" stop-color="rgb(48 139 255)" stop-opacity="0.354"/><stop offset="0.46" stop-color="rgb(48 139 255)" stop-opacity="0.275"/><stop offset="0.556" stop-color="rgb(48 139 255)" stop-opacity="0.2"/><stop offset="0.653" stop-color="rgb(48 139 255)" stop-opacity="0.133"/><stop offset="0.75" stop-color="rgb(48 139 255)" stop-opacity="0.083"/><stop offset="0.847" stop-color="rgb(48 139 255)" stop-opacity="0.046"/><stop offset="1" stop-color="rgb(48 139 255)" stop-opacity="0"/></radialGradient></defs>
+  <circle class="sb-halo" cx="65.2" cy="50" r="26.9" fill="url(#sbh)"/>
+  <rect class="sb-box" pathLength="1" x="2.275" y="2.275" width="95.45" height="95.45" rx="14.7" fill="none" stroke="#1b3a6b" stroke-width="4.55" stroke-linecap="round"/>
+  <line class="sb-line" pathLength="1" x1="40.4" y1="16.95" x2="40.4" y2="83.05" stroke="#1b3a6b" stroke-width="3.05" stroke-linecap="round"/>
+  <g class="sb-dot"><circle cx="65.2" cy="50" r="7.6" fill="#76b6fc"/><circle cx="65.2" cy="50" r="3.5" fill="#e1eeff"/></g>
+</svg>

@@ -1,0 +1,30 @@
+<!-- @dsCard group="Sinalização" height=160 subtitle="Seis tons; o texto usa sempre o passo 600" -->
+<style>
+  body{margin:0;padding:22px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);line-height:1.6;
+    background:linear-gradient(160deg,var(--sky-1) 0%,var(--sky-2) 38%,var(--sky-3) 72%,var(--sky-4) 100%)}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .lbl{font-size:.75rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);width:100%;margin:2px 0 -2px}
+  .b{display:inline-flex;align-items:center;gap:6px;border-radius:var(--radius-pill);padding:4px 10px;font-size:.75rem;font-weight:600}
+  .d{width:6px;height:6px;border-radius:50%;flex:none}
+  @keyframes ping{0%{transform:scale(.9);opacity:.7}100%{transform:scale(1.6);opacity:0}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<div class="row">
+  <span class="lbl">Tons</span>
+  <span class="b" style="background:rgba(45,61,52,.08);color:var(--ink)">Rascunho</span>
+  <span class="b" style="background:rgba(27,58,107,.1);color:var(--brand-700)"><i class="d" style="background:var(--brand-500)"></i>Em análise</span>
+  <span class="b" style="background:rgba(39,174,96,.12);color:var(--ok-600)"><i class="d" style="background:var(--ok-500)"></i>Pago</span>
+  <span class="b" style="background:rgba(243,146,0,.15);color:var(--gold-600)"><i class="d" style="background:var(--gold-500)"></i>Repor hoje</span>
+  <span class="b" style="background:rgba(196,30,58,.1);color:var(--crimson-600)"><i class="d" style="background:var(--crimson-500)"></i>Sem estoque</span>
+  <span class="b" style="background:var(--gold-500);color:var(--ink)">Premium</span>
+</div>
+<div class="row" style="margin-top:18px">
+  <span class="lbl">Ao vivo — o ponto pulsa</span>
+  <span class="b" style="background:rgba(39,174,96,.12);color:var(--ok-600);gap:8px">
+    <i style="position:relative;display:inline-block;width:6px;height:6px;flex:none">
+      <i class="d" style="position:absolute;inset:0;background:var(--ok-500);animation:ping 1.8s ease-out infinite"></i>
+      <i class="d" style="position:absolute;inset:0;background:var(--ok-500)"></i>
+    </i>12 vendas agora
+  </span>
+</div>

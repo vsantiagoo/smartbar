@@ -1,6 +1,6 @@
 import { ArrowRight, ArrowUp } from "lucide-react";
 import Link from "next/link";
-import { LogoMark, Wordmark } from "@/components/ui/logo";
+import { Logo } from "@/components/ui/logo";
 import { buttonClasses } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
@@ -70,10 +70,7 @@ export function FinalCta() {
       </Reveal>
 
       <div className="mx-auto mt-10 flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/50">
-        <span className="flex items-center gap-2">
-          <LogoMark className="size-6 text-white/70" />
-          <Wordmark tone="light" className="text-sm text-white/70" />
-        </span>
+        <Logo tone="light" intro="inview" className="opacity-70 [--logo-size:1.5rem]" />
         <span>{isDemoMode ? "Modo demonstração" : "© SmartBar"}</span>
       </div>
     </footer>
