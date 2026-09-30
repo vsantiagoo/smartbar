@@ -56,7 +56,7 @@ A paleta é aberta: oito cores-base, e cada uma gera sozinha a escala de 50 a 95
 
 @@colors@@
 
-**Regras que não se quebram.** Branco sobre azul-marinho (11,27:1) e sobre carmim (5,84:1); texto escuro sobre laranja (4,88:1) — laranja nunca recebe texto branco. `ink-faint` (2,47:1) serve só para placeholder e ícone decorativo. Selo colorido usa o passo 600 no texto, não o 500.
+**Regras que não se quebram.** Branco sobre azul-marinho (11,27:1) e sobre carmim (5,84:1); texto escuro sobre laranja (4,88:1) — laranja sólido nunca recebe texto branco (a única exceção é o botão translúcido do herói, onde o dourado é só um tom sobre a foto escura). `ink-faint` (2,47:1) serve só para placeholder e ícone decorativo. Selo colorido usa o passo 600 no texto, não o 500.
 
 ## 4. Tipografia
 
@@ -121,11 +121,13 @@ O site se mexe pouco e com propósito. Uma curva única domina as entradas — `
 - **Ritmo vertical:** seções com 48 px (celular) a 64 px de respiro; em blocos de fecho, até 96 px.
 - **Cabeçalho:** três colunas — logotipo, barra de menus em vidro escuro (sempre centralizada), espaço do mesmo peso. Abaixo de 1024 px o texto da logo sai e o menu desliza na horizontal.
 - **Herói:** ocupa a altura da tela, com moldura branca a 12 px (20 px a partir de 640 px) da borda.
+- **Botões do herói:** "Explorar vitrine do hóspede" (vidro dourado — `gold-500` a 30%, borda `gold-400` a 50%, texto branco) e "Explorar painel de gestão" (vidro branco a 10%, borda branca a 25%). Ambos com 48 px de altura e verbo de exploração, não de entrada.
+- **"Login" na barra de menus:** texto simples dentro do vidro, sem fundo nem borda — branco a 30% em repouso; no hover ou no foco de teclado vira branco pleno com brilho neon azulado. Nunca ganha destaque ao clicar. É de propósito o item de menor peso da barra, para não competir com os botões do herói.
 - **Alvo de toque mínimo:** 44 px.
 
 ## 10. O site, seção por seção
 
-@@fig site-1-hero|Herói — foto do lobby com camada azul, título leve, botão laranja e menu de vidro escuro.@@
+@@fig site-1-hero|Herói — foto do lobby com camada azul, título leve, dois botões de vidro (vitrine do hóspede em dourado translúcido, painel de gestão em branco translúcido) e menu de vidro escuro com "Login" discreto.@@
 
 @@fig site-2-declaracao|Declaração da marca sobre o degradê claro, com o cadeado em linhas douradas; em seguida, a seção azul-marinho "Como funciona".@@
 
@@ -139,7 +141,7 @@ O site se mexe pouco e com propósito. Uma curva única domina as entradas — `
 
 @@fig site-7-produto|O produto: minibar em 3D sobre fundo preto, montado conforme a rolagem.@@
 
-@@fig site-8-rodape|Fecho: fachada do hotel, chamada final, botão laranja e logotipo discreto.@@
+@@fig site-8-rodape|Fecho: fachada do hotel, chamada final, botão "Voltar ao início" e logotipo discreto, sem outros botões nem selos.@@
 
 **No celular**
 

@@ -32,6 +32,10 @@ só em barra densa, onde o dedo não é o alvo principal.
   próprio estado de carregamento por cima.
 - Link com cara de botão: use `buttonClasses()` num `<Link>`, não um `<button>`
   com `onClick` de navegação.
+- Sobre foto, o botão de destaque do herói usa `accent` em versão translúcida
+  (`bg-gold-500/30`, borda `gold-400/50`, texto branco) — mesmo vidro do botão
+  branco ao lado, mantendo o ouro. A entrada do painel na barra de menus não é
+  botão: é o link "Login", só texto (branco 30% → branco neon no hover).
 - O ouro (`accent`) é a ação que mexe com dinheiro ou com a trava. Usá-lo em
   ação comum gasta o único sinal forte que a tela tem.
 

@@ -1,12 +1,10 @@
-import { ArrowRight, ArrowUp } from "lucide-react";
-import Link from "next/link";
+import { ArrowUp } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 import { buttonClasses } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
 import { BackToTopButton } from "./back-to-top";
 import { DayNightLens } from "./day-night-lens";
-import { DEMO_HOTEL_SLUG, DEMO_ROOM_TOKEN, isDemoMode } from "@/lib/config";
 
 /** SEÇÃO · Chamada final + rodapé, no padrão de encerramento do Orbit. */
 export function FinalCta() {
@@ -56,10 +54,6 @@ export function FinalCta() {
         tem altura de sobra; no celular, sem `min-h`, o `pt-16` dá o respiro.
       */}
       <Reveal className="mt-auto flex flex-col items-center gap-3 pt-16">
-        <Link href={`/h/${DEMO_HOTEL_SLUG}/q/${DEMO_ROOM_TOKEN}`} className={buttonClasses("accent", "lg")}>
-          {c.cta} <ArrowRight className="size-5" />
-        </Link>
-
         {/* Caminho de volta: o cabeçalho some conforme a página desce (header-fade.tsx).
             Mesmo comportamento da seta de canto — vem do mesmo lugar. */}
         <BackToTopButton
@@ -71,7 +65,6 @@ export function FinalCta() {
 
       <div className="mx-auto mt-10 flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/50">
         <Logo tone="light" intro="inview" className="opacity-70 [--logo-size:1.5rem]" />
-        <span>{isDemoMode ? "Modo demonstração" : "© SmartBar"}</span>
       </div>
     </footer>
   );

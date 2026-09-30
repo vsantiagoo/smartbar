@@ -60,7 +60,7 @@ export function Hero() {
         </p>
 
         <div className="flex flex-wrap items-center gap-3">
-          <Link href="/h/hotel-aurora/q/aurora-101" className={buttonClasses("accent", "lg", "h-12 px-7 text-[0.95rem]")}>
+          <Link href="/h/hotel-aurora/q/aurora-101" className={buttonClasses("accent", "lg", "h-12 border-gold-400/50 bg-gold-500/30 px-7 text-[0.95rem] text-white hover:border-gold-400/70 hover:bg-gold-500/45")}>
             {c.primaryCta} <ArrowRight className="size-[18px]" />
           </Link>
           <Link

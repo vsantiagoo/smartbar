@@ -106,8 +106,8 @@ export const marketingCopy = {
     { id: "explorar", label: "Explorar" },
   ],
   header: {
-    cta: "Entrar no painel",
-    ctaShort: "Entrar",
+    cta: "Login",
+    ctaShort: "Login",
   },
   hero: {
     eyebrow: "Minibar inteligente · Pix ou cartão-chave",
@@ -115,8 +115,8 @@ export const marketingCopy = {
     title: "A tecnologia do consumo\nsem atrito.",
     subtitle:
       "Pagamento instantâneo. Liberação imediata.\nControle total para o hotel. Zero prejuízo para a operação.",
-    primaryCta: "Ver a vitrine do hóspede",
-    secondaryCta: "Entrar no painel do hotel",
+    primaryCta: "Explorar vitrine do hóspede",
+    secondaryCta: "Explorar painel de gestão",
     scrollHint: "Role para ver como funciona",
   },
   /** Declaração da marca, sozinha na tela clara entre o hero e o "Como funciona". */
@@ -287,7 +287,6 @@ export const marketingCopy = {
   finalCta: {
     title: "Pronto para transformar hospedagem em receita?",
     subtitle: "Solicite uma demonstração e veja o faturamento recuperado em tempo real. 20 minutos, sem compromisso.",
-    cta: "Ver a vitrine do hóspede",
     backToTop: "Voltar ao início",
   },
 } as const;

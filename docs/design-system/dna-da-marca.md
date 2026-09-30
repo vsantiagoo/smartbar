@@ -86,7 +86,7 @@ Um quadrado arredondado, uma linha vertical e **um ponto de luz azul**. Uma leit
 
 - **Título:** A tecnologia do consumo sem atrito.
 - **Subtítulo:** Pagamento instantâneo. Liberação imediata. Controle total para o hotel. Zero prejuízo para a operação.
-- **Chamada:** Ver a vitrine do hóspede · Solicite uma demonstração. 20 minutos, sem compromisso.
+- **Chamada:** Explorar vitrine do hóspede · Explorar painel de gestão · Solicite uma demonstração. 20 minutos, sem compromisso.
 - **Na porta do frigobar:** Sirva-se. Pague em segundos. — Aproxime seu cartão-chave ou escaneie o QR Code.
 - **Confirmação:** Trava liberada. Sirva-se dos itens do pedido.
 - **Assinatura:** SmartBar · Consumo sem atrito.

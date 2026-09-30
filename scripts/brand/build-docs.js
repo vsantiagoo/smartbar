@@ -184,7 +184,7 @@ fs.writeFileSync(
 );
 
 /* ───────── Identidade visual (guia com telas reais do site) ───────── */
-const idSrcPath = path.join(DS, "..", "identidade-visual.src.md");
+const idSrcPath = [path.join(DS, "identidade-visual.src.md"), path.join(DS, "..", "identidade-visual.src.md")].find((p) => fs.existsSync(p)) || "";
 if (fs.existsSync(idSrcPath)) {
   const src = rd(idSrcPath);
   const FIG = /^@@figs? ([^|]*)\|(.*)@@$/;

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
-import { buttonClasses } from "@/components/ui/button";
 import { marketingCopy } from "@/lib/content/copy";
 import { HeaderFade } from "./header-fade";
 import { SectionNav } from "./section-nav";
@@ -47,7 +46,7 @@ export function SiteHeader() {
           <SectionNav className="min-w-0 flex-1" />
           <Link
             href="/admin"
-            className={buttonClasses("accent", "sm", "h-8 shrink-0 px-3 text-[0.75rem] sm:h-9 sm:px-4 sm:text-sm")}
+            className="inline-flex h-8 shrink-0 items-center rounded-full px-3 text-[0.75rem] font-medium text-white/30 outline-none transition-colors duration-300 hover:text-white hover:[text-shadow:0_0_8px_rgb(255_255_255/0.9),0_0_18px_rgb(140_200_255/0.75)] focus-visible:text-white focus-visible:[text-shadow:0_0_8px_rgb(255_255_255/0.9),0_0_18px_rgb(140_200_255/0.75)] sm:h-9 sm:px-4 sm:text-sm"
           >
             <span className="sm:hidden">{c.ctaShort}</span>
             <span className="hidden sm:inline">{c.cta}</span>
