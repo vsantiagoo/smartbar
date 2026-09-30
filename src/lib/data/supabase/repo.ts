@@ -22,6 +22,7 @@ import type {
   RoomDetail,
   RoomSummary,
   Stay,
+  SupportRequest,
   Transaction,
   TransactionStatus,
 } from "@/lib/types";
@@ -221,7 +222,7 @@ export class SupabaseRepository implements Repository {
     if (!room) return null;
 
     const stay = await this.findActiveStay(room.id);
-    return { hotel: mapHotel(hotel), room: mapRoom(room), canChargeToRoom: Boolean(stay?.rfidUid) };
+    return { hotel: mapHotel(hotel), room: mapRoom(room), canChargeToRoom: Boolean(stay?.rfidUid), guestFirstName: stay?.guestName.split(" ")[0] ?? null };
   }
 
   async getCatalog(roomId: string): Promise<CatalogItem[]> {
@@ -350,6 +351,18 @@ export class SupabaseRepository implements Repository {
   async findActiveStay(roomId: string): Promise<Stay | null> {
     const { data } = await this.db.from("stays").select("*").eq("room_id", roomId).eq("status", "active").maybeSingle<StayRow>();
     return data ? mapStay(data) : null;
+  }
+
+  async listGuestTransactions(roomId: string): Promise<Transaction[]> {
+    const stay = await this.findActiveStay(roomId);
+    let q = this.db.from("transactions").select(TX_SELECT).eq("room_id", roomId).eq("status", "authorized");
+    if (stay) q = q.eq("stay_id", stay.id);
+    return list<TxRow>(await q.order("authorized_at", { ascending: false }).limit(100)).map(mapTx);
+  }
+
+  /** Pendente de backend: precisa da tabela support_requests (ver plano de banco). */
+  async createSupportRequest(): Promise<SupportRequest> {
+    throw new DomainError("unavailable");
   }
 
   async touchDevice(roomId: string): Promise<void> {

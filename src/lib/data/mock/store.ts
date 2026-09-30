@@ -1,4 +1,4 @@
-import type { Hotel, Product, Room, Stay, Transaction } from "@/lib/types";
+import type { Hotel, Product, Room, Stay, SupportRequest, Transaction } from "@/lib/types";
 
 /**
  * Banco em memória do MODO DEMO. Vive em globalThis para sobreviver ao
@@ -19,6 +19,7 @@ export interface MockStore {
   inventory: Map<string, InventoryRow>;
   stays: Stay[];
   transactions: Transaction[];
+  supportRequests: SupportRequest[];
 }
 
 export const invKey = (roomId: string, productId: string): string => `${roomId}:${productId}`;
@@ -27,15 +28,17 @@ const HOTEL_ID = "hotel-aurora-id";
 
 type ProductSeed = Omit<Product, "hotelId" | "id" | "imageUrl"> & { par: number; min: number };
 
+const COLD = ["cold"];
+
 const PRODUCTS: ProductSeed[] = [
-  { sku: "AGU-SG", name: "Água mineral sem gás", description: "500 ml", category: "bebida", priceCents: 600, iconKey: "glass-water", par: 2, min: 0 },
-  { sku: "AGU-CG", name: "Água mineral com gás", description: "500 ml", category: "bebida", priceCents: 600, iconKey: "glass-water", par: 2, min: 0 },
-  { sku: "REF-CO", name: "Refrigerante cola", description: "Lata 350 ml", category: "bebida", priceCents: 900, iconKey: "cup-soda", par: 2, min: 0 },
-  { sku: "REF-ZE", name: "Refrigerante cola zero", description: "Lata 350 ml", category: "bebida", priceCents: 900, iconKey: "cup-soda", par: 2, min: 0 },
-  { sku: "SUC-UV", name: "Suco de uva integral", description: "290 ml", category: "bebida", priceCents: 950, iconKey: "grape", par: 3, min: 1 },
-  { sku: "AMD-50", name: "Amendoim torrado", description: "Pacote 50 g", category: "snack", priceCents: 800, iconKey: "nut", par: 2, min: 0 },
+  { sku: "AGU-SG", name: "Água mineral sem gás", description: "500 ml", category: "bebida", priceCents: 600, iconKey: "glass-water", tags: COLD, par: 2, min: 0 },
+  { sku: "AGU-CG", name: "Água mineral com gás", description: "500 ml", category: "bebida", priceCents: 600, iconKey: "glass-water", tags: COLD, par: 2, min: 0 },
+  { sku: "REF-CO", name: "Refrigerante cola", description: "Lata 350 ml", category: "bebida", priceCents: 900, iconKey: "cup-soda", tags: COLD, par: 2, min: 0 },
+  { sku: "REF-ZE", name: "Refrigerante cola zero", description: "Lata 350 ml", category: "bebida", priceCents: 900, iconKey: "cup-soda", tags: ["cold", "zero-sugar"], par: 2, min: 0 },
+  { sku: "SUC-UV", name: "Suco de uva integral", description: "290 ml", category: "bebida", priceCents: 950, iconKey: "grape", tags: ["cold", "vegan"], par: 3, min: 1 },
+  { sku: "AMD-50", name: "Amendoim torrado", description: "Pacote 50 g", category: "snack", priceCents: 800, iconKey: "nut", tags: ["gluten-free", "vegan"], par: 2, min: 0 },
   { sku: "SAL-PC", name: "Salgadinho de milho", description: "Pacote", category: "snack", priceCents: 1000, iconKey: "cookie", par: 1, min: 0 },
-  { sku: "BAR-CE", name: "Barra de cereal", description: "Castanhas e mel", category: "snack", priceCents: 500, iconKey: "wheat", par: 2, min: 0 },
+  { sku: "BAR-CE", name: "Barra de cereal", description: "Castanhas e mel", category: "snack", priceCents: 500, iconKey: "wheat", tags: ["vegan"], par: 2, min: 0 },
   { sku: "BAT-PT", name: "Batata frita em pote", description: "35 g", category: "snack", priceCents: 1400, iconKey: "popcorn", par: 1, min: 0 },
 ];
 
@@ -69,6 +72,8 @@ function buildStore(): MockStore {
     slug: "hotel-aurora",
     name: "Hotel Aurora Paulista",
     plan: "plus",
+    segment: "hotel",
+    whatsapp: "5511999990000",
     brand: { primary: "#1B3A6B", accent: "#F39200" },
   };
 
@@ -94,6 +99,7 @@ function buildStore(): MockStore {
     priceCents: p.priceCents,
     iconKey: p.iconKey,
     imageUrl: null,
+    tags: p.tags,
   }));
 
   const inventory = new Map<string, InventoryRow>();
@@ -168,7 +174,7 @@ function buildStore(): MockStore {
   }
   transactions.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
-  return { hotel, rooms, products, inventory, stays, transactions };
+  return { hotel, rooms, products, inventory, stays, transactions, supportRequests: [] };
 }
 
 declare global {

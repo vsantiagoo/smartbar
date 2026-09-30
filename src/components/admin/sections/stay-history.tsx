@@ -27,7 +27,7 @@ export function StayHistory({ transactions }: { transactions: Transaction[] }) {
             const s = STATUS[t.status];
             return (
               <li key={t.id} className="flex items-start gap-3 py-3.5 first:pt-0 last:pb-0">
-                <span className="mt-0.5 grid size-10 shrink-0 place-items-center rounded-2xl bg-brand-700/10 text-brand-700">
+                <span className="mt-0.5 grid size-10 shrink-0 place-items-center rounded-2xl glass-chip bg-brand-700/10 text-brand-700">
                   <Icon className="size-[18px]" />
                 </span>
                 <div className="min-w-0 flex-1">

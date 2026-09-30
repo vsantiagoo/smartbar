@@ -44,7 +44,7 @@ export function ProductTile({ iconKey, className }: { iconKey: string; className
     <div
       aria-hidden
       className={cn(
-        "grid place-items-center rounded-3xl bg-gradient-to-br shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]",
+        "glass-chip grid place-items-center rounded-3xl bg-gradient-to-br",
         TINTS[iconKey] ?? TINTS.package,
         className,
       )}

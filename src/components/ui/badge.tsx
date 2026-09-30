@@ -23,7 +23,7 @@ export function Badge({ tone = "neutral", dot, pulse, className, children, ...pr
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold",
+        "glass-chip inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold",
         t.wrap,
         className,
       )}

@@ -1,7 +1,9 @@
 import "server-only";
 import type { Room } from "@/lib/types";
 
-export const UNLOCK_SECONDS = 15;
+import { UNLOCK_SECONDS } from "@/lib/guest-constants";
+
+export { UNLOCK_SECONDS };
 
 /**
  * Dispara o comando de destravar para o ESP32 do quarto.

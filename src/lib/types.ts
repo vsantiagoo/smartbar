@@ -11,12 +11,18 @@ export interface HotelBrand {
   logoUrl?: string;
 }
 
+/** hotel: trava + conta do quarto · motel: compra anônima · host: só sistema (sem trava). */
+export type HotelSegment = "hotel" | "motel" | "host";
+
 export interface Hotel {
   id: string;
   slug: string;
   name: string;
   plan: PlanTier;
   brand: HotelBrand;
+  segment?: HotelSegment;
+  /** WhatsApp da recepção/governança, só dígitos com DDI (ex.: 5511999990000). */
+  whatsapp?: string;
 }
 
 export interface Room {
@@ -41,6 +47,8 @@ export interface Product {
   priceCents: number;
   iconKey: string;
   imageUrl: string | null;
+  /** Selos informativos da vitrine: "cold" | "gluten-free" | "vegan" | "zero-sugar". */
+  tags?: string[];
 }
 
 /** Item da vitrine: produto + quantidade disponível NAQUELE quarto. */
@@ -85,6 +93,19 @@ export interface PublicTransaction {
   authorizedAt: string | null;
   failureReason: string | null;
   roomNumber: string;
+}
+
+export type SupportKind = "restock" | "damaged" | "door_problem";
+
+export interface SupportRequest {
+  id: string;
+  hotelId: string;
+  roomId: string;
+  roomNumber: string;
+  kind: SupportKind;
+  note: string | null;
+  transactionToken: string | null;
+  createdAt: string;
 }
 
 export interface Stay {

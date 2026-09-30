@@ -1,40 +1,46 @@
 "use client";
-import { Plus } from "lucide-react";
+import { PackageOpen, Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useCart } from "@/components/guest/cart-context";
+import { useGuest } from "@/components/guest/guest-context";
 import { Badge } from "@/components/ui/badge";
 import { ProductTile } from "@/components/ui/product-icon";
 import { Segmented } from "@/components/ui/segmented";
 import { Stepper } from "@/components/ui/stepper";
 import { EmptyState } from "@/components/ui/primitives";
-import { guestCopy } from "@/lib/content/copy";
+import type { GuestKey } from "@/lib/i18n/guest";
 import { cn, formatBRL } from "@/lib/utils";
 import type { CatalogItem } from "@/lib/types";
-import { PackageOpen } from "lucide-react";
 
-const CATEGORY_LABEL: Record<string, string> = { bebida: "Bebidas", snack: "Snacks" };
+/** Ordem fixa das abas da especificação; categorias novas entram no fim com o próprio nome. */
+const CATEGORY_ORDER = ["bebida", "snack", "adega", "conveniencia"];
+const LOW_STOCK = 1;
 
-/** SEÇÃO · Lista de produtos com filtro por categoria e adicionar ao carrinho. */
+/** SEÇÃO · Lista de produtos com filtro por categoria, selos e controle de quantidade. */
 export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
   const { quantities, setQuantity } = useCart();
+  const { t } = useGuest();
   const [category, setCategory] = useState<string>("all");
-  const copy = guestCopy.catalog;
 
-  const categories = useMemo(() => [...new Set(catalog.map((p) => p.category))], [catalog]);
+  const categories = useMemo(() => {
+    const present = [...new Set(catalog.map((p) => p.category))];
+    return present.sort((a, b) => (CATEGORY_ORDER.indexOf(a) + 1 || 99) - (CATEGORY_ORDER.indexOf(b) + 1 || 99));
+  }, [catalog]);
+  const categoryLabel = (c: string) => (CATEGORY_ORDER.includes(c) ? t(`cat.${c}` as GuestKey) : c);
   const visible = catalog.filter((p) => category === "all" || p.category === category);
 
-  if (catalog.length === 0) return <EmptyState icon={PackageOpen} title={copy.empty} />;
+  if (catalog.length === 0) return <EmptyState icon={PackageOpen} title={t("catalog.empty")} />;
 
   return (
-    <section aria-label="Produtos">
+    <section aria-label={t("nav.catalog")}>
       <Segmented
-        label="Filtrar por categoria"
+        label={t("catalog.filter")}
         value={category}
         onChange={setCategory}
         className="mb-4"
         options={[
-          { value: "all", label: "Tudo", count: catalog.length },
-          ...categories.map((c) => ({ value: c, label: CATEGORY_LABEL[c] ?? c })),
+          { value: "all", label: t("catalog.all"), count: catalog.length },
+          ...categories.map((c) => ({ value: c, label: categoryLabel(c) })),
         ]}
       />
       <ul className="space-y-3">
@@ -50,19 +56,25 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
               <div className="min-w-0 flex-1">
                 <p className="font-semibold leading-snug text-ink">{p.name}</p>
                 <p className="truncate text-sm text-ink-soft">{p.description}</p>
-                <div className="mt-1.5 flex items-center gap-2">
-                  <span className="tabular font-bold text-brand-700">{formatBRL(p.priceCents)}</span>
+                <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                  <span className="tabular mr-1 font-bold text-brand-700">{formatBRL(p.priceCents)}</span>
                   {soldOut ? (
-                    <Badge tone="neutral">{copy.soldOut}</Badge>
-                  ) : p.available <= 1 ? (
-                    <Badge tone="warn">{copy.lowStock(p.available)}</Badge>
+                    <Badge tone="neutral">{t("catalog.soldOut")}</Badge>
+                  ) : p.available <= LOW_STOCK ? (
+                    <Badge tone="warn">{t("catalog.onlyLeft", { n: p.available })}</Badge>
                   ) : null}
+                  {!soldOut &&
+                    p.tags?.map((tag) => (
+                      <Badge key={tag} tone={tag === "cold" ? "info" : "ok"}>
+                        {t(`tag.${tag}` as GuestKey)}
+                      </Badge>
+                    ))}
                 </div>
               </div>
               {soldOut ? null : qty === 0 ? (
                 <button
                   onClick={() => setQuantity(p.id, 1)}
-                  aria-label={`Adicionar ${p.name}`}
+                  aria-label={t("catalog.add", { name: p.name })}
                   className="glass-tint grid size-11 shrink-0 place-items-center rounded-full bg-brand-700/85 text-white transition hover:bg-brand-800/90 active:scale-90"
                 >
                   <Plus className="size-5" />

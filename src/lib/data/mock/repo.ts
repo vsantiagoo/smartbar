@@ -3,10 +3,12 @@ import { buildDashboardSnapshot, startOfDayInTz } from "@/lib/data/aggregate";
 import {
   DomainError,
   type AuthorizeResult,
+  type CreateSupportInput,
   type CreateTransactionInput,
   type GuestContext,
   type Repository,
 } from "@/lib/data/repository";
+import { PIX_TTL_SECONDS } from "@/lib/guest-constants";
 import { getMockStore, invKey, type MockStore } from "@/lib/data/mock/store";
 import type {
   CatalogItem,
@@ -18,11 +20,12 @@ import type {
   RoomDetail,
   RoomSummary,
   Stay,
+  SupportRequest,
   Transaction,
 } from "@/lib/types";
 
 const TZ = "America/Sao_Paulo";
-const PIX_TTL_MS = 10 * 60_000;
+const PIX_TTL_MS = PIX_TTL_SECONDS * 1000;
 
 function clone<T>(v: T): T {
   return structuredClone(v);
@@ -66,7 +69,8 @@ class MockRepository implements Repository {
     const room = rooms.find((r) => r.qrToken === roomRef || r.id === roomRef);
     if (!room) return null;
     const stay = this.activeStay(room.id);
-    return { hotel: clone(hotel), room: clone(room), canChargeToRoom: Boolean(stay?.rfidUid) };
+    const guestFirstName = hotel.segment === "motel" ? null : (stay?.guestName.split(" ")[0] ?? null);
+    return { hotel: clone(hotel), room: clone(room), canChargeToRoom: Boolean(stay?.rfidUid), guestFirstName };
   }
 
   async getCatalog(roomId: string): Promise<CatalogItem[]> {
@@ -192,6 +196,31 @@ class MockRepository implements Repository {
   async findActiveStay(roomId: string): Promise<Stay | null> {
     const st = this.activeStay(roomId);
     return st ? clone(st) : null;
+  }
+
+  async listGuestTransactions(roomId: string): Promise<Transaction[]> {
+    const stay = this.activeStay(roomId);
+    return this.s.transactions
+      .filter((t) => t.roomId === roomId && t.status === "authorized" && (!stay || t.stayId === stay.id))
+      .sort((a, b) => (b.authorizedAt ?? b.createdAt).localeCompare(a.authorizedAt ?? a.createdAt))
+      .map(clone);
+  }
+
+  async createSupportRequest(input: CreateSupportInput): Promise<SupportRequest> {
+    const room = this.s.rooms.find((r) => r.id === input.roomId && r.hotelId === input.hotelId);
+    if (!room) throw new DomainError("not_found");
+    const req: SupportRequest = {
+      id: randomUUID(),
+      hotelId: room.hotelId,
+      roomId: room.id,
+      roomNumber: room.number,
+      kind: input.kind,
+      note: input.note?.trim() || null,
+      transactionToken: input.transactionToken ?? null,
+      createdAt: new Date().toISOString(),
+    };
+    (this.s.supportRequests ??= []).unshift(req); // ??= cobre o banco em memória criado antes deste campo existir (hot-reload)
+    return clone(req);
   }
 
   async touchDevice(roomId: string): Promise<void> {

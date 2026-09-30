@@ -21,7 +21,7 @@ export function EmptyState({
 }) {
   return (
     <div className={cn("flex flex-col items-center px-6 py-12 text-center", className)}>
-      <span className="mb-4 grid size-14 place-items-center rounded-3xl bg-brand-700/10 text-brand-700">
+      <span className="mb-4 grid size-14 place-items-center rounded-3xl glass-chip bg-brand-700/10 text-brand-700">
         <Icon className="size-6" />
       </span>
       <p className="text-base font-semibold text-ink">{title}</p>
@@ -54,7 +54,7 @@ export function Meter({
       aria-valuenow={value}
       aria-valuemin={0}
       aria-valuemax={max}
-      className={cn("h-2 w-full overflow-hidden rounded-full bg-brand-700/10", className)}
+      className={cn("glass-chip h-2 w-full overflow-hidden rounded-full bg-brand-700/10", className)}
     >
       <div className={cn("h-full rounded-full transition-all duration-500", fill)} style={{ width: `${pct}%` }} />
     </div>
@@ -109,7 +109,7 @@ export function KpiCard({
     <div className={cn("glass rounded-[28px] p-5", className)}>
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm font-medium text-ink-soft">{label}</p>
-        <span className={cn("grid size-9 place-items-center rounded-2xl", iconTone)}>
+        <span className={cn("glass-chip grid size-9 place-items-center rounded-2xl", iconTone)}>
           <Icon className="size-[18px]" />
         </span>
       </div>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { DomainError, getGuestRepo } from "@/lib/data";
 import { getPixProvider } from "@/lib/payments/pix";
+import { PIX_TTL_SECONDS } from "@/lib/guest-constants";
 import { checkoutSchema } from "@/lib/schemas";
 
 const ERRORS: Record<string, { status: number; message: string }> = {
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
         transactionId: tx.id,
         amountCents: tx.totalCents,
         description: `SmartBar — quarto ${tx.roomNumber}`,
-        expiresInSeconds: 600,
+        expiresInSeconds: PIX_TTL_SECONDS,
       });
       await repo.attachPixCharge(tx.id, charge);
     }

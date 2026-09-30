@@ -27,7 +27,7 @@ export function LiveFeed({ transactions, freshIds, bare = false }: { transaction
             return (
               <li key={t.id} className={cn("rounded-3xl px-2 py-2.5", fresh && "animate-flash-in")}>
                 <Link href={`/admin/quartos/${t.roomNumber}`} className="flex items-center gap-3">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-700/10 text-brand-700">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl glass-chip bg-brand-700/10 text-brand-700">
                     <Icon className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1">

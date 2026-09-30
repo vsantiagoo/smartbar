@@ -10,6 +10,14 @@ export const checkoutSchema = z.object({
     .max(30),
 });
 
+export const supportSchema = z.object({
+  hotelId: z.string().min(1),
+  roomId: z.string().min(1),
+  kind: z.enum(["restock", "damaged", "door_problem"]),
+  note: z.string().max(300).optional(),
+  transactionToken: z.string().min(1).max(64).optional(),
+});
+
 export const rfidSchema = z.object({
   deviceId: z.string().min(1),
   uid: z.string().min(4).max(32),

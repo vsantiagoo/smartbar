@@ -6,68 +6,7 @@
  * para reescrever uma seção, edite aqui sem tocar nos componentes.
  */
 
-export const guestCopy = {
-  catalog: {
-    eyebrow: (room: string) => `Quarto ${room}`,
-    title: "Sirva-se. Pague em segundos.",
-    subtitle: "Escolha o que vai consumir. A trava libera assim que o pagamento é confirmado.",
-    empty: "Nenhum item disponível neste quarto agora.",
-    soldOut: "Esgotado",
-    lowStock: (n: number) => `Restam ${n}`,
-    cartCta: (count: number) => `Ver pedido · ${count} ${count === 1 ? "item" : "itens"}`,
-  },
-  howItWorks: {
-    title: "Como funciona",
-    steps: [
-      { title: "Escolha", text: "Selecione os itens no celular." },
-      { title: "Confirme", text: "Pague no Pix ou lance na conta." },
-      { title: "Sirva-se", text: "A trava libera por 15 segundos." },
-    ],
-  },
-  checkout: {
-    title: "Finalizar pedido",
-    subtitle: "Escolha como quer pagar.",
-    pix: {
-      title: "Pix",
-      text: "Pagamento instantâneo. A trava libera na hora.",
-      cta: "Gerar Pix",
-    },
-    roomCharge: {
-      title: "Lançar na conta do quarto",
-      text: "Aproxime seu cartão-chave do leitor do frigobar para confirmar que é você.",
-      cta: "Lançar na conta",
-      unavailable: "Disponível apenas para hóspedes com estadia ativa.",
-    },
-    reassurance: "Você só paga o que consumir. Sem cobranças surpresa no check-out.",
-  },
-  pix: {
-    title: "Pague com Pix",
-    steps: ["Abra o app do seu banco", "Escolha Pix → Copia e Cola", "Cole o código e confirme"],
-    copy: "Copiar código Pix",
-    copied: "Código copiado!",
-    waiting: "Aguardando confirmação do pagamento…",
-    expired: "O Pix expirou. Gere um novo para continuar.",
-  },
-  rfid: {
-    title: "Aproxime seu cartão-chave",
-    text: "Encoste o cartão do quarto no leitor do frigobar para confirmar seu pedido.",
-    waiting: "Aguardando leitura do cartão…",
-    expired: "Tempo esgotado. Refaça o pedido para continuar.",
-  },
-  success: {
-    title: "Trava liberada",
-    text: "Sirva-se dos itens do pedido. A trava fecha sozinha em instantes.",
-    countdown: (s: number) => `Fecha em ${s}s`,
-    closed: "Trava fechada. Obrigado!",
-    receipt: "Resumo do pedido",
-    again: "Fazer novo pedido",
-  },
-  failure: {
-    out_of_stock: "Um dos itens acabou de esgotar. Seu pagamento será estornado automaticamente.",
-    expired: "O pedido expirou.",
-    default: "Não foi possível concluir o pedido.",
-  },
-} as const;
+/* Textos do Web App do Hóspede: src/lib/i18n/guest.ts (português, inglês e espanhol). */
 
 export const adminCopy = {
   dashboard: {

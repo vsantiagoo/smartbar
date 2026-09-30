@@ -3,7 +3,7 @@ import type { InputHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 const field =
-  "h-11 w-full rounded-full border border-white/80 bg-white/70 px-5 text-[0.95rem] text-ink shadow-[inset_0_1px_2px_rgba(20,44,84,0.06)] " +
+  "glass-chip h-11 w-full rounded-full bg-white/55 px-5 text-[0.95rem] text-ink " +
   "placeholder:text-ink-faint transition focus:border-brand-300 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-700/10";
 
 export function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {

@@ -23,7 +23,7 @@ export function ImpactMeter({ revenueTodayCents }: { revenueTodayCents: number }
     <GlassCard>
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm font-medium text-ink-soft">Receita protegida hoje</p>
-        <span className="grid size-9 place-items-center rounded-2xl bg-ok-500/12 text-ok-600">
+        <span className="grid size-9 place-items-center rounded-2xl glass-chip bg-ok-500/12 text-ok-600">
           <ShieldCheck className="size-[18px]" />
         </span>
       </div>

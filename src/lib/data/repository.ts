@@ -9,6 +9,8 @@ import type {
   RoomDetail,
   RoomSummary,
   Stay,
+  SupportKind,
+  SupportRequest,
   Transaction,
 } from "@/lib/types";
 
@@ -35,6 +37,8 @@ export interface GuestContext {
   room: Room;
   /** Só é possível "lançar na conta" se houver estadia ativa com cartão RFID. */
   canChargeToRoom: boolean;
+  /** Primeiro nome do hóspede da estadia ativa (PMS). Nulo em motel e quando não há estadia. */
+  guestFirstName: string | null;
 }
 
 export interface CreateTransactionInput {
@@ -42,6 +46,14 @@ export interface CreateTransactionInput {
   roomId: string;
   method: PaymentMethod;
   items: { productId: string; quantity: number }[];
+}
+
+export interface CreateSupportInput {
+  hotelId: string;
+  roomId: string;
+  kind: SupportKind;
+  note?: string;
+  transactionToken?: string;
 }
 
 export interface AuthorizeResult {
@@ -72,6 +84,10 @@ export interface Repository {
   findPendingRoomCharge(roomId: string): Promise<Transaction | null>;
   findActiveStay(roomId: string): Promise<Stay | null>;
   touchDevice(roomId: string): Promise<void>;
+  /** Extrato do hóspede: compras aprovadas da estadia ativa (ou, sem estadia, do quarto), mais recentes primeiro. */
+  listGuestTransactions(roomId: string): Promise<Transaction[]>;
+  /** Pedido de ajuda vindo do hóspede (reposição, item danificado, trava que não abriu). */
+  createSupportRequest(input: CreateSupportInput): Promise<SupportRequest>;
 
   // ── Painel Admin ──────────────────────────────────────────────
   getAdminHotel(): Promise<Hotel | null>;

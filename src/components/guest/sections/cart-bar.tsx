@@ -1,56 +1,68 @@
 "use client";
-import { ArrowRight, ShoppingBag, Trash2 } from "lucide-react";
+import { ShoppingBag, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { cartTotals, useCart } from "@/components/guest/cart-context";
+import { useGuest } from "@/components/guest/guest-context";
 import { Button, buttonClasses } from "@/components/ui/button";
+import { DotNumber } from "@/components/ui/primitives";
 import { ProductTile } from "@/components/ui/product-icon";
 import { Sheet } from "@/components/ui/sheet";
 import { Stepper } from "@/components/ui/stepper";
-import { guestCopy } from "@/lib/content/copy";
 import { formatBRL } from "@/lib/utils";
 import type { CatalogItem } from "@/lib/types";
 
-/** SEÇÃO · Barra flutuante do carrinho + gaveta com o pedido. */
+/** SEÇÃO · Barra flutuante do pedido: resumo, total em Doto e o botão dourado "Pagar e Destravar". */
 export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; checkoutHref: string }) {
   const { linesFor, setQuantity, clear, ready } = useCart();
+  const { t, room } = useGuest();
   const [open, setOpen] = useState(false);
   const lines = linesFor(catalog);
   const { count, cents } = cartTotals(lines);
 
   if (!ready || count === 0) return null;
 
+  const cta = room.hasLock ? t("cart.payUnlock") : t("cart.pay");
+
   return (
     <>
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 mx-auto max-w-lg px-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-        <button
-          onClick={() => setOpen(true)}
-          className="glass-strong pointer-events-auto flex w-full animate-fade-up items-center gap-3 rounded-full p-2 pr-5 text-left transition active:scale-[0.98]"
-        >
-          <span className="glass-tint relative grid size-12 place-items-center rounded-full bg-brand-700/85 text-white">
-            <ShoppingBag className="size-5" />
-            <span className="tabular absolute -right-1 -top-1 grid size-5 place-items-center rounded-full bg-gold-500 text-[11px] font-bold text-ink">
-              {count}
+      {/* Fica acima do menu do rodapé (Vitrine · Meu consumo). */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-40 mx-auto max-w-lg px-4">
+        <div className="glass-strong pointer-events-auto flex w-full animate-fade-up items-center gap-2 rounded-full p-2 pr-2">
+          <button
+            onClick={() => setOpen(true)}
+            aria-label={t("cart.view")}
+            className="flex min-w-0 flex-1 items-center gap-3 rounded-full text-left transition active:scale-[0.98]"
+          >
+            <span className="glass-tint relative grid size-12 shrink-0 place-items-center rounded-full bg-brand-700/85 text-white">
+              <ShoppingBag className="size-5" />
+              <span className="tabular absolute -right-1 -top-1 grid size-5 place-items-center rounded-full bg-gold-500 text-[11px] font-bold text-ink">
+                {count}
+              </span>
             </span>
-          </span>
-          <span className="flex-1 text-sm font-semibold text-ink">{guestCopy.catalog.cartCta(count)}</span>
-          <span className="tabular text-base font-bold text-brand-700">{formatBRL(cents)}</span>
-        </button>
+            <span className="min-w-0 leading-tight">
+              <span className="block text-xs text-ink-soft">{t("cart.items", { n: count })}</span>
+              <DotNumber className="mt-1 block text-xl text-brand-700">{formatBRL(cents)}</DotNumber>
+            </span>
+          </button>
+          <Link href={checkoutHref} className={buttonClasses("accent", "md", "h-12 shrink-0 px-5 text-[0.95rem]")}>
+            {cta}
+          </Link>
+        </div>
       </div>
 
       <Sheet
         open={open}
         onClose={() => setOpen(false)}
-        title="Seu pedido"
+        title={t("cart.title")}
         footer={
           <div className="space-y-3">
             <div className="flex items-baseline justify-between">
-              <span className="text-sm text-ink-soft">Total</span>
-              <span className="tabular text-2xl font-bold text-ink">{formatBRL(cents)}</span>
+              <span className="text-sm text-ink-soft">{t("cart.total")}</span>
+              <DotNumber className="text-2xl">{formatBRL(cents)}</DotNumber>
             </div>
-            <Link href={checkoutHref} className={buttonClasses("primary", "lg", "w-full")}>
-              Continuar
-              <ArrowRight className="size-5" />
+            <Link href={checkoutHref} className={buttonClasses("accent", "lg", "w-full")}>
+              {cta}
             </Link>
           </div>
         }
@@ -67,8 +79,17 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
             </li>
           ))}
         </ul>
-        <Button variant="ghost" size="sm" className="my-2" icon={<Trash2 className="size-4" />} onClick={() => { clear(); setOpen(false); }}>
-          Limpar pedido
+        <Button
+          variant="ghost"
+          size="sm"
+          className="my-2"
+          icon={<Trash2 className="size-4" />}
+          onClick={() => {
+            clear();
+            setOpen(false);
+          }}
+        >
+          {t("cart.clear")}
         </Button>
       </Sheet>
     </>

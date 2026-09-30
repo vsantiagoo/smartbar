@@ -1,7 +1,7 @@
 "use client";
 import { BedDouble, Check, QrCode } from "lucide-react";
+import { useGuest } from "@/components/guest/guest-context";
 import { Badge } from "@/components/ui/badge";
-import { guestCopy } from "@/lib/content/copy";
 import { cn } from "@/lib/utils";
 import type { PaymentMethod } from "@/lib/types";
 
@@ -11,33 +11,38 @@ interface PaymentMethodsProps {
   canChargeToRoom: boolean;
 }
 
-/** SEÇÃO · Escolha da forma de pagamento (Pix ou lançar na conta). */
+/** SEÇÃO · Forma de pagamento: Pix (QR ou Copia e Cola) ou lançar na conta da suíte com o cartão-chave. */
 export function PaymentMethods({ value, onChange, canChargeToRoom }: PaymentMethodsProps) {
-  const c = guestCopy.checkout;
+  const { t, room } = useGuest();
   const options = [
     {
       id: "pix" as const,
       icon: QrCode,
-      title: c.pix.title,
-      text: c.pix.text,
-      badge: <Badge tone="gold">Mais rápido</Badge>,
+      title: t("checkout.pix.title"),
+      text: t("checkout.pix.text"),
+      badge: <Badge tone="gold">{t("checkout.pix.badge")}</Badge>,
       disabled: false,
       note: undefined,
     },
-    {
-      id: "room_charge" as const,
-      icon: BedDouble,
-      title: c.roomCharge.title,
-      text: c.roomCharge.text,
-      badge: null,
-      disabled: !canChargeToRoom,
-      note: !canChargeToRoom ? c.roomCharge.unavailable : undefined,
-    },
+    // Motel: compra anônima, então não há conta do quarto. Sem trava: não há leitor de cartão.
+    ...(room.anonymous || !room.hasLock
+      ? []
+      : [
+          {
+            id: "room_charge" as const,
+            icon: BedDouble,
+            title: t("checkout.room.title"),
+            text: t("checkout.room.text"),
+            badge: null,
+            disabled: !canChargeToRoom,
+            note: !canChargeToRoom ? t("checkout.room.unavailable") : undefined,
+          },
+        ]),
   ];
 
   return (
     <fieldset>
-      <legend className="mb-3 px-1 text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">Forma de pagamento</legend>
+      <legend className="mb-3 px-1 text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">{t("checkout.method")}</legend>
       <div className="space-y-3" role="radiogroup">
         {options.map((o) => {
           const selected = value === o.id;

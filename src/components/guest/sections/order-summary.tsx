@@ -8,7 +8,7 @@ export interface SummaryLine {
 }
 
 /** SEÇÃO · Resumo do pedido (usado no checkout, na espera e no sucesso). */
-export function OrderSummary({ lines, title = "Resumo do pedido" }: { lines: SummaryLine[]; title?: string }) {
+export function OrderSummary({ lines, title = "Resumo do pedido", totalLabel = "Total" }: { lines: SummaryLine[]; title?: string; totalLabel?: string }) {
   const total = lines.reduce((s, l) => s + l.quantity * l.unitPriceCents, 0);
   return (
     <GlassCard pad="md">
@@ -25,7 +25,7 @@ export function OrderSummary({ lines, title = "Resumo do pedido" }: { lines: Sum
         ))}
       </ul>
       <div className="mt-4 flex items-baseline justify-between border-t border-brand-700/10 pt-4">
-        <span className="font-medium text-ink-soft">Total</span>
+        <span className="font-medium text-ink-soft">{totalLabel}</span>
         <span className="tabular text-2xl font-bold text-ink">{formatBRL(total)}</span>
       </div>
     </GlassCard>

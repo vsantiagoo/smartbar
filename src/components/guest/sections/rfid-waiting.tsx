@@ -1,15 +1,15 @@
 "use client";
 import { LoaderCircle, Nfc } from "lucide-react";
+import { useGuest } from "@/components/guest/guest-context";
 import { DemoTools } from "@/components/guest/sections/demo-tools";
 import { GlassCard } from "@/components/ui/glass-card";
-import { guestCopy } from "@/lib/content/copy";
 import { simulateRfidTap } from "@/lib/realtime/simulate";
 import { formatClock, useCountdown } from "@/lib/realtime/use-countdown";
 import type { PublicTransaction } from "@/lib/types";
 
-/** SEÇÃO · Aguardando o cartão-chave RFID no leitor do frigobar (ESP32). */
+/** SEÇÃO · Aguardando o cartão-chave (NFC) no leitor do frigobar (ESP32). */
 export function RfidWaiting({ tx, showDemoTools }: { tx: PublicTransaction; showDemoTools: boolean }) {
-  const c = guestCopy.rfid;
+  const { t } = useGuest();
   const left = useCountdown(tx.expiresAt);
 
   return (
@@ -22,16 +22,16 @@ export function RfidWaiting({ tx, showDemoTools }: { tx: PublicTransaction; show
             <Nfc className="size-11" strokeWidth={1.6} />
           </span>
         </div>
-        <h1 className="mt-6 text-[1.6rem] font-bold">{c.title}</h1>
-        <p className="mx-auto mt-2 max-w-xs text-ink-soft">{c.text}</p>
+        <h1 className="mt-6 text-[1.6rem] font-bold">{t("rfid.title")}</h1>
+        <p className="mx-auto mt-2 max-w-xs text-ink-soft">{t("rfid.text")}</p>
         <p className="mt-5 flex items-center justify-center gap-2 text-sm text-ink-soft">
           <LoaderCircle className="size-4 animate-spin text-brand-500" />
-          {c.waiting}
+          {t("rfid.waiting")}
           <span className="tabular font-semibold text-ink">{formatClock(left)}</span>
         </p>
       </GlassCard>
 
-      {showDemoTools && <DemoTools label="Simular aproximação do cartão (ESP32)" onRun={() => simulateRfidTap(tx.publicToken)} />}
+      {showDemoTools && <DemoTools label={t("rfid.demo")} onRun={() => simulateRfidTap(tx.publicToken)} />}
     </div>
   );
 }

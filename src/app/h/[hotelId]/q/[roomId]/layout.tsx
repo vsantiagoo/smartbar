@@ -1,8 +1,12 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import type { CSSProperties, ReactNode } from "react";
 import { CartProvider } from "@/components/guest/cart-context";
+import { GuestProvider, type GuestRoomInfo } from "@/components/guest/guest-context";
 import { GuestHeader } from "@/components/guest/sections/guest-header";
+import { GuestNav } from "@/components/guest/sections/guest-nav";
 import { getGuestRepo } from "@/lib/data";
+import { LANGS, LANG_COOKIE, type Lang } from "@/lib/i18n/guest";
 import { themeToVars } from "@/lib/theme";
 
 /**
@@ -33,10 +37,27 @@ export default async function GuestLayout({
         })()
       : {};
 
+  const saved = (await cookies()).get(LANG_COOKIE)?.value;
+  const hasLangCookie = (LANGS as readonly string[]).includes(saved ?? "");
+  const room: GuestRoomInfo = {
+    hotelId: ctx.hotel.id,
+    hotelName: ctx.hotel.name,
+    roomId: ctx.room.id,
+    roomNumber: ctx.room.number,
+    hasLock: ctx.hotel.segment !== "host" && Boolean(ctx.room.deviceId),
+    lockOnline: ctx.room.deviceOnline,
+    anonymous: ctx.hotel.segment === "motel",
+    guestFirstName: ctx.guestFirstName,
+    whatsapp: ctx.hotel.whatsapp ?? null,
+  };
+
   return (
-    <div style={whitelabel as CSSProperties} className="mx-auto flex min-h-dvh w-full max-w-lg flex-col px-4 pb-32 pt-4">
-      <GuestHeader hotelName={ctx.hotel.name} roomNumber={ctx.room.number} />
-      <CartProvider roomId={ctx.room.id}>{children}</CartProvider>
+    <div style={whitelabel as CSSProperties} className="mx-auto flex min-h-dvh w-full max-w-lg flex-col px-4 pb-40 pt-4 print:pb-4">
+      <GuestProvider initialLang={hasLangCookie ? (saved as Lang) : "pt"} hasLangCookie={hasLangCookie} room={room}>
+        <GuestHeader />
+        <CartProvider roomId={ctx.room.id}>{children}</CartProvider>
+        <GuestNav baseHref={`/h/${hotelId}/q/${roomId}`} />
+      </GuestProvider>
     </div>
   );
 }

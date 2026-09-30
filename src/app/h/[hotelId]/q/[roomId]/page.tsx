@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { CartBar } from "@/components/guest/sections/cart-bar";
 import { CatalogHero } from "@/components/guest/sections/catalog-hero";
 import { HowItWorks } from "@/components/guest/sections/how-it-works";
+import { PricePromise } from "@/components/guest/sections/price-promise";
 import { ProductList } from "@/components/guest/sections/product-list";
 import { getGuestRepo } from "@/lib/data";
 
@@ -22,7 +23,8 @@ export default async function GuestCatalogPage({ params }: { params: Promise<{ h
   const base = `/h/${hotelId}/q/${roomId}`;
   return (
     <main>
-      <CatalogHero roomNumber={ctx.room.number} />
+      <CatalogHero />
+      <PricePromise />
       <ProductList catalog={catalog} />
       <HowItWorks />
       <CartBar catalog={catalog} checkoutHref={`${base}/checkout`} />
