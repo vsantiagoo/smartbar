@@ -27,7 +27,7 @@ export function ImpactStats() {
                 {/* Plus Jakarta Sans, a mesma da logo: o número vira um gesto da marca. */}
                 <span
                   className="tabular block font-extrabold leading-none tracking-tight text-ink text-[2.4rem] sm:text-[2.8rem]"
-                  style={{ fontFamily: "var(--font-logo), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}
+                  style={{ fontFamily: "var(--font-heading), 'Plus Jakarta Sans', sans-serif" }}
                 >
                   {item.value}
                 </span>

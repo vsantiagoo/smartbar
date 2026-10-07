@@ -52,11 +52,18 @@ export default async function GuestLayout({
   };
 
   return (
-    <div style={whitelabel as CSSProperties} className="mx-auto flex min-h-dvh w-full max-w-lg flex-col px-4 pb-40 pt-4 print:pb-4">
+    <div style={whitelabel as CSSProperties} className="relative min-h-dvh overflow-x-hidden">
       <GuestProvider initialLang={hasLangCookie ? (saved as Lang) : "pt"} hasLangCookie={hasLangCookie} room={room}>
-        <GuestHeader />
-        <CartProvider roomId={ctx.room.id}>{children}</CartProvider>
-        <GuestNav baseHref={`/h/${hotelId}/q/${roomId}`} />
+        {/* Zona escura de topo: cabeçalho + hero do catálogo */}
+        <div className="guest-hero-zone relative pb-28">
+          <div className="px-4 pt-4 sm:px-6">
+            <GuestHeader />
+          </div>
+        </div>
+        <div className="mx-auto -mt-24 flex w-full max-w-lg flex-col px-4 pb-40 print:pb-4">
+          <CartProvider roomId={ctx.room.id}>{children}</CartProvider>
+          <GuestNav baseHref={`/h/${hotelId}/q/${roomId}`} />
+        </div>
       </GuestProvider>
     </div>
   );

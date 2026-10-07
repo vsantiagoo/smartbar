@@ -534,3 +534,57 @@ export function detectLang(navigatorLang: string | undefined | null): Lang {
 }
 
 export const LOCALE_TAG: Record<Lang, string> = { pt: "pt-BR", en: "en-US", es: "es-ES" };
+
+/* ── Traduções dos produtos do catálogo ────────────────────────────── */
+
+interface ProductI18n {
+  name: string;
+  description: string;
+}
+
+const PRODUCT_PT: Record<string, ProductI18n> = {
+  "AGU-SG": { name: "Água mineral sem gás", description: "500 ml" },
+  "AGU-CG": { name: "Água mineral com gás", description: "500 ml" },
+  "REF-CO": { name: "Refrigerante cola", description: "Lata 350 ml" },
+  "REF-ZE": { name: "Refrigerante cola zero", description: "Lata 350 ml" },
+  "SUC-UV": { name: "Suco de uva integral", description: "290 ml" },
+  "AMD-50": { name: "Amendoim torrado", description: "Pacote 50 g" },
+  "SAL-PC": { name: "Salgadinho de milho", description: "Pacote" },
+  "BAR-CE": { name: "Barra de cereal", description: "Castanhas e mel" },
+  "BAT-PT": { name: "Batata frita em pote", description: "35 g" },
+};
+
+const PRODUCT_EN: Record<string, ProductI18n> = {
+  "AGU-SG": { name: "Still mineral water", description: "500 ml" },
+  "AGU-CG": { name: "Sparkling mineral water", description: "500 ml" },
+  "REF-CO": { name: "Cola soft drink", description: "Can 350 ml" },
+  "REF-ZE": { name: "Zero sugar cola", description: "Can 350 ml" },
+  "SUC-UV": { name: "Pure grape juice", description: "290 ml" },
+  "AMD-50": { name: "Roasted peanuts", description: "50 g pack" },
+  "SAL-PC": { name: "Corn chips", description: "Pack" },
+  "BAR-CE": { name: "Cereal bar", description: "Nuts and honey" },
+  "BAT-PT": { name: "Potato chips cup", description: "35 g" },
+};
+
+const PRODUCT_ES: Record<string, ProductI18n> = {
+  "AGU-SG": { name: "Agua mineral sin gas", description: "500 ml" },
+  "AGU-CG": { name: "Agua mineral con gas", description: "500 ml" },
+  "REF-CO": { name: "Refresco de cola", description: "Lata 350 ml" },
+  "REF-ZE": { name: "Refresco de cola zero", description: "Lata 350 ml" },
+  "SUC-UV": { name: "Jugo de uva integral", description: "290 ml" },
+  "AMD-50": { name: "Maní tostado", description: "Paquete 50 g" },
+  "SAL-PC": { name: "Snack de maíz", description: "Paquete" },
+  "BAR-CE": { name: "Barra de cereal", description: "Frutos secos y miel" },
+  "BAT-PT": { name: "Papas fritas en vaso", description: "35 g" },
+};
+
+const PRODUCT_DICTS: Record<Lang, Record<string, ProductI18n>> = {
+  pt: PRODUCT_PT,
+  en: PRODUCT_EN,
+  es: PRODUCT_ES,
+};
+
+export function translateProduct(lang: Lang, sku: string | null): ProductI18n | null {
+  if (!sku) return null;
+  return PRODUCT_DICTS[lang][sku] ?? PRODUCT_DICTS.pt[sku] ?? null;
+}

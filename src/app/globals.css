@@ -33,8 +33,8 @@
     line-height: 1.6; /* Brandbook: entrelinha 1.6x */
   }
   h1, h2, h3, h4 {
-    /* Títulos na mesma cor do texto (token `text` em src/lib/theme.ts). */
     @apply text-ink tracking-tight;
+    font-family: var(--font-heading), 'Plus Jakarta Sans', sans-serif;
     line-height: 1.2;
   }
   :focus-visible {
@@ -139,6 +139,22 @@
       inset 0 0 14px rgb(255 255 255 / 0.06);
   }
   /*
+    Vidro fosco premium — inspirado no "Frosted Concept": tinta muito diluída,
+    desfoque extra-largo (40 px) que deixa as cores do fundo sangrarem de forma
+    suave, saturação elevada para manter vivacidade e borda fina luminosa.
+  */
+  .glass-frosted {
+    background: rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(255 255 255 / 0.18);
+    -webkit-backdrop-filter: blur(40px) saturate(1.8) brightness(0.85);
+    backdrop-filter: blur(40px) saturate(1.8) brightness(0.85);
+    box-shadow:
+      inset 1px 1px 0 rgb(255 255 255 / 0.2),
+      inset -1px -1px 0 rgb(255 255 255 / 0.06),
+      inset 0 0 20px rgb(255 255 255 / 0.04),
+      0 8px 32px -8px rgb(0 0 0 / 0.3);
+  }
+  /*
     Vidro colorido — botões, itens ativos de menu e chips. A cor vem de um
     bg-{cor}/{alpha} ao lado (ex.: "glass-tint bg-brand-700/75"); aqui ficam só
     o desfoque, a borda luminosa e o brilho interno.
@@ -184,6 +200,19 @@
     opacity: 1;
     transform: none;
   }
+  /*
+    Zona escura do topo da tela do hóspede. Degradê da marca (navy → transparente)
+    que dá profundidade ao glassmorphism e diferencia o cabeçalho do conteúdo.
+  */
+  .guest-hero-zone {
+    background: linear-gradient(
+      180deg,
+      rgb(var(--brand-900) / 0.88) 0%,
+      rgb(var(--brand-800) / 0.55) 50%,
+      transparent 100%
+    );
+  }
+
   .tabular { font-variant-numeric: tabular-nums; }
   .scroll-hide { scrollbar-width: none; }
   .scroll-hide::-webkit-scrollbar { display: none; }

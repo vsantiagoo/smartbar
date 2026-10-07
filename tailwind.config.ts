@@ -31,7 +31,6 @@ const config: Config = {
       },
       fontFamily: {
         // Fonte do sistema operacional (San Francisco no Apple, Segoe UI no Windows, Roboto no Android).
-        // Nomes com espaço precisam de aspas: o Tailwind escreve a lista como está.
         sans: [
           "-apple-system",
           "BlinkMacSystemFont",
@@ -41,6 +40,8 @@ const config: Config = {
           "Arial",
           "sans-serif",
         ],
+        // Plus Jakarta Sans — títulos, nomes de produtos, categorias, headings.
+        heading: ["var(--font-heading)", "sans-serif"],
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "'Liberation Mono'", "monospace"],
       },
       borderRadius: {

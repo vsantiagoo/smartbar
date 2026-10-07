@@ -6,8 +6,13 @@ import "./globals.css";
 // Fonte pontilhada só para números de destaque (referência do Design System).
 const doto = Doto({ subsets: ["latin"], weight: ["700", "800"], variable: "--font-dot", display: "swap" });
 
-// Fonte da logotipo "SmartBar".
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["700", "800"], variable: "--font-logo", display: "swap" });
+// Plus Jakarta Sans: logo e títulos de destaque (headings, nomes de produtos, categorias).
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-heading",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: { default: "SmartBar — minibar inteligente para hotéis", template: "%s · SmartBar" },
@@ -35,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="pt-BR"
       /* O texto usa a fonte do sistema (ver fontFamily.sans em tailwind.config.ts). */
       className={`${doto.variable} ${jakarta.variable} scroll-smooth`}
+      /* --font-heading: Plus Jakarta Sans (títulos); sans: fonte do sistema (texto corrido). */
       suppressHydrationWarning
     >
       <head>

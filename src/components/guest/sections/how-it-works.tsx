@@ -14,8 +14,8 @@ export function HowItWorks() {
     { title: t("how.3.title"), text: room.hasLock ? t("how.3.text", { s: UNLOCK_SECONDS }) : t("how.3.nolock") },
   ];
   return (
-    <section className="mt-8" aria-labelledby="how-title">
-      <h2 id="how-title" className="mb-3 px-1 text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">
+    <section className="mt-5" aria-labelledby="how-title">
+      <h2 id="how-title" className="mb-3 px-1 font-heading text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">
         {t("how.title")}
       </h2>
       <ol className="grid grid-cols-3 gap-2.5">
@@ -26,7 +26,7 @@ export function HowItWorks() {
               <span className="grid size-9 place-items-center rounded-2xl glass-chip bg-brand-700/10 text-brand-700">
                 <Icon className="size-[18px]" />
               </span>
-              <p className="mt-3 text-sm font-semibold text-ink">
+              <p className="mt-3 font-heading text-sm font-semibold text-ink">
                 <span className="tabular mr-1 text-brand-500">{i + 1}.</span>
                 {s.title}
               </p>

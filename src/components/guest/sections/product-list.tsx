@@ -8,7 +8,7 @@ import { ProductTile } from "@/components/ui/product-icon";
 import { Segmented } from "@/components/ui/segmented";
 import { Stepper } from "@/components/ui/stepper";
 import { EmptyState } from "@/components/ui/primitives";
-import type { GuestKey } from "@/lib/i18n/guest";
+import { translateProduct, type GuestKey } from "@/lib/i18n/guest";
 import { cn, formatBRL } from "@/lib/utils";
 import type { CatalogItem } from "@/lib/types";
 
@@ -19,7 +19,7 @@ const LOW_STOCK = 1;
 /** SEÇÃO · Lista de produtos com filtro por categoria, selos e controle de quantidade. */
 export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
   const { quantities, setQuantity } = useCart();
-  const { t } = useGuest();
+  const { t, lang } = useGuest();
   const [category, setCategory] = useState<string>("all");
 
   const categories = useMemo(() => {
@@ -43,10 +43,13 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
           ...categories.map((c) => ({ value: c, label: categoryLabel(c) })),
         ]}
       />
-      <ul className="space-y-3">
+      <ul className="space-y-2.5">
         {visible.map((p) => {
           const qty = quantities[p.id] ?? 0;
           const soldOut = p.available <= 0;
+          const tr = translateProduct(lang, p.sku);
+          const displayName = tr?.name ?? p.name;
+          const displayDesc = tr?.description ?? p.description;
           return (
             <li
               key={p.id}
@@ -54,8 +57,8 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
             >
               <ProductTile iconKey={p.iconKey} className="size-14 shrink-0 sm:size-[72px]" />
               <div className="min-w-0 flex-1">
-                <p className="font-semibold leading-snug text-ink">{p.name}</p>
-                <p className="truncate text-sm text-ink-soft">{p.description}</p>
+                <p className="font-heading font-semibold leading-snug text-ink">{displayName}</p>
+                <p className="truncate text-sm text-ink-soft">{displayDesc}</p>
                 <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                   <span className="tabular mr-1 font-bold text-brand-700">{formatBRL(p.priceCents)}</span>
                   {soldOut ? (
@@ -74,13 +77,13 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
               {soldOut ? null : qty === 0 ? (
                 <button
                   onClick={() => setQuantity(p.id, 1)}
-                  aria-label={t("catalog.add", { name: p.name })}
+                  aria-label={t("catalog.add", { name: displayName })}
                   className="glass-tint grid size-11 shrink-0 place-items-center rounded-full bg-brand-700/85 text-white transition hover:bg-brand-800/90 active:scale-90"
                 >
                   <Plus className="size-5" />
                 </button>
               ) : (
-                <Stepper label={p.name} value={qty} max={p.available} onChange={(n) => setQuantity(p.id, n)} />
+                <Stepper label={displayName} value={qty} max={p.available} onChange={(n) => setQuantity(p.id, n)} />
               )}
             </li>
           );
