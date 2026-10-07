@@ -41,7 +41,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
       <div className="mb-3 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 sm:grid-cols-[1fr_minmax(0,28rem)_1fr]">
         <LogoMark tone="light" className="size-8 shrink-0 justify-self-start" />
 
-        <div className="glass-frosted min-w-0 rounded-[20px] px-5 py-2.5 text-center leading-tight">
+        <div className="glass min-w-0 rounded-[20px] px-5 py-2.5 text-center leading-tight">
           <p className="truncate font-heading text-sm font-semibold text-white/90">
             {HOTEL_NAME_PLACEHOLDER}
           </p>

@@ -127,14 +127,14 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
             <li key={o.kind}>
               <button
                 onClick={() => setKind(o.kind)}
-                className="glass flex w-full items-center gap-3 rounded-3xl p-3.5 text-left transition hover:bg-white/80 active:scale-[0.99]"
+                className="glass group flex w-full items-center gap-3 rounded-3xl p-3.5 text-left transition hover:bg-white/80 active:scale-[0.99]"
               >
                 <span className="grid size-11 shrink-0 place-items-center rounded-2xl glass-chip bg-brand-700/10 text-brand-700">
                   <o.icon className="size-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block font-semibold text-ink">{t(o.title)}</span>
-                  <span className="block text-sm leading-snug text-ink-soft">{t(o.text)}</span>
+                  <span className="block font-semibold text-ink dark:group-hover:text-[#2D3D34]">{t(o.title)}</span>
+                  <span className="block text-sm leading-snug text-ink-soft dark:group-hover:text-[#5B6861]">{t(o.text)}</span>
                 </span>
               </button>
             </li>
@@ -145,14 +145,14 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glass flex w-full items-center gap-3 rounded-3xl p-3.5 text-left transition hover:bg-white/80 active:scale-[0.99]"
+                className="glass group flex w-full items-center gap-3 rounded-3xl p-3.5 text-left transition hover:bg-white/80 active:scale-[0.99]"
               >
                 <span className="grid size-11 shrink-0 place-items-center rounded-2xl glass-chip bg-ok-500/12 text-ok-600">
                   <MessageCircle className="size-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block font-semibold text-ink">{t("help.whatsapp")}</span>
-                  <span className="block text-sm leading-snug text-ink-soft">{t("help.whatsapp.text")}</span>
+                  <span className="block font-semibold text-ink dark:group-hover:text-[#2D3D34]">{t("help.whatsapp")}</span>
+                  <span className="block text-sm leading-snug text-ink-soft dark:group-hover:text-[#5B6861]">{t("help.whatsapp.text")}</span>
                 </span>
               </a>
             </li>
