@@ -5,7 +5,6 @@ import { useState } from "react";
 import { cartTotals, useCart } from "@/components/guest/cart-context";
 import { useGuest } from "@/components/guest/guest-context";
 import { Button, buttonClasses } from "@/components/ui/button";
-import { DotNumber } from "@/components/ui/primitives";
 import { ProductTile } from "@/components/ui/product-icon";
 import { Sheet } from "@/components/ui/sheet";
 import { Stepper } from "@/components/ui/stepper";
@@ -42,7 +41,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
             </span>
             <span className="min-w-0 leading-tight">
               <span className="block text-xs text-ink-soft">{t("cart.items", { n: count })}</span>
-              <DotNumber className="mt-1 block text-xl text-brand-700">{formatBRL(cents)}</DotNumber>
+              <span className="tabular mt-1 block text-xl font-bold text-brand-700">{formatBRL(cents)}</span>
             </span>
           </button>
           <Link href={checkoutHref} className={buttonClasses("accent", "md", "h-12 shrink-0 px-5 text-[0.95rem]")}>
@@ -59,7 +58,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
           <div className="space-y-3">
             <div className="flex items-baseline justify-between">
               <span className="text-sm text-ink-soft">{t("cart.total")}</span>
-              <DotNumber className="text-2xl">{formatBRL(cents)}</DotNumber>
+              <span className="tabular text-2xl font-bold text-ink">{formatBRL(cents)}</span>
             </div>
             <Link href={checkoutHref} className={buttonClasses("accent", "lg", "w-full")}>
               {cta}

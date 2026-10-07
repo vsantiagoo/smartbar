@@ -5,6 +5,7 @@ import { CartProvider } from "@/components/guest/cart-context";
 import { GuestProvider, type GuestRoomInfo } from "@/components/guest/guest-context";
 import { GuestHeader } from "@/components/guest/sections/guest-header";
 import { GuestNav } from "@/components/guest/sections/guest-nav";
+import { APPEARANCE_COOKIE } from "@/lib/appearance";
 import { getGuestRepo } from "@/lib/data";
 import { LANGS, LANG_COOKIE, type Lang } from "@/lib/i18n/guest";
 import { themeToVars } from "@/lib/theme";
@@ -37,8 +38,10 @@ export default async function GuestLayout({
         })()
       : {};
 
-  const saved = (await cookies()).get(LANG_COOKIE)?.value;
+  const cookieStore = await cookies();
+  const saved = cookieStore.get(LANG_COOKIE)?.value;
   const hasLangCookie = (LANGS as readonly string[]).includes(saved ?? "");
+  const dark = cookieStore.get(APPEARANCE_COOKIE)?.value === "dark";
   const room: GuestRoomInfo = {
     hotelId: ctx.hotel.id,
     hotelName: ctx.hotel.name,
@@ -52,12 +55,17 @@ export default async function GuestLayout({
   };
 
   return (
-    <div style={whitelabel as CSSProperties} className="relative min-h-dvh overflow-x-hidden">
+    <div
+      id="guest-root"
+      data-theme={dark ? "dark" : undefined}
+      style={whitelabel as CSSProperties}
+      className="relative min-h-dvh overflow-x-hidden"
+    >
       <GuestProvider initialLang={hasLangCookie ? (saved as Lang) : "pt"} hasLangCookie={hasLangCookie} room={room}>
         {/* Zona escura de topo: cabeçalho + hero do catálogo */}
         <div className="guest-hero-zone relative pb-28">
           <div className="px-4 pt-4 sm:px-6">
-            <GuestHeader />
+            <GuestHeader initialDark={dark} />
           </div>
         </div>
         <div className="mx-auto -mt-24 flex w-full max-w-lg flex-col px-4 pb-40 print:pb-4">

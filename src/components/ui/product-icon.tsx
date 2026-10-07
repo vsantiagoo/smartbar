@@ -44,7 +44,7 @@ export function ProductTile({ iconKey, className }: { iconKey: string; className
     <div
       aria-hidden
       className={cn(
-        "glass-chip grid place-items-center rounded-3xl bg-gradient-to-br",
+        "glass-chip specular-tile grid place-items-center rounded-3xl bg-gradient-to-br",
         TINTS[iconKey] ?? TINTS.package,
         className,
       )}

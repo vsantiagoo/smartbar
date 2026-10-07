@@ -15,6 +15,9 @@ const scale = (name: string): Record<number, string> =>
 
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
+  // Modo escuro escopado: ativa quando um ancestral tem data-theme="dark"
+  // (hoje aplicado só na casca do app do hóspede). Ver globals.css.
+  darkMode: ["selector", '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {

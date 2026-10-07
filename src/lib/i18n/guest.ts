@@ -17,6 +17,8 @@ const pt = {
   "header.lock.none": "Pagamento por Pix",
   "header.language": "Idioma",
   "header.help": "Ajuda",
+  "header.home": "Início",
+  "header.theme": "Tema claro ou escuro",
 
   // Vitrine
   "catalog.title": "Sirva-se. Pague em segundos.",
@@ -197,6 +199,8 @@ const en: Record<GuestKey, string> = {
   "header.lock.none": "Pay with Pix",
   "header.language": "Language",
   "header.help": "Help",
+  "header.home": "Home",
+  "header.theme": "Light or dark theme",
 
   "catalog.title": "Help yourself. Pay in seconds.",
   "catalog.subtitle": "Pick what you'd like. The lock opens as soon as payment is confirmed.",
@@ -360,6 +364,8 @@ const es: Record<GuestKey, string> = {
   "header.lock.none": "Pago con Pix",
   "header.language": "Idioma",
   "header.help": "Ayuda",
+  "header.home": "Inicio",
+  "header.theme": "Tema claro u oscuro",
 
   "catalog.title": "Sírvase. Pague en segundos.",
   "catalog.subtitle": "Elija lo que va a consumir. La cerradura se abre en cuanto se confirma el pago.",

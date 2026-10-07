@@ -53,7 +53,7 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
           return (
             <li
               key={p.id}
-              className={cn("glass flex items-center gap-3 rounded-[28px] p-3 pr-4 transition sm:gap-4", soldOut && "opacity-60")}
+              className={cn("glass product-card group flex items-center gap-3 rounded-[28px] p-3 pr-4 sm:gap-4", soldOut && "opacity-60")}
             >
               <ProductTile iconKey={p.iconKey} className="size-14 shrink-0 sm:size-[72px]" />
               <div className="min-w-0 flex-1">

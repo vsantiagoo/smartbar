@@ -1,8 +1,10 @@
 "use client";
-import { CircleHelp, Globe } from "lucide-react";
+import { CircleHelp, Globe, House } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useGuest } from "@/components/guest/guest-context";
 import { HelpSheet } from "@/components/guest/sections/help-sheet";
+import { ThemeToggle } from "@/components/guest/sections/theme-toggle";
 import { LogoMark } from "@/components/ui/logo";
 import { LANGS, type GuestKey } from "@/lib/i18n/guest";
 import { cn } from "@/lib/utils";
@@ -14,7 +16,7 @@ const HOTEL_NAME_PLACEHOLDER = "Nome do seu hotel aqui";
  * SEÇÃO · Cabeçalho do hóspede, no mesmo desenho do site: logo à esquerda, barra de vidro
  * central (só hotel e quarto) e, à direita, idioma e ajuda.
  */
-export function GuestHeader() {
+export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) {
   const { t, lang, setLang, room } = useGuest();
   const [langOpen, setLangOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
@@ -49,12 +51,14 @@ export function GuestHeader() {
         </div>
 
         <div className="flex items-center gap-2 justify-self-end">
+          <ThemeToggle initialDark={initialDark} />
+
           <div ref={menu} className="relative">
             <button
               onClick={() => setLangOpen((o) => !o)}
               aria-label={t("header.language")}
               aria-expanded={langOpen}
-              className="glass-dark grid size-11 place-items-center rounded-full text-white/80 transition hover:bg-white/15"
+              className="glass-dark glass-liquid grid size-11 place-items-center rounded-full text-white/80 transition hover:bg-white/15"
             >
               <span className="flex items-center gap-0.5 text-xs font-bold">
                 <Globe className="size-4" />
@@ -96,11 +100,19 @@ export function GuestHeader() {
           <button
             onClick={() => setHelpOpen(true)}
             aria-label={t("header.help")}
-            className="glass-tint grid size-11 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95"
+            className="glass-tint glass-liquid grid size-11 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95"
           >
             <CircleHelp className="size-5" />
           </button>
           <HelpSheet open={helpOpen} onClose={() => setHelpOpen(false)} />
+
+          <Link
+            href="/"
+            aria-label={t("header.home")}
+            className="glass-dark glass-liquid glass-liquid-shimmer grid size-11 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95"
+          >
+            <House className="size-5" />
+          </Link>
         </div>
       </div>
 

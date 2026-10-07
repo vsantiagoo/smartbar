@@ -7,7 +7,7 @@ import { HelpSheet } from "@/components/guest/sections/help-sheet";
 import { Badge } from "@/components/ui/badge";
 import { buttonClasses } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
-import { DotNumber, EmptyState } from "@/components/ui/primitives";
+import { EmptyState } from "@/components/ui/primitives";
 import { formatBRL } from "@/lib/utils";
 import type { PaymentMethod, TransactionItem } from "@/lib/types";
 
@@ -41,7 +41,7 @@ export function ConsumptionList({ entries, baseHref }: { entries: ConsumptionEnt
         <>
           <GlassCard surface="strong" pad="md" className="flex items-baseline justify-between">
             <span className="text-sm font-medium text-ink-soft">{t("consumption.total")}</span>
-            <DotNumber className="text-3xl">{formatBRL(total)}</DotNumber>
+            <span className="tabular text-3xl font-bold text-ink">{formatBRL(total)}</span>
           </GlassCard>
 
           <ul className="space-y-3">

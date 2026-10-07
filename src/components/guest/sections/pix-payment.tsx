@@ -6,7 +6,6 @@ import { useGuest } from "@/components/guest/guest-context";
 import { DemoTools } from "@/components/guest/sections/demo-tools";
 import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
-import { DotNumber } from "@/components/ui/primitives";
 import { formatClock, useCountdown } from "@/lib/realtime/use-countdown";
 import { simulatePixPayment } from "@/lib/realtime/simulate";
 import { cn, formatBRL } from "@/lib/utils";
@@ -44,7 +43,7 @@ export function PixPayment({ tx, showDemoTools }: { tx: PublicTransaction; showD
 
       <GlassCard surface="strong" pad="lg" className="text-center">
         <p className="text-sm font-medium text-ink-soft">{t("pix.amount")}</p>
-        <DotNumber className="mt-2 block text-[2.6rem]">{formatBRL(tx.totalCents)}</DotNumber>
+        <span className="tabular mt-2 block text-[2.6rem] font-bold text-ink">{formatBRL(tx.totalCents)}</span>
 
         <div className="mx-auto mt-6 w-fit rounded-3xl bg-white p-4 shadow-soft">
           <QRCodeSVG value={code || "smartbar"} size={176} level="M" fgColor="currentColor" bgColor="#FFFFFF" className="text-brand-800" />
