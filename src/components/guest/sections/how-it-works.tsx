@@ -23,7 +23,7 @@ export function HowItWorks() {
           const Icon = ICONS[i] ?? KeyRound;
           return (
             <li key={s.title} className="glass rounded-3xl p-3.5">
-              <span className="grid size-9 place-items-center rounded-2xl glass-chip bg-brand-700/10 text-brand-700">
+              <span className="grid size-9 place-items-center rounded-2xl glass-chip bg-brand-700/10 text-brand-700 dark:bg-white/10 dark:text-white">
                 <Icon className="size-[18px]" />
               </span>
               <p className="mt-3 font-heading text-sm font-semibold text-ink">
