@@ -69,7 +69,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
         <ul className="divide-y divide-brand-700/10">
           {lines.map(({ item, quantity }) => (
             <li key={item.id} className="flex items-center gap-3 py-3">
-              <ProductTile iconKey={item.iconKey} className="size-14 shrink-0" />
+              <ProductTile sku={item.sku} iconKey={item.iconKey} className="size-14 shrink-0" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-ink">{item.name}</p>
                 <p className="tabular text-sm text-ink-soft">{formatBRL(item.priceCents)}</p>

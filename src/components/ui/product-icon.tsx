@@ -9,7 +9,25 @@ import {
   Wheat,
   type LucideIcon,
 } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+
+/**
+ * Fotos reais dos produtos (fonte: Pexels, uso livre). Mapeadas por SKU porque
+ * dois produtos podem partilhar o mesmo iconKey (água sem/com gás, cola/cola zero).
+ * Ficam em public/images/products/<SKU>.jpg. Sem foto → cai no ícone.
+ */
+const PRODUCT_IMAGES: Record<string, string> = {
+  "AGU-SG": "/images/products/AGU-SG.jpg",
+  "AGU-CG": "/images/products/AGU-CG.jpg",
+  "REF-CO": "/images/products/REF-CO.jpg",
+  "REF-ZE": "/images/products/REF-ZE.jpg",
+  "SUC-UV": "/images/products/SUC-UV.jpg",
+  "AMD-50": "/images/products/AMD-50.jpg",
+  "SAL-PC": "/images/products/SAL-PC.jpg",
+  "BAR-CE": "/images/products/BAR-CE.jpg",
+  "BAT-PT": "/images/products/BAT-PT.jpg",
+};
 
 const ICONS: Record<string, LucideIcon> = {
   "glass-water": GlassWater,
@@ -37,19 +55,28 @@ export function productIcon(key: string): LucideIcon {
   return ICONS[key] ?? Package;
 }
 
-/** Ilustração do produto enquanto não há foto: tile em gradiente + ícone. */
-export function ProductTile({ iconKey, className }: { iconKey: string; className?: string }) {
+/**
+ * Tile do produto em glassmorphism. Com foto (por SKU), mostra a imagem real
+ * preenchendo o quadrado; o aro especular do vidro fica por cima. Sem foto, usa
+ * o gradiente da marca + ícone como ilustração.
+ */
+export function ProductTile({ iconKey, sku, className }: { iconKey: string; sku?: string; className?: string }) {
+  const photo = sku ? PRODUCT_IMAGES[sku] : undefined;
   const Icon = productIcon(iconKey);
   return (
     <div
       aria-hidden
       className={cn(
-        "glass-chip specular-tile grid place-items-center rounded-3xl bg-gradient-to-br",
-        TINTS[iconKey] ?? TINTS.package,
+        "glass-chip specular-tile grid place-items-center rounded-3xl",
+        photo ? "bg-white/60 dark:bg-white/10" : cn("bg-gradient-to-br", TINTS[iconKey] ?? TINTS.package),
         className,
       )}
     >
-      <Icon className="size-1/2" strokeWidth={1.6} />
+      {photo ? (
+        <Image src={photo} alt="" fill sizes="(min-width: 640px) 72px, 56px" className="object-cover" />
+      ) : (
+        <Icon className="size-1/2" strokeWidth={1.6} />
+      )}
     </div>
   );
 }

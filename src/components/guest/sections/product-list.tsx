@@ -55,7 +55,7 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
               key={p.id}
               className={cn("glass product-card group flex items-center gap-3 rounded-[28px] p-3 pr-4 sm:gap-4", soldOut && "opacity-60")}
             >
-              <ProductTile iconKey={p.iconKey} className="size-14 shrink-0 sm:size-[72px]" />
+              <ProductTile sku={p.sku} iconKey={p.iconKey} className="size-14 shrink-0 sm:size-[72px]" />
               <div className="min-w-0 flex-1">
                 <p className="font-heading font-semibold leading-snug text-ink">{displayName}</p>
                 <p className="truncate text-sm text-ink-soft">{displayDesc}</p>
