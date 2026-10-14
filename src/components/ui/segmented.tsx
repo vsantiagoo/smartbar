@@ -41,7 +41,7 @@ export function Segmented<T extends string>({ options, value, onChange, label, c
               <span
                 className={cn(
                   "tabular rounded-full px-1.5 text-xs",
-                  active ? "bg-white/20 text-white" : "bg-brand-700/10 text-brand-700",
+                  active ? "bg-white/20 text-white" : "bg-brand-700/10 text-brand-700 dark:bg-white/10 dark:text-white",
                 )}
               >
                 {o.count}

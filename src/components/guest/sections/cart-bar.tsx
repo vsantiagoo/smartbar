@@ -41,7 +41,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
             </span>
             <span className="min-w-0 leading-tight">
               <span className="block text-xs text-ink-soft">{t("cart.items", { n: count })}</span>
-              <span className="tabular mt-1 block text-xl font-bold text-brand-700">{formatBRL(cents)}</span>
+              <span className="tabular mt-1 block text-xl font-bold text-brand-700 dark:text-white">{formatBRL(cents)}</span>
             </span>
           </button>
           <Link href={checkoutHref} className={buttonClasses("accent", "md", "h-12 shrink-0 px-5 text-[0.95rem]")}>

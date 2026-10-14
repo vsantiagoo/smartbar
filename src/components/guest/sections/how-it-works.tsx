@@ -27,7 +27,7 @@ export function HowItWorks() {
                 <Icon className="size-[18px]" />
               </span>
               <p className="mt-3 font-heading text-sm font-semibold text-ink">
-                <span className="tabular mr-1 text-brand-500">{i + 1}.</span>
+                <span className="tabular mr-1 text-brand-500 dark:text-white">{i + 1}.</span>
                 {s.title}
               </p>
               <p className="mt-0.5 text-xs leading-snug text-ink-soft">{s.text}</p>

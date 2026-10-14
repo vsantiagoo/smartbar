@@ -5,7 +5,7 @@ export type BadgeTone = "neutral" | "info" | "ok" | "warn" | "danger" | "gold";
 
 const tones: Record<BadgeTone, { wrap: string; dot: string }> = {
   neutral: { wrap: "bg-ink/8 text-ink", dot: "bg-ink-faint" },
-  info: { wrap: "bg-brand-700/10 text-brand-700", dot: "bg-brand-500" },
+  info: { wrap: "bg-brand-700/10 text-brand-700 dark:bg-white/10 dark:text-white", dot: "bg-brand-500" },
   ok: { wrap: "bg-ok-500/12 text-ok-600", dot: "bg-ok-500" },
   warn: { wrap: "bg-gold-500/15 text-gold-600", dot: "bg-gold-500" },
   danger: { wrap: "bg-crimson-500/10 text-crimson-600", dot: "bg-crimson-500" },
