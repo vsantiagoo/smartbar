@@ -18,15 +18,14 @@ import { cn } from "@/lib/utils";
  * Ficam em public/images/products/<SKU>.jpg. Sem foto → cai no ícone.
  */
 const PRODUCT_IMAGES: Record<string, string> = {
-  "AGU-SG": "/images/products/AGU-SG.jpg",
-  "AGU-CG": "/images/products/AGU-CG.jpg",
-  "REF-CO": "/images/products/REF-CO.jpg",
-  "REF-ZE": "/images/products/REF-ZE.jpg",
-  "SUC-UV": "/images/products/SUC-UV.jpg",
-  "AMD-50": "/images/products/AMD-50.jpg",
-  "SAL-PC": "/images/products/SAL-PC.jpg",
+  "AGU-SG": "/images/products/AGU-SG.png",
+  "AGU-CG": "/images/products/AGU-CG.png",
+  "REF-CO": "/images/products/REF-CO.png",
+  "REF-ZE": "/images/products/REF-ZE.png",
+  "SUC-UV": "/images/products/SUC-UV.png",
+  "AMD-50": "/images/products/AMD-50.png",
   "BAR-CE": "/images/products/BAR-CE.jpg",
-  "BAT-PT": "/images/products/BAT-PT.jpg",
+  "BAT-PT": "/images/products/BAT-PT.png",
 };
 
 const ICONS: Record<string, LucideIcon> = {
@@ -62,18 +61,27 @@ export function productIcon(key: string): LucideIcon {
  */
 export function ProductTile({ iconKey, sku, className }: { iconKey: string; sku?: string; className?: string }) {
   const photo = sku ? PRODUCT_IMAGES[sku] : undefined;
+  // PNG = recorte transparente do produto → inteiro, flutuando no vidro (object-contain).
+  // JPG = foto com fundo → preenche o quadrado (object-cover), como a barra de cereal.
+  const contain = photo?.endsWith(".png");
   const Icon = productIcon(iconKey);
   return (
     <div
       aria-hidden
       className={cn(
-        "glass-chip specular-tile grid place-items-center rounded-3xl",
-        photo ? "bg-white/60 dark:bg-white/10" : cn("bg-gradient-to-br", TINTS[iconKey] ?? TINTS.package),
+        "glass-chip specular-tile grid place-items-center rounded-3xl bg-gradient-to-br",
+        TINTS[iconKey] ?? TINTS.package,
         className,
       )}
     >
       {photo ? (
-        <Image src={photo} alt="" fill sizes="(min-width: 640px) 72px, 56px" className="object-cover" />
+        <Image
+          src={photo}
+          alt=""
+          fill
+          sizes="(min-width: 640px) 72px, 56px"
+          className={contain ? "object-contain p-1.5" : "object-cover"}
+        />
       ) : (
         <Icon className="size-1/2" strokeWidth={1.6} />
       )}

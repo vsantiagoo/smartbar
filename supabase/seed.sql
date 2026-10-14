@@ -14,13 +14,12 @@ values (
 insert into public.products (hotel_id, sku, name, description, category, price_cents, cost_cents, icon_key, sort_order) values
   ('11111111-1111-4111-8111-111111111111', 'AGU-SG', 'Água mineral sem gás', '500 ml',            'bebida', 600,  120, 'glass-water', 1),
   ('11111111-1111-4111-8111-111111111111', 'AGU-CG', 'Água mineral com gás', '500 ml',            'bebida', 600,  120, 'glass-water', 2),
-  ('11111111-1111-4111-8111-111111111111', 'REF-CO', 'Refrigerante cola',    'Lata 350 ml',       'bebida', 900,  310, 'cup-soda',    3),
-  ('11111111-1111-4111-8111-111111111111', 'REF-ZE', 'Refrigerante cola zero','Lata 350 ml',      'bebida', 900,  310, 'cup-soda',    4),
-  ('11111111-1111-4111-8111-111111111111', 'SUC-UV', 'Suco de uva integral', '290 ml',            'bebida', 950,  340, 'grape',       5),
+  ('11111111-1111-4111-8111-111111111111', 'REF-CO', 'Refrigerante coca cola original','Lata 350 ml','bebida', 900,  310, 'cup-soda',    3),
+  ('11111111-1111-4111-8111-111111111111', 'REF-ZE', 'Refrigerante coca cola zero','Lata 350 ml',   'bebida', 900,  310, 'cup-soda',    4),
+  ('11111111-1111-4111-8111-111111111111', 'SUC-UV', 'Suco de uva',          'Lata 290 ml',       'bebida', 950,  340, 'grape',       5),
   ('11111111-1111-4111-8111-111111111111', 'AMD-50', 'Amendoim torrado',     'Pacote 50 g',       'snack',  800,  220, 'nut',         6),
-  ('11111111-1111-4111-8111-111111111111', 'SAL-PC', 'Salgadinho de milho',  'Pacote',            'snack',  1000, 350, 'cookie',      7),
   ('11111111-1111-4111-8111-111111111111', 'BAR-CE', 'Barra de cereal',      'Castanhas e mel',   'snack',  500,  150, 'wheat',       8),
-  ('11111111-1111-4111-8111-111111111111', 'BAT-PT', 'Batata frita em pote', '35 g',              'snack',  1400, 480, 'popcorn',     9);
+  ('11111111-1111-4111-8111-111111111111', 'BAT-PT', 'Batata chips',         '35 g',              'snack',  1400, 480, 'popcorn',     9);
 
 -- Quartos (QR: /h/hotel-aurora/q/aurora-101) ---------------------------
 insert into public.rooms (hotel_id, number, floor, qr_token, device_id, device_online, device_last_seen_at)
@@ -42,7 +41,7 @@ cross join lateral (
     when 'AGU-SG' then 2 when 'AGU-CG' then 2
     when 'REF-CO' then 2 when 'REF-ZE' then 2
     when 'SUC-UV' then 3
-    when 'AMD-50' then 2 when 'SAL-PC' then 1
+    when 'AMD-50' then 2
     when 'BAR-CE' then 2 when 'BAT-PT' then 1
   end as v
 ) par;

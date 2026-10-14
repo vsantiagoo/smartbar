@@ -551,37 +551,34 @@ interface ProductI18n {
 const PRODUCT_PT: Record<string, ProductI18n> = {
   "AGU-SG": { name: "Água mineral sem gás", description: "500 ml" },
   "AGU-CG": { name: "Água mineral com gás", description: "500 ml" },
-  "REF-CO": { name: "Refrigerante cola", description: "Lata 350 ml" },
-  "REF-ZE": { name: "Refrigerante cola zero", description: "Lata 350 ml" },
-  "SUC-UV": { name: "Suco de uva integral", description: "290 ml" },
+  "REF-CO": { name: "Refrigerante coca cola original", description: "Lata 350 ml" },
+  "REF-ZE": { name: "Refrigerante coca cola zero", description: "Lata 350 ml" },
+  "SUC-UV": { name: "Suco de uva", description: "Lata 290 ml" },
   "AMD-50": { name: "Amendoim torrado", description: "Pacote 50 g" },
-  "SAL-PC": { name: "Salgadinho de milho", description: "Pacote" },
   "BAR-CE": { name: "Barra de cereal", description: "Castanhas e mel" },
-  "BAT-PT": { name: "Batata frita em pote", description: "35 g" },
+  "BAT-PT": { name: "Batata chips", description: "35 g" },
 };
 
 const PRODUCT_EN: Record<string, ProductI18n> = {
   "AGU-SG": { name: "Still mineral water", description: "500 ml" },
   "AGU-CG": { name: "Sparkling mineral water", description: "500 ml" },
-  "REF-CO": { name: "Cola soft drink", description: "Can 350 ml" },
-  "REF-ZE": { name: "Zero sugar cola", description: "Can 350 ml" },
-  "SUC-UV": { name: "Pure grape juice", description: "290 ml" },
+  "REF-CO": { name: "Coca-Cola Original", description: "Can 350 ml" },
+  "REF-ZE": { name: "Coca-Cola Zero", description: "Can 350 ml" },
+  "SUC-UV": { name: "Grape juice", description: "Can 290 ml" },
   "AMD-50": { name: "Roasted peanuts", description: "50 g pack" },
-  "SAL-PC": { name: "Corn chips", description: "Pack" },
   "BAR-CE": { name: "Cereal bar", description: "Nuts and honey" },
-  "BAT-PT": { name: "Potato chips cup", description: "35 g" },
+  "BAT-PT": { name: "Potato chips", description: "35 g" },
 };
 
 const PRODUCT_ES: Record<string, ProductI18n> = {
   "AGU-SG": { name: "Agua mineral sin gas", description: "500 ml" },
   "AGU-CG": { name: "Agua mineral con gas", description: "500 ml" },
-  "REF-CO": { name: "Refresco de cola", description: "Lata 350 ml" },
-  "REF-ZE": { name: "Refresco de cola zero", description: "Lata 350 ml" },
-  "SUC-UV": { name: "Jugo de uva integral", description: "290 ml" },
+  "REF-CO": { name: "Coca-Cola Original", description: "Lata 350 ml" },
+  "REF-ZE": { name: "Coca-Cola Zero", description: "Lata 350 ml" },
+  "SUC-UV": { name: "Jugo de uva", description: "Lata 290 ml" },
   "AMD-50": { name: "Maní tostado", description: "Paquete 50 g" },
-  "SAL-PC": { name: "Snack de maíz", description: "Paquete" },
   "BAR-CE": { name: "Barra de cereal", description: "Frutos secos y miel" },
-  "BAT-PT": { name: "Papas fritas en vaso", description: "35 g" },
+  "BAT-PT": { name: "Papas chips", description: "35 g" },
 };
 
 const PRODUCT_DICTS: Record<Lang, Record<string, ProductI18n>> = {

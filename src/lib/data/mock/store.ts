@@ -33,13 +33,12 @@ const COLD = ["cold"];
 const PRODUCTS: ProductSeed[] = [
   { sku: "AGU-SG", name: "Água mineral sem gás", description: "500 ml", category: "bebida", priceCents: 600, iconKey: "glass-water", tags: COLD, par: 2, min: 0 },
   { sku: "AGU-CG", name: "Água mineral com gás", description: "500 ml", category: "bebida", priceCents: 600, iconKey: "glass-water", tags: COLD, par: 2, min: 0 },
-  { sku: "REF-CO", name: "Refrigerante cola", description: "Lata 350 ml", category: "bebida", priceCents: 900, iconKey: "cup-soda", tags: COLD, par: 2, min: 0 },
-  { sku: "REF-ZE", name: "Refrigerante cola zero", description: "Lata 350 ml", category: "bebida", priceCents: 900, iconKey: "cup-soda", tags: ["cold", "zero-sugar"], par: 2, min: 0 },
-  { sku: "SUC-UV", name: "Suco de uva integral", description: "290 ml", category: "bebida", priceCents: 950, iconKey: "grape", tags: ["cold", "vegan"], par: 3, min: 1 },
+  { sku: "REF-CO", name: "Refrigerante coca cola original", description: "Lata 350 ml", category: "bebida", priceCents: 900, iconKey: "cup-soda", tags: COLD, par: 2, min: 0 },
+  { sku: "REF-ZE", name: "Refrigerante coca cola zero", description: "Lata 350 ml", category: "bebida", priceCents: 900, iconKey: "cup-soda", tags: ["cold", "zero-sugar"], par: 2, min: 0 },
+  { sku: "SUC-UV", name: "Suco de uva", description: "Lata 290 ml", category: "bebida", priceCents: 950, iconKey: "grape", tags: ["cold", "vegan"], par: 3, min: 1 },
   { sku: "AMD-50", name: "Amendoim torrado", description: "Pacote 50 g", category: "snack", priceCents: 800, iconKey: "nut", tags: ["gluten-free", "vegan"], par: 2, min: 0 },
-  { sku: "SAL-PC", name: "Salgadinho de milho", description: "Pacote", category: "snack", priceCents: 1000, iconKey: "cookie", par: 1, min: 0 },
   { sku: "BAR-CE", name: "Barra de cereal", description: "Castanhas e mel", category: "snack", priceCents: 500, iconKey: "wheat", tags: ["vegan"], par: 2, min: 0 },
-  { sku: "BAT-PT", name: "Batata frita em pote", description: "35 g", category: "snack", priceCents: 1400, iconKey: "popcorn", par: 1, min: 0 },
+  { sku: "BAT-PT", name: "Batata chips", description: "35 g", category: "snack", priceCents: 1400, iconKey: "popcorn", par: 1, min: 0 },
 ];
 
 const ROOM_NUMBERS = [101, 102, 103, 104, 201, 202, 203, 204, 301, 302, 303, 304];
