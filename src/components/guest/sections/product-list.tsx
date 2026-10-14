@@ -60,7 +60,7 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
                 <p className="font-heading font-semibold leading-snug text-ink">{displayName}</p>
                 <p className="truncate text-sm text-ink-soft">{displayDesc}</p>
                 <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                  <span className="tabular mr-1 font-bold text-brand-700">{formatBRL(p.priceCents)}</span>
+                  <span className="tabular mr-1 font-bold text-brand-700 dark:text-white">{formatBRL(p.priceCents)}</span>
                   {soldOut ? (
                     <Badge tone="neutral">{t("catalog.soldOut")}</Badge>
                   ) : p.available <= LOW_STOCK ? (
