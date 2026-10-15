@@ -59,7 +59,7 @@ export function productIcon(key: string): LucideIcon {
  * preenchendo o quadrado; o aro especular do vidro fica por cima. Sem foto, usa
  * o gradiente da marca + ícone como ilustração.
  */
-export function ProductTile({ iconKey, sku, className }: { iconKey: string; sku?: string; className?: string }) {
+export function ProductTile({ iconKey, sku, className }: { iconKey: string; sku?: string | null; className?: string }) {
   const photo = sku ? PRODUCT_IMAGES[sku] : undefined;
   // PNG = recorte transparente do produto → inteiro, flutuando no vidro (object-contain).
   // JPG = foto com fundo → preenche o quadrado (object-cover), como a barra de cereal.
