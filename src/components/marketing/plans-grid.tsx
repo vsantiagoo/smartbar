@@ -2,6 +2,7 @@
 import { Check } from "lucide-react";
 import { useState } from "react";
 import { buttonClasses } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
 import { Segmented } from "@/components/ui/segmented";
 import { marketingCopy } from "@/lib/content/copy";
@@ -70,9 +71,9 @@ export function PlansGrid() {
         {/* Caixa mais larga que a das outras seções: o título daqui é uma frase
             inteira e, em `max-w-xl`, quebraria em quatro linhas apertadas. */}
         <Reveal className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{c.kicker}</p>
-          <h2 className="mt-3 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
-          <p className="mt-3 max-w-xl text-ink-soft">{c.subtitle}</p>
+          <Eyebrow>{c.kicker}</Eyebrow>
+          <h2 className="mt-5 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
+          <p className="mt-4 max-w-xl text-ink-soft">{c.subtitle}</p>
         </Reveal>
 
         <Reveal delay={80} className="mt-8">
@@ -93,7 +94,7 @@ export function PlansGrid() {
               <Reveal key={plan.tier} delay={i * 110} className="h-full">
                 <div
                   className={cn(
-                    "flex h-full flex-col rounded-panel p-7 transition duration-300 hover:-translate-y-1",
+                    "lift flex h-full flex-col rounded-panel p-7",
                     plan.highlight ? "glass-navy text-white" : "glass",
                   )}
                 >

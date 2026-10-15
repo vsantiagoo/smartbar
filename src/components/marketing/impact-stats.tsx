@@ -1,3 +1,4 @@
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
 import { getT } from "@/lib/i18n/server";
@@ -13,8 +14,8 @@ export async function ImpactStats() {
       <GlowBackdrop />
       <div className="mx-auto max-w-6xl text-center">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{c.kicker}</p>
-          <h2 className="mt-3 text-[2.4rem] font-bold leading-[1.1] sm:text-[3.2rem]">
+          <Eyebrow centered>{c.kicker}</Eyebrow>
+          <h2 className="mt-5 text-[2.4rem] font-bold leading-[1.1] sm:text-[3.2rem]">
             {c.title} <span className="text-gold-500">{c.titleAccent}</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-ink-soft">{c.subtitle}</p>

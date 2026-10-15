@@ -1,5 +1,6 @@
 import { ArrowUpRight, LayoutDashboard, Palette, Smartphone } from "lucide-react";
 import Link from "next/link";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { marketingCopy } from "@/lib/content/copy";
 import { getT } from "@/lib/i18n/server";
 import { DEMO_HOTEL_SLUG, DEMO_ROOM_TOKEN } from "@/lib/config";
@@ -28,8 +29,8 @@ export async function QuickLinks() {
       <GlowBackdrop />
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{c.kicker}</p>
-          <h2 className="mt-3 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
+          <Eyebrow>{c.kicker}</Eyebrow>
+          <h2 className="mt-5 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
         </Reveal>
 
         <ul className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -40,7 +41,7 @@ export async function QuickLinks() {
                 <Reveal delay={i * 100} className="h-full">
                   <Link
                     href={ROUTES[item.route]!}
-                    className="glass group flex h-full flex-col rounded-card p-6 transition duration-300 hover:-translate-y-1 hover:bg-white/20"
+                    className="glass lift group flex h-full flex-col rounded-card p-6"
                   >
                     <span className="glass-tint grid size-11 place-items-center rounded-2xl bg-brand-700/80 text-white">
                       <Icon className="size-5" />

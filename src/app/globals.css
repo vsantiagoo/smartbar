@@ -79,7 +79,7 @@
   border-bottom-color: rgb(255 255 255 / 0.05);
   box-shadow: var(--rim-dark);
 }
-[data-theme="dark"] .product-card:hover {
+[data-theme="dark"] .lift:hover {
   border-color: rgb(255 255 255 / 0.22);
   box-shadow: var(--rim-dark), var(--cast-2);
 }
@@ -434,25 +434,36 @@
     sombra ganha profundidade — sem perder o aro líquido (--liquid-rim). O glint
     do tile desliza junto (ver .specular-tile).
   */
-  .product-card {
+  /*
+    ERGUER — o gesto de destaque de QUALQUER card, no site e no produto. Era
+    feito em cada lugar de um jeito: na vitrine com uma sombra própria, na
+    landing com um `hover:-translate-y-1` e nenhuma sombra. Agora é um gesto só.
+
+    O card sai do nível 2 (elevada) e vai ao 3 (sobreposta). A sombra troca de
+    CAMADAS junto: não basta escurecer, ela precisa ficar mais larga e mais
+    difusa. Sombra que só escurece faz o card parecer pressionado contra o
+    fundo, e não erguido dele — e é o erro mais comum de hover em vidro.
+
+    A mesma curva orgânica do <Reveal>: sobe rápido, assenta devagar.
+  */
+  .lift {
     transition:
       transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       border-color 0.3s ease;
   }
-  /*
-    Subir de nível ao destacar: o card sai do nível 2 (elevada) para o 3
-    (sobreposta). A sombra troca de camadas junto — não basta ficar mais
-    escura, ela precisa ficar mais LARGA, senão o card parece pressionado
-    contra o fundo em vez de erguido dele.
-  */
-  .product-card:hover {
+  .lift:hover {
     transform: translateY(-3px);
     border-color: rgb(255 255 255 / 0.4);
     box-shadow: var(--rim-light), var(--cast-2);
   }
+  /* Sobre o navy, a luz é outra: aro escuro e a sombra mais funda da escala. */
+  .glass-navy.lift:hover {
+    border-color: rgb(255 255 255 / 0.3);
+    box-shadow: var(--rim-dark), var(--cast-3);
+  }
   @media (prefers-reduced-motion: reduce) {
-    .product-card:hover { transform: none; }
+    .lift:hover { transform: none; }
   }
 
   /*
@@ -469,23 +480,41 @@
     backdrop-filter: blur(var(--blur-1)) saturate(1.5);
     box-shadow: var(--rim-light);
   }
-  /* Vidro azul-marinho — cards de destaque sobre fundos claros ou escuros. */
+  /*
+    Vidro azul-marinho — cards de destaque sobre fundos claros ou escuros.
+    Nível 3 de verdade: blur-3 e cast-2. Usava blur-2 com cast-3, o que o
+    deixava fora da hierarquia e, pior, já no fundo máximo da escala parado —
+    então ao destacá-lo a sombra não tinha para onde crescer e o card só
+    pulava. Agora ele guarda o cast-3 para o hover.
+  */
   .glass-navy {
     background:
       linear-gradient(to bottom, rgb(var(--brand-700) / 0.88), rgb(var(--brand-900) / 0.92)) padding-box,
       linear-gradient(to bottom, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.08) 50%, rgb(255 255 255 / 0.04)) border-box;
     border: 1px solid transparent;
-    -webkit-backdrop-filter: blur(var(--blur-2)) saturate(1.4);
-    backdrop-filter: blur(var(--blur-2)) saturate(1.4);
-    box-shadow: var(--rim-dark), var(--cast-3);
+    -webkit-backdrop-filter: blur(var(--blur-3)) saturate(1.4);
+    backdrop-filter: blur(var(--blur-3)) saturate(1.4);
+    box-shadow: var(--rim-dark), var(--cast-2);
   }
-  /* Entrada suave ao rolar (componente <Reveal>). */
+  /*
+    Entrada ao rolar (componente <Reveal>).
+
+    A curva é `(0.16, 1, 0.3, 1)`: quase toda a distância é vencida no primeiro
+    terço do tempo, e o resto é desaceleração. É assim que uma coisa com massa
+    chega — rápido no começo, assentando no fim. Uma curva simétrica (ease,
+    ease-in-out) faz o elemento parecer puxado por um motor, em velocidade
+    constante: o movimento mais denunciador de interface gerada.
+
+    A opacidade usa a MESMA curva, mas num tempo menor. Se as duas terminassem
+    juntas, o elemento ainda estaria chegando quando já estivesse opaco, e o
+    último trecho do deslize pareceria um tranco.
+  */
   .reveal {
     opacity: 0;
     transform: translate3d(0, 28px, 0);
     transition:
-      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: var(--reveal-delay, 0ms);
   }
   .reveal.is-visible {

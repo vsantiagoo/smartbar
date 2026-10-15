@@ -1,12 +1,15 @@
-import { ArrowUpRight, Boxes, Lock, QrCode, type LucideIcon } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { Logo } from "@/components/ui/logo";
+import { MarkRoomCode, MarkShelf, MarkUnlock } from "@/components/ui/marks";
 import { Reveal } from "@/components/ui/reveal";
 import { BackToTop } from "./back-to-top";
 import { CenterAnchor } from "./center-anchor";
 import { marketingCopy } from "@/lib/content/copy";
 import { getT } from "@/lib/i18n/server";
 
-const ICONS: Record<string, LucideIcon> = { qr: QrCode, lock: Lock, stock: Boxes };
+/* Sinais próprios (ver `ui/marks.tsx`), no lugar do icon set genérico. */
+const ICONS = { qr: MarkRoomCode, lock: MarkUnlock, stock: MarkShelf } as const;
 
 /**
  * SEÇÃO · "Como funciona" — bloco escuro com sobrescrita, título e três cards
@@ -25,7 +28,7 @@ export async function ScrollStory() {
       <BackToTop tone="light" />
       <Reveal className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/55">{c.eyebrow}</span>
+          <Eyebrow tone="dark">{c.eyebrow}</Eyebrow>
           {/* Só a partir de 640px: no celular o selo disputava a linha com a sobrescrita. */}
           <span className="hidden items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-white/55 sm:inline-flex">
             <Logo tone="light" intro="inview" wordmarkClassName="hidden" className="[--logo-size:1.25rem]" />
@@ -53,11 +56,11 @@ export async function ScrollStory() {
 
         <div className="mt-10 grid gap-3 lg:grid-cols-3">
           {c.cards.map((card) => {
-            const Icon = ICONS[card.icon] ?? QrCode;
+            const Icon = ICONS[card.icon as keyof typeof ICONS] ?? MarkRoomCode;
             return (
               <div
                 key={card.n}
-                className="glass flex items-center gap-3.5 rounded-3xl px-5 py-4 transition duration-300 hover:-translate-y-1 hover:bg-white/20"
+                className="glass lift flex items-center gap-3.5 rounded-card px-5 py-4"
               >
                 <span className="tabular text-sm font-bold text-white/45">{card.n}</span>
                 <Icon className="size-6 shrink-0 text-gold-400" aria-hidden />
