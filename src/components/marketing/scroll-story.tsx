@@ -36,11 +36,10 @@ export async function ScrollStory() {
         {/* Título à esquerda; texto de apoio no bloco estreito à direita. */}
         <div className="mt-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
           <h2
-            className="max-w-3xl text-white"
-            // letter-spacing em `em`: dá exatamente -2,8px no tamanho máximo (64px) e encolhe junto no celular.
-            style={{ fontSize: "clamp(38px,4.4vw,64px)", fontWeight: 400, lineHeight: 1.08, letterSpacing: "-0.04375em" }}
+            className="max-w-3xl font-display text-white"
+            style={{ fontSize: "clamp(40px,4.6vw,68px)", lineHeight: 1.05, letterSpacing: "-0.015em" }}
           >
-            {c.title} <span className="text-gold-400">{c.titleAccent}</span>
+            {c.title} <span className="italic text-gold-400">{c.titleAccent}</span>
           </h2>
 
           <p

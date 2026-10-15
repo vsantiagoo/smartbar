@@ -57,7 +57,7 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
             >
               <ProductTile sku={p.sku} iconKey={p.iconKey} className="size-14 shrink-0 sm:size-[72px]" />
               <div className="min-w-0 flex-1">
-                <p className="font-heading font-semibold leading-snug text-ink">{displayName}</p>
+                <p className="font-semibold leading-snug text-ink">{displayName}</p>
                 <p className="truncate text-sm text-ink-soft">{displayDesc}</p>
                 <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                   <span className="tabular mr-1 font-bold text-brand-700 dark:text-white">{formatBRL(p.priceCents)}</span>

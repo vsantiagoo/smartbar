@@ -1,18 +1,34 @@
 import type { Metadata, Viewport } from "next";
-import { Doto, Plus_Jakarta_Sans } from "next/font/google";
+import { Doto, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { DEFAULT_THEME, THEME_STORAGE_KEY, themeToVars, varsToCss } from "@/lib/theme";
 import "./globals.css";
 
-// Fonte pontilhada só para números de destaque (referência do Design System).
-const doto = Doto({ subsets: ["latin"], weight: ["700", "800"], variable: "--font-dot", display: "swap" });
-
-// Plus Jakarta Sans: logo e títulos de destaque (headings, nomes de produtos, categorias).
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-heading",
+/**
+ * TIPOGRAFIA (Brandbook §2) — três vozes, cada uma com um papel:
+ *
+ *   display → Instrument Serif: só títulos de display e declarações de marca.
+ *             O serif traz hospitalidade; o itálico é o acento autoral.
+ *   sans    → Instrument Sans: corpo e TODA a interface (painel e vitrine).
+ *   dot     → Doto: apenas números de destaque (valores, contadores).
+ *
+ * O logotipo não entra aqui: ele é desenhado em Arial Bold dentro do próprio
+ * componente (`ui/logo.tsx`), como ativo fixo da marca.
+ */
+const serif = Instrument_Serif({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
   display: "swap",
 });
+
+const sans = Instrument_Sans({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const doto = Doto({ subsets: ["latin"], weight: ["700", "800"], variable: "--font-dot", display: "swap" });
 
 export const metadata: Metadata = {
   title: { default: "SmartBar — minibar inteligente para hotéis", template: "%s · SmartBar" },
@@ -38,9 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="pt-BR"
-      /* O texto usa a fonte do sistema (ver fontFamily.sans em tailwind.config.ts). */
-      className={`${doto.variable} ${jakarta.variable} scroll-smooth`}
-      /* --font-heading: Plus Jakarta Sans (títulos); sans: fonte do sistema (texto corrido). */
+      className={`${sans.variable} ${serif.variable} ${doto.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <head>

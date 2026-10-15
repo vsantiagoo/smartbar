@@ -44,7 +44,7 @@ export async function FinalCta() {
       />
 
       <Reveal className="mx-auto max-w-2xl text-center">
-        <h2 className="text-[2.2rem] font-bold leading-[1.15] text-white sm:text-[2.8rem]">{c.title}</h2>
+        <h2 className="font-display text-[2.4rem] leading-[1.06] text-white sm:text-[3.1rem]">{c.title}</h2>
         <p className="mx-auto mt-4 max-w-lg text-white/70">{c.subtitle}</p>
       </Reveal>
 

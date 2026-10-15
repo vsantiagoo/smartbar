@@ -52,7 +52,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
             menuOpen && "max-sm:pointer-events-none max-sm:opacity-0",
           )}
         >
-          <p className="truncate font-heading text-sm font-semibold text-white/90">
+          <p className="truncate text-sm font-semibold text-white/90">
             {HOTEL_NAME_PLACEHOLDER}
           </p>
           <p className="text-xs font-semibold text-brand-300">

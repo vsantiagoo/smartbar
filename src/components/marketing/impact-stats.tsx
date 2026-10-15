@@ -14,8 +14,8 @@ export async function ImpactStats() {
       <div className="mx-auto max-w-6xl text-center">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{c.kicker}</p>
-          <h2 className="mt-3 text-[2.4rem] font-bold leading-[1.1] sm:text-[3.2rem]">
-            {c.title} <span className="text-gold-500">{c.titleAccent}</span>
+          <h2 className="mt-3 font-display text-[2.7rem] leading-[1.04] sm:text-[3.5rem]">
+            {c.title} <span className="italic text-gold-500">{c.titleAccent}</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-ink-soft">{c.subtitle}</p>
         </Reveal>
@@ -28,7 +28,7 @@ export async function ImpactStats() {
                 {/* Plus Jakarta Sans, a mesma da logo: o número vira um gesto da marca. */}
                 <span
                   className="tabular block font-extrabold leading-none tracking-tight text-ink text-[2.4rem] sm:text-[2.8rem]"
-                  style={{ fontFamily: "var(--font-heading), 'Plus Jakarta Sans', sans-serif" }}
+                  style={{ fontFamily: "var(--font-display), Georgia, serif" }}
                 >
                   {item.value}
                 </span>

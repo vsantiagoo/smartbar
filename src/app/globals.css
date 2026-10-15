@@ -74,10 +74,19 @@
     min-height: 100dvh;
     line-height: 1.6; /* Brandbook: entrelinha 1.6x */
   }
+  /*
+    Títulos herdam a Instrument Sans. O serif (`font-display`) é aplicado
+    DELIBERADAMENTE, só onde há intenção editorial — título de herói, abertura
+    de seção, declaração de marca. Numa ferramenta de uso diário como o painel,
+    o serif atrapalharia a densidade de leitura.
+  */
   h1, h2, h3, h4 {
     @apply text-ink tracking-tight;
-    font-family: var(--font-heading), 'Plus Jakarta Sans', sans-serif;
     line-height: 1.2;
+  }
+  .font-display {
+    letter-spacing: -0.01em;
+    line-height: 1.06;
   }
   :focus-visible {
     outline: 2px solid var(--hotel-accent);

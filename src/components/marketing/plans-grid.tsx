@@ -71,7 +71,7 @@ export function PlansGrid() {
             inteira e, em `max-w-xl`, quebraria em quatro linhas apertadas. */}
         <Reveal className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{c.kicker}</p>
-          <h2 className="mt-3 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
+          <h2 className="mt-3 max-w-3xl font-display text-[2.3rem] leading-[1.06] sm:text-[2.9rem]">{c.title}</h2>
           <p className="mt-3 max-w-xl text-ink-soft">{c.subtitle}</p>
         </Reveal>
 

@@ -33,18 +33,11 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Fonte do sistema operacional (San Francisco no Apple, Segoe UI no Windows, Roboto no Android).
-        sans: [
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "'Segoe UI'",
-          "Roboto",
-          "'Helvetica Neue'",
-          "Arial",
-          "sans-serif",
-        ],
-        // Plus Jakarta Sans — títulos, nomes de produtos, categorias, headings.
-        heading: ["var(--font-heading)", "sans-serif"],
+        // Instrument Sans — corpo e interface inteira. A pilha do sistema fica
+        // como rede de segurança enquanto o webfont carrega (`display: swap`).
+        sans: ["var(--font-sans)", "-apple-system", "BlinkMacSystemFont", "'Segoe UI'", "Roboto", "sans-serif"],
+        // Instrument Serif — SÓ títulos de display e declarações de marca.
+        display: ["var(--font-display)", "Georgia", "'Times New Roman'", "serif"],
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "'Liberation Mono'", "monospace"],
       },
       borderRadius: {

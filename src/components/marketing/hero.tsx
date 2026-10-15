@@ -49,8 +49,8 @@ export async function Hero() {
         </Badge>
         {/* -0.0469em = os -3px pedidos no tamanho cheio (64px), proporcional quando a tela encolhe. */}
         <h1
-          className="mt-6 whitespace-pre-line text-white"
-          style={{ fontSize: "clamp(34px,6.4vw,64px)", fontWeight: 400, lineHeight: 1.06, letterSpacing: "-0.0469em" }}
+          className="mt-6 whitespace-pre-line font-display text-white"
+          style={{ fontSize: "clamp(36px,6.6vw,68px)", lineHeight: 1.04, letterSpacing: "-0.015em" }}
         >
           {c.title}
         </h1>
