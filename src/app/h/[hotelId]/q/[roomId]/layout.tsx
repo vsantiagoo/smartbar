@@ -68,7 +68,9 @@ export default async function GuestLayout({
             <GuestHeader initialDark={dark} />
           </div>
         </div>
-        <div className="mx-auto -mt-24 flex w-full max-w-lg flex-col px-4 pb-40 print:pb-4">
+        {/* z-10: o conteúdo sobe sob o herói (-mt-24), mas precisa ficar clicável
+            acima da zona do herói, que é posicionada. O cabeçalho (z-30) segue por cima. */}
+        <div className="relative z-10 mx-auto -mt-24 flex w-full max-w-lg flex-col px-4 pb-40 print:pb-4">
           <CartProvider roomId={ctx.room.id}>{children}</CartProvider>
           <GuestNav baseHref={`/h/${hotelId}/q/${roomId}`} />
         </div>

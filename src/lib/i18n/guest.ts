@@ -19,6 +19,12 @@ const pt = {
   "header.help": "Ajuda",
   "header.home": "Início",
   "header.theme": "Tema claro ou escuro",
+  "header.menu": "Menu",
+  "header.assistant": "Assistente virtual",
+  "assistant.title": "Assistente virtual",
+  "assistant.intro": "Posso te ajudar com o minibar: escolher itens, pagar pelo Pix e liberar a trava do quarto.",
+  "assistant.soon": "Respostas automáticas chegando em breve.",
+  "assistant.placeholder": "Pergunte ao assistente…",
 
   // Vitrine
   "catalog.title": "Sirva-se. Pague em segundos.",
@@ -201,6 +207,12 @@ const en: Record<GuestKey, string> = {
   "header.help": "Help",
   "header.home": "Home",
   "header.theme": "Light or dark theme",
+  "header.menu": "Menu",
+  "header.assistant": "Virtual assistant",
+  "assistant.title": "Virtual assistant",
+  "assistant.intro": "I can help you with the minibar: pick items, pay with Pix and unlock the room.",
+  "assistant.soon": "Automated answers coming soon.",
+  "assistant.placeholder": "Ask the assistant…",
 
   "catalog.title": "Help yourself. Pay in seconds.",
   "catalog.subtitle": "Pick what you'd like. The lock opens as soon as payment is confirmed.",
@@ -366,6 +378,12 @@ const es: Record<GuestKey, string> = {
   "header.help": "Ayuda",
   "header.home": "Inicio",
   "header.theme": "Tema claro u oscuro",
+  "header.menu": "Menú",
+  "header.assistant": "Asistente virtual",
+  "assistant.title": "Asistente virtual",
+  "assistant.intro": "Puedo ayudarte con el minibar: elegir productos, pagar con Pix y liberar la cerradura.",
+  "assistant.soon": "Respuestas automáticas muy pronto.",
+  "assistant.placeholder": "Pregunta al asistente…",
 
   "catalog.title": "Sírvase. Pague en segundos.",
   "catalog.subtitle": "Elija lo que va a consumir. La cerradura se abre en cuanto se confirma el pago.",

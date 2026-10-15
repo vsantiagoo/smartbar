@@ -1,8 +1,9 @@
 "use client";
-import { CircleHelp, Globe, House } from "lucide-react";
+import { CircleHelp, Globe, House, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useGuest } from "@/components/guest/guest-context";
+import { AssistantSheet } from "@/components/guest/sections/assistant-sheet";
 import { HelpSheet } from "@/components/guest/sections/help-sheet";
 import { ThemeToggle } from "@/components/guest/sections/theme-toggle";
 import { LogoMark } from "@/components/ui/logo";
@@ -20,7 +21,10 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
   const { t, lang, setLang, room } = useGuest();
   const [langOpen, setLangOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
+  const [assistantOpen, setAssistantOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const menu = useRef<HTMLDivElement>(null);
+  const rightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!langOpen) return;
@@ -32,16 +36,27 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
     return () => document.removeEventListener("pointerdown", close);
   }, [langOpen]);
 
+  // Fecha o menu mobile (hambúrguer) ao tocar fora do cluster de ícones.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = (e: PointerEvent) =>
+      rightRef.current &&
+      !rightRef.current.contains(e.target as Node) &&
+      setMenuOpen(false);
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
+  }, [menuOpen]);
+
   const greeting = room.guestFirstName
     ? t("header.hello", { name: room.guestFirstName })
     : t("header.room", { room: room.roomNumber });
 
   return (
     <header className="relative z-30 print:hidden">
-      <div className="mb-3 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 sm:grid-cols-[1fr_minmax(0,28rem)_1fr]">
+      <div className="mb-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:grid-cols-[1fr_minmax(0,28rem)_1fr]">
         <LogoMark tone="light" className="size-8 shrink-0 justify-self-start" />
 
-        <div className="glass min-w-0 rounded-[20px] px-5 py-2.5 text-center leading-tight">
+        <div className="glass min-w-0 max-w-[58vw] rounded-[20px] px-5 py-2.5 text-center leading-tight sm:max-w-none">
           <p className="truncate font-heading text-sm font-semibold text-white/90">
             {HOTEL_NAME_PLACEHOLDER}
           </p>
@@ -50,71 +65,135 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
           </p>
         </div>
 
-        <div className="flex items-center gap-2 justify-self-end">
-          <ThemeToggle initialDark={initialDark} />
-
-          <div ref={menu} className="relative">
-            <button
-              onClick={() => setLangOpen((o) => !o)}
-              aria-label={t("header.language")}
-              aria-expanded={langOpen}
-              className="glass-dark glass-liquid grid size-11 place-items-center rounded-full text-white/80 transition hover:bg-white/15"
-            >
-              <span className="flex items-center gap-0.5 text-xs font-bold">
-                <Globe className="size-4" />
-                {lang.toUpperCase()}
-              </span>
-            </button>
-            {langOpen && (
-              <ul
-                role="menu"
-                className="glass-strong absolute right-0 top-12 z-50 w-44 overflow-hidden rounded-3xl p-1.5"
-              >
-                {LANGS.map((l) => (
-                  <li key={l}>
-                    <button
-                      role="menuitemradio"
-                      aria-checked={l === lang}
-                      onClick={() => {
-                        setLang(l);
-                        setLangOpen(false);
-                      }}
-                      className={cn(
-                        "flex h-11 w-full items-center justify-between rounded-2xl px-3 text-sm font-semibold",
-                        l === lang
-                          ? "bg-brand-700/10 text-brand-700"
-                          : "text-ink-soft hover:bg-brand-700/5",
-                      )}
-                    >
-                      {t(`lang.${l}` as GuestKey)}
-                      <span className="text-xs text-ink-faint">
-                        {l.toUpperCase()}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
+        {/* Lado direito. Mobile: hambúrguer no topo (alinhado com a logo e a barra);
+            ao abrir, os ícones expandem PARA O LADO (linha horizontal à direita, na
+            faixa logo abaixo). sm+: os ícones ficam sempre em linha, sem hambúrguer. */}
+        <div ref={rightRef} className="relative justify-self-end">
           <button
-            onClick={() => setHelpOpen(true)}
-            aria-label={t("header.help")}
-            className="glass-tint glass-liquid grid size-11 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={t("header.menu")}
+            aria-expanded={menuOpen}
+            className="glass-dark glass-liquid grid size-11 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 sm:hidden"
           >
-            <CircleHelp className="size-5" />
+            <span className="relative block h-4 w-5" aria-hidden>
+              <span
+                className={cn(
+                  "absolute left-0 h-0.5 w-5 rounded-full bg-current transition-all duration-300",
+                  menuOpen ? "top-[7px] rotate-45" : "top-[3px]",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-200",
+                  menuOpen ? "opacity-0" : "opacity-100",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute left-0 h-0.5 w-5 rounded-full bg-current transition-all duration-300",
+                  menuOpen ? "top-[7px] -rotate-45" : "top-[11px]",
+                )}
+              />
+            </span>
           </button>
-          <HelpSheet open={helpOpen} onClose={() => setHelpOpen(false)} />
 
-          <Link
-            href="/"
-            aria-label={t("header.home")}
-            className="glass-dark glass-liquid glass-liquid-shimmer grid size-11 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95"
+          {/* Ordem: Home · Assistente · Ajuda · Idioma · Tema. */}
+          <div
+            className={cn(
+              "flex items-center gap-2",
+              // sm+: linha estática à direita.
+              "sm:static sm:translate-x-0 sm:opacity-100 sm:[pointer-events:auto]",
+              // Mobile: linha horizontal absoluta na faixa abaixo do topo, alinhada à
+              // direita, que desliza/surge do lado (não abre para baixo como card).
+              "max-sm:absolute max-sm:right-0 max-sm:top-[calc(100%+0.55rem)] max-sm:z-50 max-sm:origin-right max-sm:transition-all max-sm:duration-300 max-sm:ease-out",
+              menuOpen
+                ? "max-sm:translate-x-0 max-sm:opacity-100"
+                : "max-sm:pointer-events-none max-sm:translate-x-5 max-sm:opacity-0",
+            )}
           >
-            <House className="size-5" />
-          </Link>
+            <Link
+              href="/"
+              aria-label={t("header.home")}
+              onClick={() => setMenuOpen(false)}
+              className="glass-dark glass-liquid glass-liquid-shimmer grid size-11 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95"
+            >
+              <House className="size-5" />
+            </Link>
+
+            <button
+              onClick={() => {
+                setAssistantOpen(true);
+                setMenuOpen(false);
+              }}
+              aria-label={t("header.assistant")}
+              className="glass-dark glass-liquid grid size-11 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95"
+            >
+              <Sparkles className="size-5" />
+            </button>
+
+            <button
+              onClick={() => {
+                setHelpOpen(true);
+                setMenuOpen(false);
+              }}
+              aria-label={t("header.help")}
+              className="glass-tint glass-liquid grid size-11 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95"
+            >
+              <CircleHelp className="size-5" />
+            </button>
+
+            <div ref={menu} className="relative">
+              <button
+                onClick={() => setLangOpen((o) => !o)}
+                aria-label={t("header.language")}
+                aria-expanded={langOpen}
+                className="glass-dark glass-liquid grid size-11 place-items-center rounded-full text-white/80 transition hover:bg-white/15"
+              >
+                <span className="flex items-center gap-0.5 text-xs font-bold">
+                  <Globe className="size-4" />
+                  {lang.toUpperCase()}
+                </span>
+              </button>
+              {langOpen && (
+                <ul
+                  role="menu"
+                  className="glass-strong absolute right-0 top-12 z-50 w-44 overflow-hidden rounded-3xl p-1.5"
+                >
+                  {LANGS.map((l) => (
+                    <li key={l}>
+                      <button
+                        role="menuitemradio"
+                        aria-checked={l === lang}
+                        onClick={() => {
+                          setLang(l);
+                          setLangOpen(false);
+                          setMenuOpen(false);
+                        }}
+                        className={cn(
+                          "flex h-11 w-full items-center justify-between rounded-2xl px-3 text-sm font-semibold",
+                          l === lang
+                            ? "bg-brand-700/10 text-brand-700"
+                            : "text-ink-soft hover:bg-brand-700/5",
+                        )}
+                      >
+                        {t(`lang.${l}` as GuestKey)}
+                        <span className="text-xs text-ink-faint">
+                          {l.toUpperCase()}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <ThemeToggle initialDark={initialDark} />
+          </div>
         </div>
       </div>
+
+      <HelpSheet open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <AssistantSheet open={assistantOpen} onClose={() => setAssistantOpen(false)} />
 
       {/* Saudação centralizada sob a barra */}
       <p className="cursor-default text-center text-xs font-semibold uppercase tracking-[0.14em] text-brand-300 transition-all duration-300 hover:text-white hover:[text-shadow:0_0_8px_rgb(255_255_255/0.9),0_0_18px_rgb(140_200_255/0.75)]">
