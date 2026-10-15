@@ -144,7 +144,7 @@ function buildMesh() {
     muda. Objeto torneado tem ritmo; malha de software tem densidade uniforme.
   */
   rings.forEach((ring, i) => {
-    const costela: Tier = i % 3 === 0 ? 1 : 2;
+    const costela: Tier = i % 2 === 0 ? 1 : 2;
     ring.forEach((v, k) => {
       add(v, ring[(k + 1) % SIDES]!, costela, true);
       const next = rings[i + 1];
@@ -279,9 +279,23 @@ const LIGHT: [number, number, number] = (() => {
 /** Quanto a face na sombra ainda aparece. Zero apagaria metade do desenho. */
 const AMBIENT = 0.22;
 
-const TIER_ALPHA = [1, 0.38, 0.11] as const;
-const TIER_WIDTH = [2.1, 0.9, 0.5] as const;
-const BUCKETS = 12;
+const TIER_ALPHA = [0.82, 0.46, 0.22] as const;
+const TIER_WIDTH = [1.05, 0.75, 0.6] as const;
+/*
+  Dois eixos, e cada um no SEU canal — foi aqui que a tentativa anterior errou.
+  Luz misturada na opacidade obrigava a engrossar o traço para ela aparecer, e
+  isso custava justamente a finura e a trama interna do desenho.
+
+  Agora: PROFUNDIDADE manda na opacidade (o fundo recua, a frente crava, como
+  sempre foi) e LUZ manda na COR — a face virada para a fonte fica saturada, a
+  oposta desbota para um cinza azulado e recua. Sobre fundo claro é a saturação
+  que cria volume, não o peso: engrossar para "iluminar" é contrassenso quando
+  o papel é claro.
+
+  A profundidade fica por fora no desenho, para manter a ordem do pintor.
+*/
+const DEPTHS = 6;
+const LUMS = 6;
 const PARTICLES = [
   { rail: 0, speed: 30, u: 0.05 },
   { rail: 1, speed: 23, u: 0.55 },
@@ -385,17 +399,26 @@ export function Lock3D({ className }: { className?: string }) {
     const AXIS_BOT = { x: 0, y: BOT, z: 0 };
     const axA = { sx: 0, sy: 0, sz: 0 };
     const axB = { sx: 0, sy: 0, sz: 0 };
-    let mesh: CanvasGradient | string = "#000";
-    const meshGradient = (): CanvasGradient | string => {
+    /** Cinza azulado para onde a cor escorre quando a aresta está na sombra. */
+    const MUTE: [number, number, number] = [176, 186, 201];
+    /**
+     * `t` é quanto esta faixa recebe de luz (0 = sombra, 1 = de cara para a
+     * fonte). Na sombra a cor caminha para o cinza e perde vida; na luz ela vem
+     * cheia e ainda ganha um empurrão de brilho.
+     */
+    const meshGradient = (t: number): CanvasGradient | string => {
+      const mix = 0.3 + 0.7 * t;
+      const lift = 1 + 0.1 * t;
+      const tint = (rgb: [number, number, number]) => {
+        const c = (v: number, m: number) => Math.round(clamp((m + (v - m) * mix) * lift, 0, 255));
+        return `rgb(${c(rgb[0], MUTE[0])},${c(rgb[1], MUTE[1])},${c(rgb[2], MUTE[2])})`;
+      };
       project(AXIS_TOP.x, AXIS_TOP.y, AXIS_TOP.z, axA);
       project(AXIS_BOT.x, AXIS_BOT.y, AXIS_BOT.z, axB);
       // De topo e base no mesmo pixel sai um gradiente inválido: cai na cor do meio.
-      if (Math.hypot(axB.sx - axA.sx, axB.sy - axA.sy) < 1) {
-        const [r, gg2, b] = NEON[2]![1];
-        return `rgb(${r},${gg2},${b})`;
-      }
+      if (Math.hypot(axB.sx - axA.sx, axB.sy - axA.sy) < 1) return tint(NEON[2]![1]);
       const g = ctx.createLinearGradient(axA.sx, axA.sy, axB.sx, axB.sy);
-      for (const [stop, [r, gg2, b]] of NEON) g.addColorStop(stop, `rgb(${r},${gg2},${b})`);
+      for (const [stop, rgb] of NEON) g.addColorStop(stop, tint(rgb));
       return g;
     };
     const resize = () => {
@@ -475,7 +498,8 @@ export function Lock3D({ className }: { className?: string }) {
     };
 
     const tmp = { sx: 0, sy: 0, sz: 0 };
-    const paths: Path2D[][] = [[], [], []];
+    /** paths[nível][faixa de profundidade][faixa de luz] */
+    const paths: Path2D[][][] = [[], [], []];
 
     /*
       Varre as poses extremas — giro ocioso, tremor, inclinação máxima do
@@ -569,7 +593,13 @@ export function Lock3D({ className }: { className?: string }) {
         shade(v, 1, 0);
       }
 
-      for (let tier = 0; tier < 3; tier++) for (let b = 0; b < BUCKETS; b++) paths[tier]![b] = new Path2D();
+      for (let tier = 0; tier < 3; tier++) {
+        for (let d = 0; d < DEPTHS; d++) {
+          const fila: Path2D[] = [];
+          for (let l = 0; l < LUMS; l++) fila[l] = new Path2D();
+          paths[tier]![d] = fila;
+        }
+      }
 
       /*
         O bucket era só profundidade. Agora é profundidade VEZES luz — ou seja,
@@ -589,9 +619,11 @@ export function Lock3D({ className }: { className?: string }) {
         lum: number,
       ) => {
         const depth = clamp(0.5 - (z1 + z2) / 240, 0, 1);
-        const n = clamp(depth * (0.2 + 0.8 * lum), 0, 1);
-        const b = clamp(Math.floor(n * BUCKETS), 0, BUCKETS - 1) || 0;
-        const p = paths[tier]![b]!;
+        // `lum` nunca desce abaixo do ambiente: reabre a faixa para 0..1.
+        const t = clamp((lum - AMBIENT) / (1 - AMBIENT), 0, 1);
+        const d = clamp(Math.floor(depth * DEPTHS), 0, DEPTHS - 1) || 0;
+        const l = clamp(Math.floor(t * LUMS), 0, LUMS - 1) || 0;
+        const p = paths[tier]![d]![l]!;
         p.moveTo(x1, y1);
         p.lineTo(x2, y2);
       };
@@ -632,30 +664,33 @@ export function Lock3D({ className }: { className?: string }) {
       ctx.clearRect(0, 0, w, h);
       ctx.lineCap = "round";
       const boost = 1 + 0.18 * clamp(st.open, 0, 1);
-      mesh = meshGradient();
-      ctx.strokeStyle = mesh;
+      // Um gradiente por faixa de luz, montado uma vez e reusado pelos três níveis.
+      const tintas = Array.from({ length: LUMS }, (_, l) => meshGradient((l + 0.5) / LUMS));
+
       for (let tier = 0; tier < 3; tier++) {
-        for (let b = 0; b < BUCKETS; b++) {
-          const n = (b + 0.5) / BUCKETS;
-          const a = Math.min(1, TIER_ALPHA[tier]! * (0.08 + 0.92 * n ** 0.48) * boost);
-          // Brilho: só as arestas da frente ganham um traço largo e translúcido
-          // por baixo — é o que dá o halo de neon sem borrar a malha inteira.
+        for (let d = 0; d < DEPTHS; d++) {
+          const dn = (d + 0.5) / DEPTHS;
+          const a = Math.min(1, TIER_ALPHA[tier]! * (0.2 + 0.8 * dn) * boost);
           /*
-            O bucket `n` já é a profundidade (1 = mais perto da câmera), então
-            sai de graça: aresta perto engrossa, aresta longe afina. Sem isto o
-            traço tem a mesma espessura no fundo e na frente — o objeto vira
-            desenho técnico, porque é justamente a espessura que o olho usa
-            para ordenar o que está na frente.
+            A espessura segue a PROFUNDIDADE, não a luz: é a distância que o
+            olho usa para ordenar o que está na frente. A variação é discreta de
+            propósito — o desenho é fino por natureza, e engrossá-lo foi
+            exatamente o erro da tentativa anterior.
           */
-          const lw = TIER_WIDTH[tier]! * (0.6 + 0.78 * n);
-          if (tier === 0 && n > 0.45) {
-            ctx.globalAlpha = a * 0.17;
-            ctx.lineWidth = lw * 6;
-            ctx.stroke(paths[tier]![b]!);
+          const lw = TIER_WIDTH[tier]! * (0.82 + 0.36 * dn);
+          for (let l = 0; l < LUMS; l++) {
+            const p = paths[tier]![d]![l]!;
+            ctx.strokeStyle = tintas[l]!;
+            // Halo de neon: só na estrutura da frente E de cara para a luz.
+            if (tier === 0 && dn > 0.45 && l === LUMS - 1) {
+              ctx.globalAlpha = a * 0.16;
+              ctx.lineWidth = lw * 6;
+              ctx.stroke(p);
+            }
+            ctx.globalAlpha = a;
+            ctx.lineWidth = lw;
+            ctx.stroke(p);
           }
-          ctx.globalAlpha = a;
-          ctx.lineWidth = lw;
-          ctx.stroke(paths[tier]![b]!);
         }
       }
       ctx.globalAlpha = 1;
