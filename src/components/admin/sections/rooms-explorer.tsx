@@ -85,7 +85,7 @@ export function RoomsExplorer({ hotelId, rooms }: { hotelId: string; rooms: Room
             <li key={room.id}>
               <Link
                 href={`/admin/quartos/${room.number}`}
-                className="glass group block rounded-card p-5 transition hover:-translate-y-0.5 hover:bg-white/80"
+                className="glass lift group block rounded-card p-5"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">

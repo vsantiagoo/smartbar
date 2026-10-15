@@ -42,7 +42,7 @@ export function PaymentMethods({ value, onChange, canChargeToRoom }: PaymentMeth
 
   return (
     <fieldset>
-      <legend className="mb-3 px-1 text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">{t("guest.checkout.method")}</legend>
+      <legend className="mb-3 px-1 text-sm font-semibold uppercase tracking-[0.14em] text-ink-soft">{t("guest.checkout.method")}</legend>
       <div className="space-y-3" role="radiogroup">
         {options.map((o) => {
           const selected = value === o.id;

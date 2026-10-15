@@ -9,7 +9,7 @@ export function DemoTools({ label, onRun }: { label: ReactNode; onRun: () => Pro
   const [failed, setFailed] = useState(false);
   return (
     <div className="rounded-inset border border-dashed border-brand-700/25 p-4">
-      <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-ink-soft">
+      <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft">
         <FlaskConical className="size-3.5" /> Demonstração
       </p>
       <Button

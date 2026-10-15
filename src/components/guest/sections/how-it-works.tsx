@@ -15,7 +15,7 @@ export function HowItWorks() {
   ];
   return (
     <section className="mt-5" aria-labelledby="how-title">
-      <h2 id="how-title" className="mb-3 px-1 font-heading text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">
+      <h2 id="how-title" className="mb-3 px-1 font-heading text-sm font-semibold uppercase tracking-[0.14em] text-ink-soft">
         {t("guest.how.title")}
       </h2>
       <ol className="grid grid-cols-3 gap-2.5">

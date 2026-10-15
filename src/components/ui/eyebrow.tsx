@@ -17,6 +17,11 @@ import { cn } from "@/lib/utils";
  *   · O fio antes do texto. É o que separa uma sobrescrita de um parágrafo
  *     pequeno em maiúsculas: ele ancora o rótulo na margem e abre a seção.
  *     Some quando o bloco é centralizado, onde não há margem para ancorar.
+ *
+ * ONDE *NÃO* USAR: rótulo de campo, de grupo de menu ou de bloco dentro do
+ * painel e da vitrine. Lá o texto em caixa-alta é funcional — lido de relance,
+ * muitas vezes ao dia — e vale `tracking-[0.14em]`, a medida de rótulo do
+ * produto. Esta peça abre uma seção, e isso acontece uma vez por página.
  */
 export function Eyebrow({
   children,

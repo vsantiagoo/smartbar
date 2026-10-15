@@ -12,7 +12,7 @@ export function OrderSummary({ lines, title = "Resumo do pedido", totalLabel = "
   const total = lines.reduce((s, l) => s + l.quantity * l.unitPriceCents, 0);
   return (
     <GlassCard pad="md">
-      <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">{title}</h2>
+      <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink-soft">{title}</h2>
       <ul className="mt-3 space-y-2.5">
         {lines.map((l) => (
           <li key={l.name} className="flex items-baseline justify-between gap-3 text-[0.95rem]">
