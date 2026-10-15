@@ -53,13 +53,19 @@ export async function SiteHeader() {
             <span className="sm:hidden">{c.ctaShort}</span>
             <span className="hidden sm:inline">{c.cta}</span>
           </Link>
-          {/* Idioma dentro da barra, para não desequilibrar as colunas que a centralizam. */}
-          <LanguageSwitcher tone="dark" buttonClassName="size-8 sm:size-9" />
         </div>
 
-        {/* Espelho invisível da marca: dá à coluna da direita o mesmo peso da esquerda,
-            então a barra cai no centro exato da página em vez de escorregar. */}
-        <span aria-hidden className="invisible justify-self-end">{brand}</span>
+        {/*
+          Coluna da direita. O espelho invisível da marca continua aqui porque é
+          ele que dá a esta coluna o mesmo peso da esquerda — sem ele a barra
+          escorrega do centro. O seletor de idioma fica POR CIMA dele, encostado
+          na borda: como a moldura (`header-fade.tsx`) usa o mesmo px dos dois
+          lados, ele espelha exatamente o espaçamento da logo.
+        */}
+        <span className="relative flex items-center justify-self-end">
+          <span aria-hidden className="invisible">{brand}</span>
+          <LanguageSwitcher tone="dark" className="absolute right-0 top-1/2 -translate-y-1/2" />
+        </span>
       </header>
     </HeaderFade>
   );
