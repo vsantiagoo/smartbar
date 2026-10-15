@@ -104,13 +104,61 @@
     espessa de um vidro que refrata. Sem pseudo-elemento, então não muda o
     posicionamento de ninguém. `--liquid-rim` é reaproveitado por todas as classes.
   */
+  /*
+    ───────────────────────────────────────────────────────────────────────
+    FÍSICA DO VIDRO — três decisões que separam vidro desenhado de vidro
+    de template. Toda classe abaixo se apoia nestes tokens.
+
+    1. DISTÂNCIA ÓPTICA (--blur-1..3)
+       Um desfoque único na tela inteira achata tudo no mesmo plano. Quanto
+       mais alto o elemento flutua, mais ele embaça o que está atrás.
+
+    2. LUZ DIRECIONAL (--rim-*)
+       Uma fonte só, vinda de cima. Topo aceso, laterais quase mudas, base
+       apenas insinuada — e uma sombra interna subindo do rodapé, que dá
+       ESPESSURA ao material. Aro igual nos quatro lados é o maior delator
+       de vidro sintético: na natureza a luz vem de uma direção.
+
+    3. SOMBRA EM CAMADAS (--cast-1..3)
+       Contato (curta e densa, prova que o objeto toca o fundo) somada a
+       ambiente (larga e difusa, prova que ele ocupa espaço). Uma camada só
+       sempre parece adesivo colado na tela.
+    ───────────────────────────────────────────────────────────────────────
+  */
   :root {
-    --liquid-blur: 24px;
-    --liquid-rim:
-      inset 1.5px 1.5px 0 -0.5px rgb(255 255 255 / 0.75),
-      inset -1.5px -1.5px 0 -0.5px rgb(255 255 255 / 0.28),
-      inset 0 0 14px rgb(255 255 255 / 0.2),
-      inset 0 -10px 18px -12px rgb(var(--brand-950) / 0.16);
+    --blur-1: 14px; /* superfície encostada no fundo */
+    --blur-2: 22px; /* elevada: cards e painéis */
+    --blur-3: 34px; /* sobreposta: menus, sheets, dropdowns */
+
+    --rim-light:
+      inset 0 1px 0 rgb(255 255 255 / 0.55),
+      inset 1px 0 0 rgb(255 255 255 / 0.13),
+      inset -1px 0 0 rgb(255 255 255 / 0.09),
+      inset 0 -1px 0 rgb(255 255 255 / 0.11),
+      inset 0 -18px 26px -24px rgb(var(--brand-950) / 0.45);
+
+    --rim-dark:
+      inset 0 1px 0 rgb(255 255 255 / 0.2),
+      inset 1px 0 0 rgb(255 255 255 / 0.06),
+      inset -1px 0 0 rgb(255 255 255 / 0.04),
+      inset 0 -1px 0 rgb(255 255 255 / 0.05),
+      inset 0 -20px 30px -26px rgb(0 0 0 / 0.55);
+
+    --cast-1:
+      0 1px 2px rgb(var(--brand-950) / 0.06),
+      0 6px 16px -8px rgb(var(--brand-950) / 0.18);
+    --cast-2:
+      0 1px 2px rgb(var(--brand-950) / 0.08),
+      0 10px 24px -10px rgb(var(--brand-950) / 0.2),
+      0 28px 60px -28px rgb(var(--brand-950) / 0.26);
+    --cast-3:
+      0 2px 4px rgb(var(--brand-950) / 0.1),
+      0 16px 36px -12px rgb(var(--brand-950) / 0.24),
+      0 44px 90px -40px rgb(var(--brand-950) / 0.38);
+
+    /* Nomes antigos mantidos: tudo que já os usa herda a luz nova. */
+    --liquid-blur: var(--blur-2);
+    --liquid-rim: var(--rim-light);
   }
 
   /*
@@ -118,20 +166,30 @@
     leve, aro luminoso, fio de luz no topo e sombra que dá contorno sobre fundo
     claro. Só o material; raio, espaçamento e hover ficam em cada componente.
   */
+  /*
+    A tinta é um DEGRADÊ, não um preenchimento chapado: a luz entra por cima
+    e se apaga descendo. E a borda também é um degradê — brilhante onde a luz
+    bate, quase invisível embaixo —, feita com a dobradinha
+    `padding-box` + `border-box` sobre uma borda transparente. Esses dois
+    detalhes são o que tira a cara de vidro gerado.
+  */
   .glass {
-    background: rgb(255 255 255 / 0.1);
-    border: 1px solid rgb(255 255 255 / 0.25);
-    -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(1.6);
-    backdrop-filter: blur(var(--liquid-blur)) saturate(1.6);
-    box-shadow: var(--liquid-rim), 0 10px 28px -12px rgb(var(--brand-900) / 0.45);
+    background:
+      linear-gradient(to bottom, rgb(255 255 255 / 0.17), rgb(255 255 255 / 0.06)) padding-box,
+      linear-gradient(to bottom, rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.1) 45%, rgb(255 255 255 / 0.04)) border-box;
+    border: 1px solid transparent;
+    -webkit-backdrop-filter: blur(var(--blur-2)) saturate(1.5);
+    backdrop-filter: blur(var(--blur-2)) saturate(1.5);
+    box-shadow: var(--rim-light), var(--cast-1);
   }
   .glass-strong {
-    background: var(--glass-bg-strong);
-    border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(1.5);
-    backdrop-filter: blur(var(--liquid-blur)) saturate(1.5);
-    @apply shadow-glass;
-    box-shadow: var(--liquid-rim), 0 14px 44px rgb(20 43 60 / 0.16);
+    background:
+      linear-gradient(to bottom, rgb(255 255 255 / 0.88), rgb(255 255 255 / 0.72)) padding-box,
+      linear-gradient(to bottom, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.45) 45%, rgb(255 255 255 / 0.28)) border-box;
+    border: 1px solid transparent;
+    -webkit-backdrop-filter: blur(var(--blur-3)) saturate(1.4);
+    backdrop-filter: blur(var(--blur-3)) saturate(1.4);
+    box-shadow: var(--rim-light), var(--cast-2);
   }
   /*
     Vidro FOSCO — os valores exatos do painel de escrita da referência (Orbit):
@@ -180,14 +238,13 @@
   }
   /* Vidro escuro — legível sobre fundos claros e escuros (header/menu do site). */
   .glass-dark {
-    background: rgb(8 12 20 / 0.42);
-    border: 1px solid rgb(255 255 255 / 0.12);
-    -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(1.3);
-    backdrop-filter: blur(var(--liquid-blur)) saturate(1.3);
-    box-shadow:
-      inset 1.5px 1.5px 0 -0.5px rgb(255 255 255 / 0.32),
-      inset -1.5px -1.5px 0 -0.5px rgb(255 255 255 / 0.1),
-      inset 0 0 14px rgb(255 255 255 / 0.06);
+    background:
+      linear-gradient(to bottom, rgb(14 20 32 / 0.46), rgb(6 10 18 / 0.56)) padding-box,
+      linear-gradient(to bottom, rgb(255 255 255 / 0.26), rgb(255 255 255 / 0.07) 50%, rgb(255 255 255 / 0.03)) border-box;
+    border: 1px solid transparent;
+    -webkit-backdrop-filter: blur(var(--blur-2)) saturate(1.3);
+    backdrop-filter: blur(var(--blur-2)) saturate(1.3);
+    box-shadow: var(--rim-dark);
   }
   /*
     Vidro fosco premium — inspirado no "Frosted Concept": tinta muito diluída,
@@ -318,10 +375,14 @@
     o desfoque, a borda luminosa e o brilho interno.
   */
   .glass-tint {
-    border: 1px solid rgb(255 255 255 / 0.3);
-    -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(1.6);
-    backdrop-filter: blur(var(--liquid-blur)) saturate(1.6);
-    box-shadow: var(--liquid-rim), 0 10px 28px -12px rgb(var(--brand-900) / 0.45);
+    /* Sem `background`: a cor vem do bg-{cor}/{alpha} ao lado. Por isso a borda
+       aqui não pode usar o truque do degradê — a luz fica só no aro. */
+    border: 1px solid rgb(255 255 255 / 0.26);
+    border-top-color: rgb(255 255 255 / 0.45);
+    border-bottom-color: rgb(255 255 255 / 0.14);
+    -webkit-backdrop-filter: blur(var(--blur-2)) saturate(1.6);
+    backdrop-filter: blur(var(--blur-2)) saturate(1.6);
+    box-shadow: var(--rim-light), var(--cast-1);
   }
   /*
     Brilho ESPECULAR do tile de produto (receberá a foto real): a borda reflete
@@ -386,22 +447,24 @@
     (24 px + aro óptico), sem sombra externa. A cor vem de um bg-{cor}/{alpha} ao lado.
   */
   .glass-chip {
-    border: 1px solid rgb(255 255 255 / 0.3);
-    -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(1.5);
-    backdrop-filter: blur(var(--liquid-blur)) saturate(1.5);
-    box-shadow: var(--liquid-rim);
+    /* Elemento pequeno encostado na superfície: desfoque curto e sem sombra
+       projetada — selo que flutua parece erro de escala. */
+    border: 1px solid rgb(255 255 255 / 0.26);
+    border-top-color: rgb(255 255 255 / 0.45);
+    border-bottom-color: rgb(255 255 255 / 0.14);
+    -webkit-backdrop-filter: blur(var(--blur-1)) saturate(1.5);
+    backdrop-filter: blur(var(--blur-1)) saturate(1.5);
+    box-shadow: var(--rim-light);
   }
   /* Vidro azul-marinho — cards de destaque sobre fundos claros ou escuros. */
   .glass-navy {
-    background: rgb(var(--brand-800) / 0.82);
-    border: 1px solid rgb(255 255 255 / 0.14);
-    -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(1.4);
-    backdrop-filter: blur(var(--liquid-blur)) saturate(1.4);
-    box-shadow:
-      inset 1.5px 1.5px 0 -0.5px rgb(255 255 255 / 0.38),
-      inset -1.5px -1.5px 0 -0.5px rgb(255 255 255 / 0.12),
-      inset 0 0 14px rgb(255 255 255 / 0.08),
-      0 24px 60px -24px rgb(var(--brand-950) / 0.6);
+    background:
+      linear-gradient(to bottom, rgb(var(--brand-700) / 0.88), rgb(var(--brand-900) / 0.92)) padding-box,
+      linear-gradient(to bottom, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.08) 50%, rgb(255 255 255 / 0.04)) border-box;
+    border: 1px solid transparent;
+    -webkit-backdrop-filter: blur(var(--blur-2)) saturate(1.4);
+    backdrop-filter: blur(var(--blur-2)) saturate(1.4);
+    box-shadow: var(--rim-dark), var(--cast-3);
   }
   /* Entrada suave ao rolar (componente <Reveal>). */
   .reveal {
