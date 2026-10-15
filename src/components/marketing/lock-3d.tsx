@@ -277,10 +277,10 @@ const LIGHT: [number, number, number] = (() => {
   return [v[0] / l, v[1] / l, v[2] / l];
 })();
 /** Quanto a face na sombra ainda aparece. Zero apagaria metade do desenho. */
-const AMBIENT = 0.3;
+const AMBIENT = 0.22;
 
-const TIER_ALPHA = [0.95, 0.44, 0.17] as const;
-const TIER_WIDTH = [1.15, 0.72, 0.55] as const;
+const TIER_ALPHA = [1, 0.38, 0.11] as const;
+const TIER_WIDTH = [2.1, 0.9, 0.5] as const;
 const BUCKETS = 12;
 const PARTICLES = [
   { rail: 0, speed: 30, u: 0.05 },
@@ -589,7 +589,7 @@ export function Lock3D({ className }: { className?: string }) {
         lum: number,
       ) => {
         const depth = clamp(0.5 - (z1 + z2) / 240, 0, 1);
-        const n = clamp(depth * (0.24 + 0.76 * lum), 0, 1);
+        const n = clamp(depth * (0.2 + 0.8 * lum), 0, 1);
         const b = clamp(Math.floor(n * BUCKETS), 0, BUCKETS - 1) || 0;
         const p = paths[tier]![b]!;
         p.moveTo(x1, y1);
@@ -637,7 +637,7 @@ export function Lock3D({ className }: { className?: string }) {
       for (let tier = 0; tier < 3; tier++) {
         for (let b = 0; b < BUCKETS; b++) {
           const n = (b + 0.5) / BUCKETS;
-          const a = Math.min(1, TIER_ALPHA[tier]! * (0.13 + 0.87 * n) * boost);
+          const a = Math.min(1, TIER_ALPHA[tier]! * (0.08 + 0.92 * n ** 0.48) * boost);
           // Brilho: só as arestas da frente ganham um traço largo e translúcido
           // por baixo — é o que dá o halo de neon sem borrar a malha inteira.
           /*
