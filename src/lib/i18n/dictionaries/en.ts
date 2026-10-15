@@ -176,6 +176,7 @@ export const en: Record<DictKey, string> = {
   "guest.wa.text": "Hello! I'm in room {room} and need help with the SmartBar minibar.",
 
   /* ── Shared by all three areas ────────────────────────────────────── */
+  "common.theme": "Light or dark theme",
   "common.language": "Language",
   "common.lang.pt": "Português",
   "common.lang.en": "English",

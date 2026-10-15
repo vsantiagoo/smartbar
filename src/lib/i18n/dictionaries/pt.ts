@@ -191,6 +191,7 @@ export const pt = {
   "guest.wa.text": "Olá! Estou no quarto {room} e preciso de ajuda com o minibar SmartBar.",
 
   /* ── Comum às três áreas ──────────────────────────────────────────── */
+  "common.theme": "Tema claro ou escuro",
   "common.language": "Idioma",
   // Nomes dos idiomas: sempre no próprio idioma, iguais nos três dicionários.
   "common.lang.pt": "Português",

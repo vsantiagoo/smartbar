@@ -32,8 +32,13 @@
   --glass-border: rgb(255 255 255 / 0.12);
 }
 
-/* A casca do hóspede pinta o próprio fundo escuro (cobre a viewport). */
-#guest-root[data-theme="dark"] {
+/*
+  Qualquer casca marcada com "data-theme-root" pinta o próprio fundo escuro —
+  hoje a vitrine do hóspede e o site público. Os tokens acima valem a partir do
+  elemento que carrega "data-theme", então é essa mesma casca que decide até
+  onde o modo escuro alcança.
+*/
+[data-theme-root][data-theme="dark"] {
   background: linear-gradient(
     160deg,
     rgb(var(--sky-1)) 0%,
@@ -354,6 +359,30 @@
       box-shadow 0.4s ease;
     animation: knob-breathe-warm 3.6s ease-in-out infinite;
   }
+  /*
+    Versão miúda, do cabeçalho do site: lá o botão divide a borda da tela com o
+    seletor de idioma e não pode roubar a largura da barra de menus. O knob
+    encolhe junto com a pílula — um knob de tamanho fixo numa pílula menor
+    encostaria nas bordas e perderia o ar de peça que desliza.
+  */
+  .theme-knob.is-sm {
+    height: 26px;
+    width: 26px;
+    left: 3px;
+  }
+  .theme-knob.is-sm.is-dark {
+    left: calc(100% - 29px);
+  }
+  @media (min-width: 640px) {
+    .theme-knob.is-sm {
+      height: 30px;
+      width: 30px;
+    }
+    .theme-knob.is-sm.is-dark {
+      left: calc(100% - 33px);
+    }
+  }
+
   .theme-knob.is-dark {
     left: calc(100% - 36px);
     color: #16233f;

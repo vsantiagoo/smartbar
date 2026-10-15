@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGuest } from "@/components/guest/guest-context";
 import { AssistantSheet } from "@/components/guest/sections/assistant-sheet";
 import { HelpSheet } from "@/components/guest/sections/help-sheet";
-import { ThemeToggle } from "@/components/guest/sections/theme-toggle";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { LogoMark } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
