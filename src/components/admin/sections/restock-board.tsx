@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
 import { EmptyState } from "@/components/ui/primitives";
 import { ProductTile } from "@/components/ui/product-icon";
-import { adminCopy } from "@/lib/content/copy";
+import { useI18n } from "@/lib/i18n/client";
 import { useLiveRefresh } from "@/lib/realtime/use-live-refresh";
 import { mockBus } from "@/lib/realtime/mock-bus";
 import type { RestockNeed } from "@/lib/types";
@@ -43,6 +43,7 @@ export function RestockBoard({ hotelId, needs }: { hotelId: string; needs: Resto
     state.filter((n) => !(n.roomId === r.roomId && (r.productId === null || n.productId === r.productId))),
   );
 
+  const { t } = useI18n();
   const groups = group(optimisticNeeds);
   const totalItems = optimisticNeeds.reduce((s, n) => s + n.missing, 0);
 
@@ -58,8 +59,8 @@ export function RestockBoard({ hotelId, needs }: { hotelId: string; needs: Resto
   return (
     <div className="space-y-5">
       <PageHeader
-        title={adminCopy.restock.title}
-        subtitle={adminCopy.restock.subtitle}
+        title={t("admin.restock.title")}
+        subtitle={t("admin.restock.subtitle")}
         live={live}
         actions={
           groups.length > 0 && (
@@ -79,7 +80,7 @@ export function RestockBoard({ hotelId, needs }: { hotelId: string; needs: Resto
 
       {groups.length === 0 ? (
         <GlassCard>
-          <EmptyState icon={CircleCheck} title={adminCopy.restock.empty} description="Novos alertas aparecem aqui assim que um quarto atingir o estoque mínimo." />
+          <EmptyState icon={CircleCheck} title={t("admin.restock.empty")} description={t("admin.restock.emptyHint")} />
         </GlassCard>
       ) : (
         <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">

@@ -8,6 +8,8 @@ import { SimulateSaleButton } from "@/components/admin/sections/simulate-sale-bu
 import { SystemPresentation } from "@/components/admin/sections/system-presentation";
 import { TopProducts } from "@/components/admin/sections/top-products";
 import { Badge } from "@/components/ui/badge";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
+import { useI18n } from "@/lib/i18n/client";
 import { useLiveSnapshot } from "@/lib/realtime/use-live-snapshot";
 import { useNow } from "@/lib/realtime/use-now";
 import type { DashboardSnapshot } from "@/lib/types";
@@ -34,6 +36,7 @@ export function LiveDashboard({
   initial: DashboardSnapshot;
   showDemoTools: boolean;
 }) {
+  const { t } = useI18n();
   const { snapshot, freshIds, status } = useLiveSnapshot(hotelId, initial);
   const now = useNow(60_000);
   // -1 até montar: evita divergência de hidratação na virada de hora.
@@ -49,9 +52,13 @@ export function LiveDashboard({
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Badge tone={status === "connecting" ? "warn" : "ok"} dot pulse={status !== "connecting"}>
-          {status === "live" ? "Ao vivo" : status === "demo" ? "Modo demonstração" : "Conectando…"}
+          {status === "live" ? t("admin.status.live") : status === "demo" ? t("admin.status.demo") : t("admin.status.connecting")}
         </Badge>
-        {showDemoTools && <SimulateSaleButton />}
+        <div className="flex items-center gap-2">
+          {showDemoTools && <SimulateSaleButton />}
+          {/* Esta tela não usa PageHeader; no mobile (sem sidebar) o idioma entra aqui. */}
+          <LanguageSwitcher tone="light" className="lg:hidden" />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1fr)_400px]">

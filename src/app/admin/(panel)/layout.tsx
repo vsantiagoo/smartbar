@@ -1,8 +1,11 @@
+import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { AdminBottomNav, AdminSidebar } from "@/components/admin/admin-nav";
 import { requireAdmin } from "@/lib/auth/session";
 import { isDemoMode } from "@/lib/config";
 import { getAdminRepo } from "@/lib/data";
+import { I18nProvider } from "@/lib/i18n/client";
+import { LANG_COOKIE, parseLang } from "@/lib/i18n/config";
 
 export const dynamic = "force-dynamic";
 
@@ -12,11 +15,16 @@ export default async function AdminPanelLayout({ children }: { children: ReactNo
   const needs = await (await getAdminRepo()).listRestockNeeds(hotel.id);
   const restockRooms = new Set(needs.map((n) => n.roomId)).size;
 
+  // Mesmo cookie da vitrine: o idioma escolhido vale no produto inteiro.
+  const saved = parseLang((await cookies()).get(LANG_COOKIE)?.value);
+
   return (
-    <div className="min-h-dvh">
-      <AdminSidebar hotelName={hotel.name} email={email} restockCount={restockRooms} demo={isDemoMode} />
-      <div className="mx-auto max-w-[1180px] px-4 pb-28 pt-6 sm:px-8 lg:ml-[296px] lg:pb-10 lg:pr-8 lg:pt-8">{children}</div>
-      <AdminBottomNav restockCount={restockRooms} />
-    </div>
+    <I18nProvider initialLang={saved ?? "pt"} hasLangCookie={saved !== null}>
+      <div className="min-h-dvh">
+        <AdminSidebar hotelName={hotel.name} email={email} restockCount={restockRooms} demo={isDemoMode} />
+        <div className="mx-auto max-w-[1180px] px-4 pb-28 pt-6 sm:px-8 lg:ml-[296px] lg:pb-10 lg:pr-8 lg:pt-8">{children}</div>
+        <AdminBottomNav restockCount={restockRooms} />
+      </div>
+    </I18nProvider>
   );
 }

@@ -1,13 +1,13 @@
 "use client";
-import { CircleHelp, Globe, House, Sparkles } from "lucide-react";
+import { CircleHelp, House, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useGuest } from "@/components/guest/guest-context";
 import { AssistantSheet } from "@/components/guest/sections/assistant-sheet";
 import { HelpSheet } from "@/components/guest/sections/help-sheet";
 import { ThemeToggle } from "@/components/guest/sections/theme-toggle";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { LogoMark } from "@/components/ui/logo";
-import { LANGS, type DictKey } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /** Provisório: até o cadastro do hotel trazer o nome definitivo, a barra mostra este texto. */
@@ -18,23 +18,11 @@ const HOTEL_NAME_PLACEHOLDER = "Nome do seu hotel aqui";
  * central (só hotel e quarto) e, à direita, idioma e ajuda.
  */
 export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) {
-  const { t, lang, setLang, room } = useGuest();
-  const [langOpen, setLangOpen] = useState(false);
+  const { t, room } = useGuest();
   const [helpOpen, setHelpOpen] = useState(false);
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const menu = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!langOpen) return;
-    const close = (e: PointerEvent) =>
-      menu.current &&
-      !menu.current.contains(e.target as Node) &&
-      setLangOpen(false);
-    document.addEventListener("pointerdown", close);
-    return () => document.removeEventListener("pointerdown", close);
-  }, [langOpen]);
 
   // Fecha o menu mobile (hambúrguer) ao tocar fora do cluster de ícones.
   useEffect(() => {
@@ -150,50 +138,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
               <CircleHelp className="size-5" />
             </button>
 
-            <div ref={menu} className="relative shrink-0">
-              <button
-                onClick={() => setLangOpen((o) => !o)}
-                aria-label={t("guest.header.language")}
-                aria-expanded={langOpen}
-                className="glass-dark glass-liquid grid size-9 place-items-center rounded-full text-white/80 transition hover:bg-white/15 min-[360px]:size-10 sm:size-11"
-              >
-                <span className="flex items-center gap-0.5 text-xs font-bold">
-                  <Globe className="size-4" />
-                  {lang.toUpperCase()}
-                </span>
-              </button>
-              {langOpen && (
-                <ul
-                  role="menu"
-                  className="glass-strong absolute right-0 top-12 z-50 w-44 overflow-hidden rounded-3xl p-1.5"
-                >
-                  {LANGS.map((l) => (
-                    <li key={l}>
-                      <button
-                        role="menuitemradio"
-                        aria-checked={l === lang}
-                        onClick={() => {
-                          setLang(l);
-                          setLangOpen(false);
-                          setMenuOpen(false);
-                        }}
-                        className={cn(
-                          "flex h-11 w-full items-center justify-between rounded-2xl px-3 text-sm font-semibold",
-                          l === lang
-                            ? "bg-brand-700/10 text-brand-700"
-                            : "text-ink-soft hover:bg-brand-700/5",
-                        )}
-                      >
-                        {t(`guest.lang.${l}` as DictKey)}
-                        <span className="text-xs text-ink-faint">
-                          {l.toUpperCase()}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            <LanguageSwitcher tone="dark" onAfterSelect={() => setMenuOpen(false)} />
 
             <ThemeToggle initialDark={initialDark} />
           </div>

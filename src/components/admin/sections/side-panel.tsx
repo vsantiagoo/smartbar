@@ -8,7 +8,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
 import { EmptyState, LiveDot } from "@/components/ui/primitives";
 import { Segmented } from "@/components/ui/segmented";
-import { adminCopy } from "@/lib/content/copy";
+import { useI18n } from "@/lib/i18n/client";
 import { useNow } from "@/lib/realtime/use-now";
 import { cn, timeAgo } from "@/lib/utils";
 import type { DashboardSnapshot } from "@/lib/types";
@@ -22,6 +22,7 @@ type Tab = "live" | "restock" | "devices";
  *  Travas    → cards de dispositivo por quarto (online, aberta/trancada)
  */
 export function SidePanel({ data, freshIds }: { data: DashboardSnapshot; freshIds: ReadonlySet<string> }) {
+  const { t } = useI18n();
   const [tab, setTab] = useState<Tab>("live");
   const offline = data.rooms.filter((r) => !r.deviceOnline).length;
 
@@ -29,14 +30,14 @@ export function SidePanel({ data, freshIds }: { data: DashboardSnapshot; freshId
     <GlassCard pad="none" className="flex h-full max-h-[52rem] flex-col overflow-hidden">
       <div className="p-4 pb-3">
         <Segmented
-          label="Painel lateral"
+          label={t("admin.side.label")}
           value={tab}
           onChange={setTab}
           className="w-full"
           options={[
-            { value: "live", label: "Ao vivo", count: data.transactionsToday },
-            { value: "restock", label: "Repor", count: data.roomsNeedingRestock },
-            { value: "devices", label: "Travas", count: offline || undefined },
+            { value: "live", label: t("admin.side.live"), count: data.transactionsToday },
+            { value: "restock", label: t("admin.side.restock"), count: data.roomsNeedingRestock },
+            { value: "devices", label: t("admin.side.devices"), count: offline || undefined },
           ]}
         />
       </div>
@@ -44,7 +45,7 @@ export function SidePanel({ data, freshIds }: { data: DashboardSnapshot; freshId
         {tab === "live" && (
           <div>
             <p className="mb-2 flex items-center gap-2 px-1 text-sm text-ink-soft">
-              <LiveDot /> {adminCopy.dashboard.feedHint}
+              <LiveDot /> {t("admin.dashboard.feedHint")}
             </p>
             <LiveFeed transactions={data.recent} freshIds={freshIds} bare />
           </div>

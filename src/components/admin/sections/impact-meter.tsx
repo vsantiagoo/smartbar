@@ -1,6 +1,8 @@
+"use client";
 import { ShieldCheck } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { DotNumber, Meter } from "@/components/ui/primitives";
+import { useI18n } from "@/lib/i18n/client";
 import { formatBRL } from "@/lib/utils";
 
 /** Perda média sem controle (Plano de Negócios): 22% do consumo não é lançado. */
@@ -14,6 +16,7 @@ const PLAN_MONTHLY_CENTS = 49_000;
  * do plano — no formato "consumo / saldo / limite" do medidor da Orbit.
  */
 export function ImpactMeter({ revenueTodayCents }: { revenueTodayCents: number }) {
+  const { t } = useI18n();
   // Se 22% do consumo real some, o consumo real = vendido / 0,78; a perda evitada = o restante.
   const protectedCents = Math.round((revenueTodayCents * LEAKAGE) / (1 - LEAKAGE));
   const dailyCost = Math.round(PLAN_MONTHLY_CENTS / 30);
@@ -22,7 +25,7 @@ export function ImpactMeter({ revenueTodayCents }: { revenueTodayCents: number }
   return (
     <GlassCard>
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm font-medium text-ink-soft">Receita protegida hoje</p>
+        <p className="text-sm font-medium text-ink-soft">{t("admin.impact.title")}</p>
         <span className="grid size-9 place-items-center rounded-2xl glass-chip bg-ok-500/12 text-ok-600">
           <ShieldCheck className="size-[18px]" />
         </span>
@@ -30,13 +33,13 @@ export function ImpactMeter({ revenueTodayCents }: { revenueTodayCents: number }
       <div className="mt-3 text-[2.1rem]">
         <DotNumber>{formatBRL(protectedCents)}</DotNumber>
       </div>
-      <Meter className="mt-4" value={Math.min(protectedCents, dailyCost)} max={dailyCost} tone="ok" label="Receita protegida frente ao custo diário do plano" />
+      <Meter className="mt-4" value={Math.min(protectedCents, dailyCost)} max={dailyCost} tone="ok" label={t("admin.impact.meter")} />
       <div className="tabular mt-2 flex justify-between text-xs text-ink-soft">
-        <span>{times >= 1 ? `${times.toFixed(1).replace(".", ",")}× o custo diário do plano` : "Abaixo do custo diário do plano"}</span>
-        <span>{formatBRL(dailyCost)}/dia</span>
+        <span>{times >= 1 ? t("admin.impact.times", { times: times.toFixed(1).replace(".", ",") }) : t("admin.impact.below")}</span>
+        <span>{t("admin.impact.perDay", { value: formatBRL(dailyCost) })}</span>
       </div>
       <p className="mt-3 border-t border-brand-700/10 pt-3 text-xs leading-snug text-ink-faint">
-        Estimativa: considera a perda média de 22% do setor sem pagamento prévio (Plano de Negócios). Não é uma medição deste hotel.
+        {t("admin.impact.note")}
       </p>
     </GlassCard>
   );

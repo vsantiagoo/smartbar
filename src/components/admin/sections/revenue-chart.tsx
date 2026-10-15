@@ -1,4 +1,6 @@
+"use client";
 import { GlassCard, SectionTitle } from "@/components/ui/glass-card";
+import { useI18n } from "@/lib/i18n/client";
 import { cn, formatBRL } from "@/lib/utils";
 import type { DashboardSnapshot } from "@/lib/types";
 
@@ -6,12 +8,13 @@ const FIRST_HOUR = 6;
 
 /** SEÇÃO · Faturamento por hora (barras). Hora atual em ouro. */
 export function RevenueChart({ hourly, currentHour }: { hourly: DashboardSnapshot["hourly"]; currentHour: number }) {
+  const { t } = useI18n();
   const bars = hourly.filter((h) => h.hour >= FIRST_HOUR);
   const max = Math.max(1, ...bars.map((b) => b.cents));
   return (
     <GlassCard>
-      <SectionTitle title="Faturamento por hora" hint="Vendas aprovadas hoje" />
-      <div className="flex h-44 items-end gap-1.5" role="img" aria-label="Gráfico de faturamento por hora do dia">
+      <SectionTitle title={t("admin.chart.title")} hint={t("admin.chart.hint")} />
+      <div className="flex h-44 items-end gap-1.5" role="img" aria-label={t("admin.chart.aria")}>
         {bars.map((b) => {
           const pct = (b.cents / max) * 100;
           return (

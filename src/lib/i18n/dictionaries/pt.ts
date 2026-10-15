@@ -190,10 +190,107 @@ export const pt = {
   "guest.help.back": "Voltar",
   "guest.wa.text": "Olá! Estou no quarto {room} e preciso de ajuda com o minibar SmartBar.",
 
-  // Idioma
-  "guest.lang.pt": "Português",
-  "guest.lang.en": "English",
-  "guest.lang.es": "Español",
+  /* ── Comum às três áreas ──────────────────────────────────────────── */
+  "common.language": "Idioma",
+  // Nomes dos idiomas: sempre no próprio idioma, iguais nos três dicionários.
+  "common.lang.pt": "Português",
+  "common.lang.en": "English",
+  "common.lang.es": "Español",
+
+  /* ── Painel do hotel ──────────────────────────────────────────────── */
+  "admin.nav.main": "Principal",
+  "admin.nav.overview": "Visão geral",
+  "admin.nav.rooms": "Quartos",
+  "admin.nav.restock": "Reposição",
+  "admin.nav.logout": "Sair",
+  "admin.nav.demo": "Modo demonstração · dados simulados",
+
+  "admin.status.live": "Ao vivo",
+  "admin.status.demo": "Modo demonstração",
+  "admin.status.connecting": "Conectando…",
+
+  "admin.dashboard.title": "Visão geral",
+  "admin.dashboard.subtitle": "Faturamento do minibar em tempo real",
+  "admin.dashboard.feedTitle": "Últimas vendas aprovadas",
+  "admin.dashboard.feedHint": "Atualiza sozinho a cada compra concluída pelo hóspede.",
+  "admin.dashboard.feedEmpty": "Nenhuma venda aprovada hoje ainda.",
+
+  "admin.rooms.title": "Quartos",
+  "admin.rooms.subtitle": "Status do frigobar, consumo da estadia e valores para o check-out.",
+  "admin.rooms.searchPlaceholder": "Buscar por número do quarto ou hóspede…",
+  "admin.rooms.searchAria": "Buscar quarto",
+  "admin.rooms.filterLabel": "Filtrar quartos",
+  "admin.rooms.filter.all": "Todos",
+  "admin.rooms.filter.occupied": "Ocupados",
+  "admin.rooms.filter.restock": "Repor",
+  "admin.rooms.filter.offline": "Sem sinal",
+  "admin.rooms.emptyTitle": "Nenhum quarto encontrado",
+  "admin.rooms.emptyText": "Tente outro número, nome de hóspede ou filtro.",
+  "admin.rooms.floor": "Andar {floor}",
+  "admin.rooms.restockBadge": "Repor {n}",
+  "admin.rooms.vacant": "Quarto vago",
+  "admin.rooms.open": "Aberto",
+  "admin.rooms.locked": "Trancado",
+
+  "admin.restock.title": "Reposição",
+  "admin.restock.subtitle": "Quartos que precisam de itens. Confirme após repor para atualizar o estoque.",
+  "admin.restock.empty": "Tudo em ordem. Nenhum quarto precisa de reposição.",
+  "admin.restock.emptyHint": "Novos alertas aparecem aqui assim que um quarto atingir o estoque mínimo.",
+
+  // Indicadores do dia
+  "admin.kpi.section": "Indicadores do dia",
+  "admin.kpi.revenue": "Faturamento hoje",
+  "admin.kpi.revenueHint": "{pix}% via Pix · {account}% na conta do quarto",
+  "admin.kpi.sales": "Vendas aprovadas",
+  "admin.kpi.salesHint": "Pedidos com trava liberada",
+  "admin.kpi.ticket": "Ticket médio",
+  "admin.kpi.ticketHint": "Por pedido aprovado",
+  "admin.kpi.restock": "Quartos p/ repor",
+  "admin.kpi.restockHint": "{n} unidades faltando",
+
+  "admin.chart.title": "Faturamento por hora",
+  "admin.chart.hint": "Vendas aprovadas hoje",
+  "admin.chart.aria": "Gráfico de faturamento por hora do dia",
+
+  "admin.top.title": "Mais vendidos hoje",
+  "admin.top.empty": "Sem vendas ainda",
+  "admin.top.units": "{n} un",
+  "admin.top.meter": "Faturamento de {name}",
+
+  "admin.feed.room": "Quarto {room}",
+  "admin.feed.new": "Novo",
+  "admin.feed.items": "{n} {n|item|itens}",
+  "admin.feed.pix": "Pix",
+  "admin.feed.account": "Na conta",
+
+  "admin.side.label": "Painel lateral",
+  "admin.side.live": "Ao vivo",
+  "admin.side.restock": "Repor",
+  "admin.side.devices": "Travas",
+
+  "admin.impact.title": "Receita protegida hoje",
+  "admin.impact.meter": "Receita protegida frente ao custo diário do plano",
+  "admin.impact.times": "{times}× o custo diário do plano",
+  "admin.impact.below": "Abaixo do custo diário do plano",
+  "admin.impact.perDay": "{value}/dia",
+  "admin.impact.note": "Estimativa: considera a perda média de 22% do setor sem pagamento prévio (Plano de Negócios). Não é uma medição deste hotel.",
+
+  // Busca rápida (⌘K)
+  "admin.cmd.groupRooms": "Quartos",
+  "admin.cmd.groupActions": "Ações",
+  "admin.cmd.openRestock": "Abrir reposição",
+  "admin.cmd.housekeeping": "Governança",
+  "admin.cmd.allRooms": "Ver todos os quartos",
+  "admin.cmd.overview": "Visão geral",
+  "admin.cmd.roomsToRestock": "Quartos para repor",
+  "admin.cmd.allRoomsShort": "Todos os quartos",
+  "admin.cmd.hello": "Olá",
+  "admin.cmd.morning": "Bom dia",
+  "admin.cmd.afternoon": "Boa tarde",
+  "admin.cmd.evening": "Boa noite",
+  "admin.cmd.vacant": "Vago",
+  "admin.cmd.search": "Buscar quarto, hóspede ou ação",
+  "admin.cmd.searchPlaceholder": "Buscar quarto, hóspede ou ação…",
 } as const;
 
 /** Toda chave de texto do produto. Adicionar aqui obriga traduzir em en.ts e es.ts. */

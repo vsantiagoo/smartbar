@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/primitives";
 import { Segmented } from "@/components/ui/segmented";
 import { SearchField } from "@/components/ui/input";
-import { adminCopy } from "@/lib/content/copy";
+import { useI18n } from "@/lib/i18n/client";
 import { useLiveRefresh } from "@/lib/realtime/use-live-refresh";
 import { cn, formatBRL } from "@/lib/utils";
 import type { RoomSummary } from "@/lib/types";
@@ -20,6 +20,7 @@ type Filter = "all" | "occupied" | "restock" | "offline";
  * Enter abre direto o quarto quando há um único resultado.
  */
 export function RoomsExplorer({ hotelId, rooms }: { hotelId: string; rooms: RoomSummary[] }) {
+  const { t } = useI18n();
   const router = useRouter();
   const live = useLiveRefresh(hotelId);
   const [query, setQuery] = useState("");
@@ -45,7 +46,7 @@ export function RoomsExplorer({ hotelId, rooms }: { hotelId: string; rooms: Room
 
   return (
     <div className="space-y-5">
-      <PageHeader title={adminCopy.rooms.title} subtitle={adminCopy.rooms.subtitle} live={live} />
+      <PageHeader title={t("admin.rooms.title")} subtitle={t("admin.rooms.subtitle")} live={live} />
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center">
         <form
@@ -58,26 +59,26 @@ export function RoomsExplorer({ hotelId, rooms }: { hotelId: string; rooms: Room
           <SearchField
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={adminCopy.rooms.searchPlaceholder}
-            aria-label="Buscar quarto"
+            placeholder={t("admin.rooms.searchPlaceholder")}
+            aria-label={t("admin.rooms.searchAria")}
             autoFocus
           />
         </form>
         <Segmented
-          label="Filtrar quartos"
+          label={t("admin.rooms.filterLabel")}
           value={filter}
           onChange={setFilter}
           options={[
-            { value: "all", label: "Todos", count: counts.all },
-            { value: "occupied", label: "Ocupados", count: counts.occupied },
-            { value: "restock", label: "Repor", count: counts.restock },
-            { value: "offline", label: "Sem sinal", count: counts.offline },
+            { value: "all", label: t("admin.rooms.filter.all"), count: counts.all },
+            { value: "occupied", label: t("admin.rooms.filter.occupied"), count: counts.occupied },
+            { value: "restock", label: t("admin.rooms.filter.restock"), count: counts.restock },
+            { value: "offline", label: t("admin.rooms.filter.offline"), count: counts.offline },
           ]}
         />
       </div>
 
       {visible.length === 0 ? (
-        <EmptyState icon={PackageX} title="Nenhum quarto encontrado" description="Tente outro número, nome de hóspede ou filtro." />
+        <EmptyState icon={PackageX} title={t("admin.rooms.emptyTitle")} description={t("admin.rooms.emptyText")} />
       ) : (
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {visible.map(({ room, guestName, restockCount, spentCents }) => (
@@ -93,17 +94,17 @@ export function RoomsExplorer({ hotelId, rooms }: { hotelId: string; rooms: Room
                     </span>
                     <div>
                       <p className="tabular text-2xl font-bold leading-none text-ink">{room.number}</p>
-                      <p className="mt-1 text-xs text-ink-soft">Andar {room.floor ?? "—"}</p>
+                      <p className="mt-1 text-xs text-ink-soft">{t("admin.rooms.floor", { floor: room.floor ?? "—" })}</p>
                     </div>
                   </div>
-                  {restockCount > 0 && <Badge tone="danger">Repor {restockCount}</Badge>}
+                  {restockCount > 0 && <Badge tone="danger">{t("admin.rooms.restockBadge", { n: restockCount })}</Badge>}
                 </div>
-                <p className="mt-4 truncate text-sm font-medium text-ink">{guestName ?? "Quarto vago"}</p>
+                <p className="mt-4 truncate text-sm font-medium text-ink">{guestName ?? t("admin.rooms.vacant")}</p>
                 <div className="mt-3 flex items-center justify-between border-t border-brand-700/10 pt-3">
                   <span className="flex items-center gap-2 text-xs text-ink-soft">
                     {room.deviceOnline ? <Wifi className="size-3.5 text-ok-500" /> : <WifiOff className="size-3.5 text-crimson-500" />}
                     {room.lockState === "unlocked" ? <LockOpen className="size-3.5 text-gold-600" /> : <Lock className="size-3.5" />}
-                    {room.lockState === "unlocked" ? "Aberto" : "Trancado"}
+                    {room.lockState === "unlocked" ? t("admin.rooms.open") : t("admin.rooms.locked")}
                   </span>
                   <span className="tabular text-sm font-semibold text-ink">{guestName ? formatBRL(spentCents) : "—"}</span>
                 </div>
