@@ -32,6 +32,11 @@ export async function Hero() {
         Tela da moldura: as fotos e o escurecimento ficam recortados aqui dentro,
         então a animação acontece só dentro da borda branca vazada.
       */}
+      {/*
+        Único raio fora da escala óptica, de propósito: isto não é um material
+        sobre a página, é a moldura da própria viewport. Ela tem de ser mais
+        aberta que `surface` (36px) para a borda branca não parecer um card.
+      */}
       <div
         className="pointer-events-none absolute inset-3 overflow-hidden rounded-[2.5rem] border border-white/45 sm:inset-5 sm:rounded-[3rem]"
         aria-hidden

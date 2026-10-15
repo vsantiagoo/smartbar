@@ -97,7 +97,7 @@ export function CommandBar({ hotelName, rooms, offlineCount }: { hotelName: stri
         )}
       </div>
 
-      <div className="glass-strong relative mt-4 rounded-[32px] p-2.5">
+      <div className="glass-strong relative mt-4 rounded-panel p-2.5">
         <div className="flex items-center gap-3 pl-4">
           <Search className="size-5 shrink-0 text-ink-faint" />
           <input
@@ -136,7 +136,7 @@ export function CommandBar({ hotelName, rooms, offlineCount }: { hotelName: stri
           <ul
             id="command-results"
             role="listbox"
-            className="glass-strong absolute inset-x-0 top-[calc(100%+8px)] max-h-[22rem] overflow-y-auto rounded-[28px] p-2"
+            className="glass-strong absolute inset-x-0 top-[calc(100%+8px)] max-h-[22rem] overflow-y-auto rounded-card p-2"
           >
             {results.length === 0 && <li className="px-4 py-6 text-center text-sm text-ink-soft">{t("admin.cmd.noResults", { query })}</li>}
             {results.map((c, i) => {

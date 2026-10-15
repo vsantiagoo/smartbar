@@ -22,7 +22,7 @@ export default async function AdminLoginPage() {
       <main className="brand-diagonals grid min-h-dvh place-items-center px-4 py-10">
         <div className="w-full max-w-md">
           <Logo className="mb-8 justify-center [--logo-size:2.5rem]" />
-          <div className="glass-strong rounded-[36px] p-7 sm:p-9">
+          <div className="glass-strong rounded-surface p-7 sm:p-9">
             <h1 className="text-2xl font-bold">{t("admin.login.title")}</h1>
             <p className="mt-1.5 text-ink-soft">{t("admin.login.subtitle")}</p>
             <LoginForm demoEmail={isDemoMode ? DEMO_ADMIN.email : undefined} demoPassword={isDemoMode ? DEMO_ADMIN.password : undefined} />

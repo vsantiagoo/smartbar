@@ -106,7 +106,7 @@ export function KpiCard({
     ok: "bg-ok-500/12 text-ok-600",
   }[tone];
   return (
-    <div className={cn("glass rounded-[28px] p-5", className)}>
+    <div className={cn("glass rounded-card p-5", className)}>
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm font-medium text-ink-soft">{label}</p>
         <span className={cn("glass-chip grid size-9 place-items-center rounded-2xl", iconTone)}>

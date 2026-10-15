@@ -48,8 +48,23 @@ const config: Config = {
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "'Liberation Mono'", "monospace"],
       },
       borderRadius: {
-        "4xl": "2rem",
-        "5xl": "2.5rem",
+        /*
+          ESCALA ÓPTICA DE RAIOS — cada degrau tem um papel declarado, e o papel
+          é que escolhe o degrau (não o olho, na hora). Antes estes mesmos cinco
+          valores viviam como `rounded-[28px]` espalhados: o padrão existia, só
+          não tinha nome, então cada tela nova chutava um número.
+
+          ANINHAMENTO ÓPTICO: o raio do filho é o raio do pai MENOS o respiro
+          entre eles. Um bloco de 24px dentro de um card de 28px pede 4px de
+          padding para as curvas ficarem concêntricas; com o mesmo raio nos dois,
+          a curva interna parece mais apertada que a externa.
+        */
+        chip: "12px", // selo, campo, ícone
+        control: "20px", // barra ou controle estreito
+        inset: "24px", // bloco aninhado dentro de um card
+        card: "28px", // card
+        panel: "32px", // painel, coluna, dropdown
+        surface: "36px", // superfície cheia, sheet, tela inteira
       },
       boxShadow: {
         soft: "0 10px 40px -14px rgb(var(--brand-800) / 0.28)",

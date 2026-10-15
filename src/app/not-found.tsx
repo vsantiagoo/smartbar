@@ -6,7 +6,7 @@ import { EmptyState } from "@/components/ui/primitives";
 export default function NotFound() {
   return (
     <main className="grid min-h-dvh place-items-center px-4">
-      <div className="glass-strong w-full max-w-md rounded-[36px]">
+      <div className="glass-strong w-full max-w-md rounded-surface">
         <EmptyState
           icon={SearchX}
           title="Página não encontrada"

@@ -36,7 +36,7 @@ export function HowItWorks() {
         })}
       </ol>
       {room.hasLock && (
-        <div className="mt-3 flex items-start gap-3 rounded-[24px] border border-gold-500/30 bg-gold-500/10 p-3.5">
+        <div className="mt-3 flex items-start gap-3 rounded-inset border border-gold-500/30 bg-gold-500/10 p-3.5">
           <DoorClosed className="mt-0.5 size-5 shrink-0 text-gold-600" />
           <p className="text-sm leading-snug text-ink">
             <span className="font-semibold">{t("guest.how.safety.title")}: </span>

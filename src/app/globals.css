@@ -44,15 +44,44 @@
   min-height: 100dvh;
 }
 
-/* Vidro translúcido claro fica muito forte no escuro: suaviza tinta e aro. */
+/*
+  VIDRO NO ESCURO. A tinta clara do modo claro fica forte demais aqui, mas o
+  ajuste não pode ser um preenchimento chapado: isso apagaria a luz direcional
+  e devolveria o vidro liso de template justamente na vitrine, onde o material
+  mais aparece. Então o que muda são os ALFAS e o aro (`--rim-dark`) — o
+  degradê de tinta, o degradê de borda e as camadas de sombra continuam.
+
+  Estas regras ficam fora de `@layer components` de propósito: sem camada, elas
+  vencem a cascata sem precisar de `!important` nem de seletor inflado.
+*/
 [data-theme="dark"] .glass {
-  background: rgb(255 255 255 / 0.06);
-  border-color: rgb(255 255 255 / 0.12);
+  background:
+    linear-gradient(to bottom, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.035)) padding-box,
+    linear-gradient(to bottom, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.07) 45%, rgb(255 255 255 / 0.03)) border-box;
+  box-shadow: var(--rim-dark), var(--cast-1);
 }
-[data-theme="dark"] .glass-frosted,
-[data-theme="dark"] .glass-frost {
-  background: rgb(255 255 255 / 0.05);
-  border-color: rgb(255 255 255 / 0.12);
+[data-theme="dark"] .glass-strong {
+  background:
+    linear-gradient(to bottom, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.05)) padding-box,
+    linear-gradient(to bottom, rgb(255 255 255 / 0.34), rgb(255 255 255 / 0.1) 45%, rgb(255 255 255 / 0.04)) border-box;
+  box-shadow: var(--rim-dark), var(--cast-2);
+}
+/* Sem `background`: a cor vem do bg-{cor}/{alpha} ao lado. Só o aro inverte. */
+[data-theme="dark"] .glass-tint {
+  border-color: rgb(255 255 255 / 0.1);
+  border-top-color: rgb(255 255 255 / 0.2);
+  border-bottom-color: rgb(255 255 255 / 0.05);
+  box-shadow: var(--rim-dark), var(--cast-1);
+}
+[data-theme="dark"] .glass-chip {
+  border-color: rgb(255 255 255 / 0.1);
+  border-top-color: rgb(255 255 255 / 0.2);
+  border-bottom-color: rgb(255 255 255 / 0.05);
+  box-shadow: var(--rim-dark);
+}
+[data-theme="dark"] .product-card:hover {
+  border-color: rgb(255 255 255 / 0.22);
+  box-shadow: var(--rim-dark), var(--cast-2);
 }
 
 @layer base {
@@ -114,6 +143,27 @@
        Contato (curta e densa, prova que o objeto toca o fundo) somada a
        ambiente (larga e difusa, prova que ele ocupa espaço). Uma camada só
        sempre parece adesivo colado na tela.
+
+    ───────────────────────────────────────────────────────────────────────
+    TRÊS NÍVEIS — e só três. Nível é ALTURA, não cor: a cor é escolha de
+    contraste sobre o fundo, a altura é o que o material diz sobre si.
+
+      1 · APOIADA    blur-1, sem sombra projetada
+                     `.glass-chip` — selo, campo, ícone. Encostada na
+                     superfície: um selo que flutua parece erro de escala.
+
+      2 · ELEVADA    blur-2 + cast-1
+                     `.glass` · `.glass-tint` · `.glass-dark`
+                     O nível de trabalho: cards, barras, botões.
+
+      3 · SOBREPOSTA blur-3 + cast-2/3
+                     `.glass-strong` · `.glass-navy`
+                     Interrompe a leitura: sheet, dropdown, destaque.
+
+    Antes havia onze materiais competindo, cada um com desfoque e sombra
+    próprios — e `.glass-frost`/`.glass-frosted`, que eram o mesmo vidro com
+    números diferentes, um deles sem nenhum uso. Vidro demais, dito de formas
+    demais, é exatamente o que faz a tela parecer gerada.
     ───────────────────────────────────────────────────────────────────────
   */
   :root {
@@ -183,24 +233,6 @@
     box-shadow: var(--rim-light), var(--cast-2);
   }
   /*
-    Vidro FOSCO — os valores exatos do painel de escrita da referência (Orbit):
-    tinta cinza-azulada bem diluída, desfoque alto e pouca saturação, aro branco
-    e uma sombra larga e baixa que descola o card do fundo. O relevo vem do fio
-    de luz no topo (--glass-rim), não do preenchimento.
-  */
-  .glass-frost {
-    /* #dbe4e51f */
-    background: rgb(219 228 229 / 0.122);
-    /* #ffffff59 */
-    border: 1px solid rgb(255 255 255 / 0.35);
-    border-radius: 29px;
-    -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(1.05);
-    backdrop-filter: blur(var(--liquid-blur)) saturate(1.05);
-    box-shadow: var(--liquid-rim), 0 14px 44px rgb(20 43 60 / 0.086);
-    transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  /*
     Tremor curto ao passar o mouse — o mesmo gesto do cadeado da declaração:
     o elemento reage ao toque e volta ao lugar. Toca uma vez por entrada.
   */
@@ -236,22 +268,6 @@
     -webkit-backdrop-filter: blur(var(--blur-2)) saturate(1.3);
     backdrop-filter: blur(var(--blur-2)) saturate(1.3);
     box-shadow: var(--rim-dark);
-  }
-  /*
-    Vidro fosco premium — inspirado no "Frosted Concept": tinta muito diluída,
-    desfoque extra-largo (40 px) que deixa as cores do fundo sangrarem de forma
-    suave, saturação elevada para manter vivacidade e borda fina luminosa.
-  */
-  .glass-frosted {
-    background: rgb(255 255 255 / 0.08);
-    border: 1px solid rgb(255 255 255 / 0.18);
-    -webkit-backdrop-filter: blur(40px) saturate(1.8) brightness(0.85);
-    backdrop-filter: blur(40px) saturate(1.8) brightness(0.85);
-    box-shadow:
-      inset 1px 1px 0 rgb(255 255 255 / 0.2),
-      inset -1px -1px 0 rgb(255 255 255 / 0.06),
-      inset 0 0 20px rgb(255 255 255 / 0.04),
-      0 8px 32px -8px rgb(0 0 0 / 0.3);
   }
   /*
     Fio de luz LÍQUIDO (ref. vidro "Clear" do iOS): um aro fino e brilhante na
@@ -420,14 +436,20 @@
   */
   .product-card {
     transition:
-      transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
-      box-shadow 0.3s ease,
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       border-color 0.3s ease;
   }
+  /*
+    Subir de nível ao destacar: o card sai do nível 2 (elevada) para o 3
+    (sobreposta). A sombra troca de camadas junto — não basta ficar mais
+    escura, ela precisa ficar mais LARGA, senão o card parece pressionado
+    contra o fundo em vez de erguido dele.
+  */
   .product-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     border-color: rgb(255 255 255 / 0.4);
-    box-shadow: var(--liquid-rim), 0 18px 44px -16px rgb(var(--brand-900) / 0.5);
+    box-shadow: var(--rim-light), var(--cast-2);
   }
   @media (prefers-reduced-motion: reduce) {
     .product-card:hover { transform: none; }

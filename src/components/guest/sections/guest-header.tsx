@@ -48,7 +48,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
         {/* No mobile, a barra cede o lugar da linha para os ícones quando o menu abre. */}
         <div
           className={cn(
-            "glass min-w-0 max-w-[58vw] rounded-[20px] px-5 py-2.5 text-center leading-tight transition-opacity duration-200 sm:max-w-none sm:opacity-100",
+            "glass min-w-0 max-w-[58vw] rounded-control px-5 py-2.5 text-center leading-tight transition-opacity duration-200 sm:max-w-none sm:opacity-100",
             menuOpen && "max-sm:pointer-events-none max-sm:opacity-0",
           )}
         >

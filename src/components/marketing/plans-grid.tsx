@@ -30,7 +30,7 @@ function FactStrip({ block, delay }: { block: FactBlock; delay: number }) {
   const hasItems = Boolean(block.items?.length);
   return (
     <Reveal delay={delay} className="mt-5">
-      <div className="glass rounded-[32px] p-7">
+      <div className="glass rounded-panel p-7">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <p className="text-sm font-semibold uppercase tracking-wide text-brand-500">{block.title}</p>
           <p className="text-sm text-ink-soft">{block.text}</p>
@@ -93,7 +93,7 @@ export function PlansGrid() {
               <Reveal key={plan.tier} delay={i * 110} className="h-full">
                 <div
                   className={cn(
-                    "flex h-full flex-col rounded-[32px] p-7 transition duration-300 hover:-translate-y-1",
+                    "flex h-full flex-col rounded-panel p-7 transition duration-300 hover:-translate-y-1",
                     plan.highlight ? "glass-navy text-white" : "glass",
                   )}
                 >

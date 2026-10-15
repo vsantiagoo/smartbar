@@ -31,7 +31,7 @@ export function Sheet({ open, onClose, title, children, footer }: SheetProps) {
       <button aria-label="Fechar" className="absolute inset-0 bg-brand-950/40 backdrop-blur-[3px]" onClick={onClose} />
       <div
         className={cn(
-          "glass-strong relative flex max-h-[88dvh] w-full max-w-lg animate-sheet-up flex-col rounded-t-[36px] sm:rounded-[36px]",
+          "glass-strong relative flex max-h-[88dvh] w-full max-w-lg animate-sheet-up flex-col rounded-t-surface sm:rounded-surface",
         )}
       >
         <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-brand-700/20 sm:hidden" />

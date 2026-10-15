@@ -19,7 +19,7 @@ interface GlassCardProps extends HTMLAttributes<HTMLDivElement> {
 
 /** Superfície base do design system. Cantos generosos + vidro fosco. */
 export function GlassCard({ surface = "glass", pad = "md", className, ...props }: GlassCardProps) {
-  return <div className={cn("rounded-[28px]", surfaces[surface], pads[pad], className)} {...props} />;
+  return <div className={cn("rounded-card", surfaces[surface], pads[pad], className)} {...props} />;
 }
 
 export function SectionTitle({

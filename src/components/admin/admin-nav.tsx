@@ -32,7 +32,7 @@ export function AdminSidebar({ hotelName, email, restockCount, demo }: NavProps)
   const isActive = useActive();
   const { t } = useI18n();
   return (
-    <aside className="glass fixed inset-y-4 left-4 z-30 hidden w-[264px] flex-col rounded-[32px] p-4 lg:flex">
+    <aside className="glass fixed inset-y-4 left-4 z-30 hidden w-[264px] flex-col rounded-panel p-4 lg:flex">
       <Logo intro={false} className="px-2 pb-5 pt-2" />
       <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint">{hotelName}</p>
       <nav className="flex-1 space-y-1" aria-label={t("admin.nav.main")}>

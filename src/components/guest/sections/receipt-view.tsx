@@ -34,7 +34,7 @@ export function ReceiptView({ baseHref, code, at, method, totalCents, items }: R
         <ArrowLeft className="size-4" /> {t("guest.receipt.back")}
       </Link>
 
-      <article className="glass-strong rounded-[32px] p-6 print:rounded-none print:border-0 print:bg-white print:p-0 print:shadow-none">
+      <article className="glass-strong rounded-panel p-6 print:rounded-none print:border-0 print:bg-white print:p-0 print:shadow-none">
         <header className="flex items-center gap-3 border-b border-brand-700/10 pb-4">
           <LogoMark tone="brand" intro={false} className="size-10" />
           <div>

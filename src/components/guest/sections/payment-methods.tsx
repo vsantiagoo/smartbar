@@ -55,7 +55,7 @@ export function PaymentMethods({ value, onChange, canChargeToRoom }: PaymentMeth
               disabled={o.disabled}
               onClick={() => onChange(o.id)}
               className={cn(
-                "flex w-full items-start gap-4 rounded-[28px] border p-4 text-left transition",
+                "flex w-full items-start gap-4 rounded-card border p-4 text-left transition",
                 selected ? "glass-strong border-brand-700 ring-4 ring-brand-700/10" : "glass hover:bg-white/80",
                 o.disabled && "cursor-not-allowed opacity-55",
               )}

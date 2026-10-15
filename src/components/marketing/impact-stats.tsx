@@ -23,8 +23,7 @@ export async function ImpactStats() {
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {c.items.map((item, i) => (
             <Reveal key={item.label} delay={i * 90} className="h-full">
-              {/* O raio vem do próprio `.glass-frost` (29px, como na referência). */}
-              <div className="glass-frost shake-hover h-full px-4 py-7">
+              <div className="glass shake-hover h-full rounded-card px-4 py-7">
                 {/* Plus Jakarta Sans, a mesma da logo: o número vira um gesto da marca. */}
                 <span
                   className="tabular block font-extrabold leading-none tracking-tight text-ink text-[2.4rem] sm:text-[2.8rem]"

@@ -35,7 +35,7 @@ export function CheckoutScreen({ catalog, hotelId, roomId, canChargeToRoom, base
   const lines = linesFor(catalog);
   const { cents } = cartTotals(lines);
 
-  if (!ready) return <Skeleton className="h-64 w-full rounded-[28px]" />;
+  if (!ready) return <Skeleton className="h-64 w-full rounded-card" />;
   if (lines.length === 0) {
     return (
       <EmptyState
@@ -108,7 +108,7 @@ export function CheckoutScreen({ catalog, hotelId, roomId, canChargeToRoom, base
       )}
 
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 mx-auto max-w-lg px-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-        <div className="glass-strong pointer-events-auto rounded-[32px] p-3">
+        <div className="glass-strong pointer-events-auto rounded-panel p-3">
           <Button variant="accent" size="lg" className="w-full" loading={busy} onClick={submit}>
             {method === "pix" ? t("guest.checkout.pix.cta") : t("guest.checkout.room.cta")} · {formatBRL(cents)}
           </Button>

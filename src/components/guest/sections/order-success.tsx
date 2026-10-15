@@ -49,7 +49,7 @@ export function OrderSuccess({ tx, baseHref }: { tx: PublicTransaction; baseHref
 
   return (
     <div className="space-y-6">
-      <section className="glass-strong relative overflow-hidden rounded-[36px] px-6 py-10 text-center">
+      <section className="glass-strong relative overflow-hidden rounded-surface px-6 py-10 text-center">
         <div className="relative mx-auto grid size-44 place-items-center">
           {open && <span className="absolute inset-3 animate-pulse-ring rounded-full bg-ok-500/25" />}
           {locked && (
