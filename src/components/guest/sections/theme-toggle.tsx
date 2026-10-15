@@ -31,7 +31,7 @@ export function ThemeToggle({ initialDark }: { initialDark: boolean }) {
       type="button"
       role="switch"
       aria-checked={dark}
-      aria-label={t("header.theme")}
+      aria-label={t("guest.header.theme")}
       onClick={toggle}
       className="glass-dark glass-liquid relative grid h-9 w-[46px] shrink-0 grid-cols-2 items-center rounded-full px-0.5 active:scale-95 min-[360px]:h-10 min-[360px]:w-14 min-[360px]:px-1 sm:h-11 sm:w-16"
     >

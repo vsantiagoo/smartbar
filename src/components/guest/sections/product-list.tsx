@@ -8,7 +8,7 @@ import { ProductTile } from "@/components/ui/product-icon";
 import { Segmented } from "@/components/ui/segmented";
 import { Stepper } from "@/components/ui/stepper";
 import { EmptyState } from "@/components/ui/primitives";
-import { translateProduct, type GuestKey } from "@/lib/i18n/guest";
+import { translateProduct, type DictKey } from "@/lib/i18n";
 import { cn, formatBRL } from "@/lib/utils";
 import type { CatalogItem } from "@/lib/types";
 
@@ -26,20 +26,20 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
     const present = [...new Set(catalog.map((p) => p.category))];
     return present.sort((a, b) => (CATEGORY_ORDER.indexOf(a) + 1 || 99) - (CATEGORY_ORDER.indexOf(b) + 1 || 99));
   }, [catalog]);
-  const categoryLabel = (c: string) => (CATEGORY_ORDER.includes(c) ? t(`cat.${c}` as GuestKey) : c);
+  const categoryLabel = (c: string) => (CATEGORY_ORDER.includes(c) ? t(`guest.cat.${c}` as DictKey) : c);
   const visible = catalog.filter((p) => category === "all" || p.category === category);
 
-  if (catalog.length === 0) return <EmptyState icon={PackageOpen} title={t("catalog.empty")} />;
+  if (catalog.length === 0) return <EmptyState icon={PackageOpen} title={t("guest.catalog.empty")} />;
 
   return (
-    <section aria-label={t("nav.catalog")}>
+    <section aria-label={t("guest.nav.catalog")}>
       <Segmented
-        label={t("catalog.filter")}
+        label={t("guest.catalog.filter")}
         value={category}
         onChange={setCategory}
         className="mb-4"
         options={[
-          { value: "all", label: t("catalog.all"), count: catalog.length },
+          { value: "all", label: t("guest.catalog.all"), count: catalog.length },
           ...categories.map((c) => ({ value: c, label: categoryLabel(c) })),
         ]}
       />
@@ -62,14 +62,14 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
                 <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                   <span className="tabular mr-1 font-bold text-brand-700 dark:text-white">{formatBRL(p.priceCents)}</span>
                   {soldOut ? (
-                    <Badge tone="neutral">{t("catalog.soldOut")}</Badge>
+                    <Badge tone="neutral">{t("guest.catalog.soldOut")}</Badge>
                   ) : p.available <= LOW_STOCK ? (
-                    <Badge tone="warn">{t("catalog.onlyLeft", { n: p.available })}</Badge>
+                    <Badge tone="warn">{t("guest.catalog.onlyLeft", { n: p.available })}</Badge>
                   ) : null}
                   {!soldOut &&
                     p.tags?.map((tag) => (
                       <Badge key={tag} tone={tag === "cold" ? "info" : "ok"}>
-                        {t(`tag.${tag}` as GuestKey)}
+                        {t(`guest.tag.${tag}` as DictKey)}
                       </Badge>
                     ))}
                 </div>
@@ -77,7 +77,7 @@ export function ProductList({ catalog }: { catalog: CatalogItem[] }) {
               {soldOut ? null : qty === 0 ? (
                 <button
                   onClick={() => setQuantity(p.id, 1)}
-                  aria-label={t("catalog.add", { name: displayName })}
+                  aria-label={t("guest.catalog.add", { name: displayName })}
                   className="glass-tint grid size-11 shrink-0 place-items-center rounded-full bg-brand-700/85 text-white transition hover:bg-brand-800/90 active:scale-90"
                 >
                   <Plus className="size-5" />

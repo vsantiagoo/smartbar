@@ -6,7 +6,7 @@
  * para reescrever uma seção, edite aqui sem tocar nos componentes.
  */
 
-/* Textos do Web App do Hóspede: src/lib/i18n/guest.ts (português, inglês e espanhol). */
+/* Textos de tela: src/lib/i18n/dictionaries (português, inglês e espanhol). */
 
 export const adminCopy = {
   dashboard: {

@@ -4,14 +4,14 @@ import { useState } from "react";
 import { useGuest } from "@/components/guest/guest-context";
 import { Button } from "@/components/ui/button";
 import { Sheet } from "@/components/ui/sheet";
-import type { GuestKey } from "@/lib/i18n/guest";
+import type { DictKey } from "@/lib/i18n";
 import type { SupportKind } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const OPTIONS: { kind: SupportKind; icon: LucideIcon; title: GuestKey; text: GuestKey; done: GuestKey }[] = [
-  { kind: "restock", icon: PackagePlus, title: "help.restock", text: "help.restock.text", done: "help.done.restock" },
-  { kind: "damaged", icon: TriangleAlert, title: "help.damaged", text: "help.damaged.text", done: "help.done.damaged" },
-  { kind: "door_problem", icon: LockKeyholeOpen, title: "help.door", text: "help.door.text", done: "help.done.door" },
+const OPTIONS: { kind: SupportKind; icon: LucideIcon; title: DictKey; text: DictKey; done: DictKey }[] = [
+  { kind: "restock", icon: PackagePlus, title: "guest.help.restock", text: "guest.help.restock.text", done: "guest.help.done.restock" },
+  { kind: "damaged", icon: TriangleAlert, title: "guest.help.damaged", text: "guest.help.damaged.text", done: "guest.help.done.damaged" },
+  { kind: "door_problem", icon: LockKeyholeOpen, title: "guest.help.door", text: "guest.help.door.text", done: "guest.help.done.door" },
 ];
 
 interface HelpSheetProps {
@@ -60,10 +60,10 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
     setBusy(false);
   }
 
-  const wa = room.whatsapp ? `https://wa.me/${room.whatsapp}?text=${encodeURIComponent(t("wa.text", { room: room.roomNumber }))}` : null;
+  const wa = room.whatsapp ? `https://wa.me/${room.whatsapp}?text=${encodeURIComponent(t("guest.wa.text", { room: room.roomNumber }))}` : null;
 
   return (
-    <Sheet open={open} onClose={close} title={t("help.title")}>
+    <Sheet open={open} onClose={close} title={t("guest.help.title")}>
       {result ? (
         <div className="space-y-5 py-4 text-center" role="status">
           <span
@@ -74,7 +74,7 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
           >
             {result === "done" ? <CheckCircle2 className="size-8" /> : <TriangleAlert className="size-8" />}
           </span>
-          <p className="text-ink">{result === "done" && current ? t(current.done) : t("help.error")}</p>
+          <p className="text-ink">{result === "done" && current ? t(current.done) : t("guest.help.error")}</p>
           <div className="flex flex-col gap-2">
             {result === "error" && wa && (
               <a
@@ -83,11 +83,11 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
                 rel="noopener noreferrer"
                 className="glass-tint inline-flex h-11 items-center justify-center gap-2 rounded-full bg-ok-500/85 px-5 font-semibold text-white"
               >
-                <MessageCircle className="size-5" /> {t("help.whatsapp")}
+                <MessageCircle className="size-5" /> {t("guest.help.whatsapp")}
               </a>
             )}
             <Button variant="glass" onClick={close}>
-              {t("help.close")}
+              {t("guest.help.close")}
             </Button>
           </div>
         </div>
@@ -95,7 +95,7 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
         <div className="space-y-4 py-2">
           {!initialKind && (
             <button onClick={() => setKind(null)} className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-ink">
-              <ArrowLeft className="size-4" /> {t("help.back")}
+              <ArrowLeft className="size-4" /> {t("guest.help.back")}
             </button>
           )}
           <div className="flex items-start gap-3">
@@ -108,7 +108,7 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
             </div>
           </div>
           <label className="block">
-            <span className="mb-1.5 block text-sm text-ink-soft">{t("help.note")}</span>
+            <span className="mb-1.5 block text-sm text-ink-soft">{t("guest.help.note")}</span>
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
@@ -118,7 +118,7 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
             />
           </label>
           <Button size="lg" className="w-full" loading={busy} onClick={send}>
-            {busy ? t("help.sending") : t("help.send")}
+            {busy ? t("guest.help.sending") : t("guest.help.send")}
           </Button>
         </div>
       ) : (
@@ -151,8 +151,8 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
                   <MessageCircle className="size-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block font-semibold text-ink dark:group-hover:text-[#2D3D34]">{t("help.whatsapp")}</span>
-                  <span className="block text-sm leading-snug text-ink-soft dark:group-hover:text-[#5B6861]">{t("help.whatsapp.text")}</span>
+                  <span className="block font-semibold text-ink dark:group-hover:text-[#2D3D34]">{t("guest.help.whatsapp")}</span>
+                  <span className="block text-sm leading-snug text-ink-soft dark:group-hover:text-[#5B6861]">{t("guest.help.whatsapp.text")}</span>
                 </span>
               </a>
             </li>

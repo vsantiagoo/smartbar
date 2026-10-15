@@ -20,18 +20,18 @@ interface ReceiptViewProps {
 export function ReceiptView({ baseHref, code, at, method, totalCents, items }: ReceiptViewProps) {
   const { t, formatDateTime, room } = useGuest();
   const rows = [
-    [t("receipt.hotel"), room.hotelName],
-    [t("receipt.room"), room.roomNumber],
-    [t("receipt.date"), formatDateTime(at)],
-    [t("receipt.method"), method === "pix" ? t("consumption.pix") : t("consumption.room")],
-    [t("receipt.status"), method === "pix" ? t("receipt.status.paid") : t("receipt.status.charged")],
-    [t("receipt.code"), code],
+    [t("guest.receipt.hotel"), room.hotelName],
+    [t("guest.receipt.room"), room.roomNumber],
+    [t("guest.receipt.date"), formatDateTime(at)],
+    [t("guest.receipt.method"), method === "pix" ? t("guest.consumption.pix") : t("guest.consumption.room")],
+    [t("guest.receipt.status"), method === "pix" ? t("guest.receipt.status.paid") : t("guest.receipt.status.charged")],
+    [t("guest.receipt.code"), code],
   ] as const;
 
   return (
     <div className="space-y-5">
       <Link href={`${baseHref}/consumo`} className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-ink print:hidden">
-        <ArrowLeft className="size-4" /> {t("receipt.back")}
+        <ArrowLeft className="size-4" /> {t("guest.receipt.back")}
       </Link>
 
       <article className="glass-strong rounded-[32px] p-6 print:rounded-none print:border-0 print:bg-white print:p-0 print:shadow-none">
@@ -39,7 +39,7 @@ export function ReceiptView({ baseHref, code, at, method, totalCents, items }: R
           <LogoMark tone="brand" intro={false} className="size-10" />
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-500">SmartBar</p>
-            <h1 className="text-xl font-bold leading-tight">{t("receipt.title")}</h1>
+            <h1 className="text-xl font-bold leading-tight">{t("guest.receipt.title")}</h1>
           </div>
         </header>
 
@@ -65,14 +65,14 @@ export function ReceiptView({ baseHref, code, at, method, totalCents, items }: R
           ))}
         </ul>
         <div className="mt-4 flex items-baseline justify-between border-t border-brand-700/10 pt-4">
-          <span className="font-medium text-ink-soft">{t("cart.total")}</span>
+          <span className="font-medium text-ink-soft">{t("guest.cart.total")}</span>
           <span className="tabular text-2xl font-bold text-ink">{formatBRL(totalCents)}</span>
         </div>
-        <p className="mt-5 text-xs leading-snug text-ink-soft">{t("receipt.footer")}</p>
+        <p className="mt-5 text-xs leading-snug text-ink-soft">{t("guest.receipt.footer")}</p>
       </article>
 
       <Button size="lg" className="w-full print:hidden" icon={<Printer className="size-5" />} onClick={() => window.print()}>
-        {t("receipt.print")}
+        {t("guest.receipt.print")}
       </Button>
     </div>
   );

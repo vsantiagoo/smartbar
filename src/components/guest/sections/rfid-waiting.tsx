@@ -22,16 +22,16 @@ export function RfidWaiting({ tx, showDemoTools }: { tx: PublicTransaction; show
             <Nfc className="size-11" strokeWidth={1.6} />
           </span>
         </div>
-        <h1 className="mt-6 text-[1.6rem] font-bold">{t("rfid.title")}</h1>
-        <p className="mx-auto mt-2 max-w-xs text-ink-soft">{t("rfid.text")}</p>
+        <h1 className="mt-6 text-[1.6rem] font-bold">{t("guest.rfid.title")}</h1>
+        <p className="mx-auto mt-2 max-w-xs text-ink-soft">{t("guest.rfid.text")}</p>
         <p className="mt-5 flex items-center justify-center gap-2 text-sm text-ink-soft">
           <LoaderCircle className="size-4 animate-spin text-brand-500" />
-          {t("rfid.waiting")}
+          {t("guest.rfid.waiting")}
           <span className="tabular font-semibold text-ink">{formatClock(left)}</span>
         </p>
       </GlassCard>
 
-      {showDemoTools && <DemoTools label={t("rfid.demo")} onRun={() => simulateRfidTap(tx.publicToken)} />}
+      {showDemoTools && <DemoTools label={t("guest.rfid.demo")} onRun={() => simulateRfidTap(tx.publicToken)} />}
     </div>
   );
 }

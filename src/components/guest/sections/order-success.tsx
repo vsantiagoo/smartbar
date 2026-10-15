@@ -85,42 +85,42 @@ export function OrderSuccess({ tx, baseHref }: { tx: PublicTransaction; baseHref
         </div>
 
         <h1 className="mt-6 text-[1.75rem] font-bold leading-tight">
-          {!locked ? t("success.nolock.title") : open ? t("success.title") : t("success.closed")}
+          {!locked ? t("guest.success.nolock.title") : open ? t("guest.success.title") : t("guest.success.closed")}
         </h1>
         <p className="mx-auto mt-2 max-w-xs text-ink-soft">
-          {!locked ? t("success.nolock.text") : open ? t("success.text") : t("success.closed.text")}
+          {!locked ? t("guest.success.nolock.text") : open ? t("guest.success.text") : t("guest.success.closed.text")}
         </p>
         {open && (
           <p className="tabular mt-4 inline-flex items-center gap-1.5 rounded-full bg-ok-500/12 px-4 py-1.5 text-sm font-semibold text-ok-600">
-            <Check className="size-4" strokeWidth={3} /> {t("success.countdown", { s: left })}
+            <Check className="size-4" strokeWidth={3} /> {t("guest.success.countdown", { s: left })}
           </p>
         )}
       </section>
 
       <OrderSummary
-        title={t("success.receipt")}
-        totalLabel={t("cart.total")}
+        title={t("guest.success.receipt")}
+        totalLabel={t("guest.cart.total")}
         lines={tx.items.map((i) => ({ name: i.productName, quantity: i.quantity, unitPriceCents: i.unitPriceCents }))}
       />
 
-      <p className="px-1 text-center text-sm text-ink-soft">{tx.method === "pix" ? t("success.paidPix") : t("success.paidRoom")}</p>
+      <p className="px-1 text-center text-sm text-ink-soft">{tx.method === "pix" ? t("guest.success.paidPix") : t("guest.success.paidRoom")}</p>
 
       <div className="space-y-2.5">
         <Link href={`${baseHref}/recibo/${tx.publicToken}`} className={buttonClasses("primary", "lg", "w-full")}>
-          <FileDown className="size-5" /> {t("success.download")}
+          <FileDown className="size-5" /> {t("guest.success.download")}
         </Link>
         <Link href={`${baseHref}/consumo`} className={buttonClasses("glass", "lg", "w-full")}>
-          <Receipt className="size-5" /> {t("success.myConsumption")}
+          <Receipt className="size-5" /> {t("guest.success.myConsumption")}
         </Link>
         <Link href={baseHref} className={buttonClasses("ghost", "md", "w-full")}>
-          {t("success.again")}
+          {t("guest.success.again")}
         </Link>
         {locked && (
           <button
             onClick={() => setHelpOpen(true)}
             className="mx-auto flex items-center gap-1.5 pt-1 text-sm font-medium text-ink-soft underline-offset-4 hover:text-ink hover:underline"
           >
-            <CircleAlert className="size-4" /> {t("success.noOpen")}
+            <CircleAlert className="size-4" /> {t("guest.success.noOpen")}
           </button>
         )}
       </div>

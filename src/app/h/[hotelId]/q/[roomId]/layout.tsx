@@ -7,7 +7,7 @@ import { GuestHeader } from "@/components/guest/sections/guest-header";
 import { GuestNav } from "@/components/guest/sections/guest-nav";
 import { APPEARANCE_COOKIE } from "@/lib/appearance";
 import { getGuestRepo } from "@/lib/data";
-import { LANGS, LANG_COOKIE, type Lang } from "@/lib/i18n/guest";
+import { LANGS, LANG_COOKIE, type Lang } from "@/lib/i18n";
 import { themeToVars } from "@/lib/theme";
 
 /**

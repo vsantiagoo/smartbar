@@ -21,7 +21,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
 
   if (!ready || count === 0) return null;
 
-  const cta = room.hasLock ? t("cart.payUnlock") : t("cart.pay");
+  const cta = room.hasLock ? t("guest.cart.payUnlock") : t("guest.cart.pay");
 
   return (
     <>
@@ -30,7 +30,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
         <div className="glass-strong pointer-events-auto flex w-full animate-fade-up items-center gap-2 rounded-full p-2 pr-2">
           <button
             onClick={() => setOpen(true)}
-            aria-label={t("cart.view")}
+            aria-label={t("guest.cart.view")}
             className="flex min-w-0 flex-1 items-center gap-3 rounded-full text-left transition active:scale-[0.98]"
           >
             <span className="glass-tint relative grid size-12 shrink-0 place-items-center rounded-full bg-brand-700/85 text-white">
@@ -40,7 +40,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
               </span>
             </span>
             <span className="min-w-0 leading-tight">
-              <span className="block text-xs text-ink-soft">{t("cart.items", { n: count })}</span>
+              <span className="block text-xs text-ink-soft">{t("guest.cart.items", { n: count })}</span>
               <span className="tabular mt-1 block text-xl font-bold text-brand-700 dark:text-white">{formatBRL(cents)}</span>
             </span>
           </button>
@@ -53,11 +53,11 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
       <Sheet
         open={open}
         onClose={() => setOpen(false)}
-        title={t("cart.title")}
+        title={t("guest.cart.title")}
         footer={
           <div className="space-y-3">
             <div className="flex items-baseline justify-between">
-              <span className="text-sm text-ink-soft">{t("cart.total")}</span>
+              <span className="text-sm text-ink-soft">{t("guest.cart.total")}</span>
               <span className="tabular text-2xl font-bold text-ink">{formatBRL(cents)}</span>
             </div>
             <Link href={checkoutHref} className={buttonClasses("accent", "lg", "w-full")}>
@@ -88,7 +88,7 @@ export function CartBar({ catalog, checkoutHref }: { catalog: CatalogItem[]; che
             setOpen(false);
           }}
         >
-          {t("cart.clear")}
+          {t("guest.cart.clear")}
         </Button>
       </Sheet>
     </>

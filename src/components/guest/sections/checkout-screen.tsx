@@ -40,11 +40,11 @@ export function CheckoutScreen({ catalog, hotelId, roomId, canChargeToRoom, base
     return (
       <EmptyState
         icon={ShoppingBag}
-        title={t("checkout.empty.title")}
-        description={t("checkout.empty.text")}
+        title={t("guest.checkout.empty.title")}
+        description={t("guest.checkout.empty.text")}
         action={
           <Link href={baseHref} className={buttonClasses("primary")}>
-            {t("checkout.empty.action")}
+            {t("guest.checkout.empty.action")}
           </Link>
         }
       />
@@ -67,14 +67,14 @@ export function CheckoutScreen({ catalog, hotelId, roomId, canChargeToRoom, base
       });
       const data = (await res.json()) as { token?: string; error?: string; code?: string };
       if (!res.ok || !data.token) {
-        setError(data.code === "out_of_stock" ? t("error.stock") : (data.error ?? t("failure.default")));
+        setError(data.code === "out_of_stock" ? t("guest.error.stock") : (data.error ?? t("guest.failure.default")));
         setBusy(false);
         return;
       }
       clear();
       router.push(`${baseHref}/pedido/${data.token}`);
     } catch {
-      setError(t("checkout.offline"));
+      setError(t("guest.checkout.offline"));
       setBusy(false);
     }
   }
@@ -83,22 +83,22 @@ export function CheckoutScreen({ catalog, hotelId, roomId, canChargeToRoom, base
     <main className="space-y-6">
       <div>
         <Link href={baseHref} className="mb-3 inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-ink">
-          <ArrowLeft className="size-4" /> {t("checkout.back")}
+          <ArrowLeft className="size-4" /> {t("guest.checkout.back")}
         </Link>
-        <h1 className="text-[1.75rem] font-bold">{t("checkout.title")}</h1>
-        <p className="mt-1 text-ink-soft">{t("checkout.subtitle")}</p>
+        <h1 className="text-[1.75rem] font-bold">{t("guest.checkout.title")}</h1>
+        <p className="mt-1 text-ink-soft">{t("guest.checkout.subtitle")}</p>
       </div>
 
       <OrderSummary
-        title={t("checkout.summary")}
-        totalLabel={t("cart.total")}
+        title={t("guest.checkout.summary")}
+        totalLabel={t("guest.cart.total")}
         lines={lines.map((l) => ({ name: l.item.name, quantity: l.quantity, unitPriceCents: l.item.priceCents }))}
       />
       <PaymentMethods value={method} onChange={setMethod} canChargeToRoom={canChargeToRoom} />
 
       <p className="flex items-start gap-2 px-1 text-sm text-ink-soft">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-ok-500" />
-        {t("checkout.reassurance")}
+        {t("guest.checkout.reassurance")}
       </p>
 
       {error && (
@@ -110,7 +110,7 @@ export function CheckoutScreen({ catalog, hotelId, roomId, canChargeToRoom, base
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 mx-auto max-w-lg px-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="glass-strong pointer-events-auto rounded-[32px] p-3">
           <Button variant="accent" size="lg" className="w-full" loading={busy} onClick={submit}>
-            {method === "pix" ? t("checkout.pix.cta") : t("checkout.room.cta")} · {formatBRL(cents)}
+            {method === "pix" ? t("guest.checkout.pix.cta") : t("guest.checkout.room.cta")} · {formatBRL(cents)}
           </Button>
         </div>
       </div>

@@ -18,9 +18,9 @@ export function PaymentMethods({ value, onChange, canChargeToRoom }: PaymentMeth
     {
       id: "pix" as const,
       icon: QrCode,
-      title: t("checkout.pix.title"),
-      text: t("checkout.pix.text"),
-      badge: <Badge tone="gold">{t("checkout.pix.badge")}</Badge>,
+      title: t("guest.checkout.pix.title"),
+      text: t("guest.checkout.pix.text"),
+      badge: <Badge tone="gold">{t("guest.checkout.pix.badge")}</Badge>,
       disabled: false,
       note: undefined,
     },
@@ -31,18 +31,18 @@ export function PaymentMethods({ value, onChange, canChargeToRoom }: PaymentMeth
           {
             id: "room_charge" as const,
             icon: BedDouble,
-            title: t("checkout.room.title"),
-            text: t("checkout.room.text"),
+            title: t("guest.checkout.room.title"),
+            text: t("guest.checkout.room.text"),
             badge: null,
             disabled: !canChargeToRoom,
-            note: !canChargeToRoom ? t("checkout.room.unavailable") : undefined,
+            note: !canChargeToRoom ? t("guest.checkout.room.unavailable") : undefined,
           },
         ]),
   ];
 
   return (
     <fieldset>
-      <legend className="mb-3 px-1 text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">{t("checkout.method")}</legend>
+      <legend className="mb-3 px-1 text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft">{t("guest.checkout.method")}</legend>
       <div className="space-y-3" role="radiogroup">
         {options.map((o) => {
           const selected = value === o.id;

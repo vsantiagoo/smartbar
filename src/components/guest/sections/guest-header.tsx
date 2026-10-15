@@ -7,7 +7,7 @@ import { AssistantSheet } from "@/components/guest/sections/assistant-sheet";
 import { HelpSheet } from "@/components/guest/sections/help-sheet";
 import { ThemeToggle } from "@/components/guest/sections/theme-toggle";
 import { LogoMark } from "@/components/ui/logo";
-import { LANGS, type GuestKey } from "@/lib/i18n/guest";
+import { LANGS, type DictKey } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /** Provisório: até o cadastro do hotel trazer o nome definitivo, a barra mostra este texto. */
@@ -48,8 +48,8 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
   }, [menuOpen]);
 
   const greeting = room.guestFirstName
-    ? t("header.hello", { name: room.guestFirstName })
-    : t("header.room", { room: room.roomNumber });
+    ? t("guest.header.hello", { name: room.guestFirstName })
+    : t("guest.header.room", { room: room.roomNumber });
 
   return (
     <header className="relative z-30 print:hidden">
@@ -68,7 +68,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
             {HOTEL_NAME_PLACEHOLDER}
           </p>
           <p className="text-xs font-semibold text-brand-300">
-            {t("header.room", { room: room.roomNumber })}
+            {t("guest.header.room", { room: room.roomNumber })}
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
         <div ref={rightRef} className="relative justify-self-end">
           <button
             onClick={() => setMenuOpen((o) => !o)}
-            aria-label={t("header.menu")}
+            aria-label={t("guest.header.menu")}
             aria-expanded={menuOpen}
             className="glass-dark glass-liquid grid size-9 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:hidden"
           >
@@ -121,7 +121,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
           >
             <Link
               href="/"
-              aria-label={t("header.home")}
+              aria-label={t("guest.header.home")}
               onClick={() => setMenuOpen(false)}
               className="glass-dark glass-liquid glass-liquid-shimmer grid size-9 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
@@ -133,7 +133,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                 setAssistantOpen(true);
                 setMenuOpen(false);
               }}
-              aria-label={t("header.assistant")}
+              aria-label={t("guest.header.assistant")}
               className="glass-dark glass-liquid grid size-9 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
               <Sparkles className="size-5" />
@@ -144,7 +144,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                 setHelpOpen(true);
                 setMenuOpen(false);
               }}
-              aria-label={t("header.help")}
+              aria-label={t("guest.header.help")}
               className="glass-dark glass-liquid grid size-9 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
               <CircleHelp className="size-5" />
@@ -153,7 +153,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
             <div ref={menu} className="relative shrink-0">
               <button
                 onClick={() => setLangOpen((o) => !o)}
-                aria-label={t("header.language")}
+                aria-label={t("guest.header.language")}
                 aria-expanded={langOpen}
                 className="glass-dark glass-liquid grid size-9 place-items-center rounded-full text-white/80 transition hover:bg-white/15 min-[360px]:size-10 sm:size-11"
               >
@@ -184,7 +184,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                             : "text-ink-soft hover:bg-brand-700/5",
                         )}
                       >
-                        {t(`lang.${l}` as GuestKey)}
+                        {t(`guest.lang.${l}` as DictKey)}
                         <span className="text-xs text-ink-faint">
                           {l.toUpperCase()}
                         </span>

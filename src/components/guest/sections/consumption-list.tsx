@@ -31,16 +31,16 @@ export function ConsumptionList({ entries, baseHref }: { entries: ConsumptionEnt
   return (
     <div className="space-y-5">
       <div className="px-1">
-        <h1 className="text-[1.75rem] font-bold">{t("consumption.title")}</h1>
-        <p className="mt-1 text-ink-soft">{t("consumption.subtitle")}</p>
+        <h1 className="text-[1.75rem] font-bold">{t("guest.consumption.title")}</h1>
+        <p className="mt-1 text-ink-soft">{t("guest.consumption.subtitle")}</p>
       </div>
 
       {entries.length === 0 ? (
-        <EmptyState icon={Receipt} title={t("consumption.empty")} />
+        <EmptyState icon={Receipt} title={t("guest.consumption.empty")} />
       ) : (
         <>
           <GlassCard surface="strong" pad="md" className="flex items-baseline justify-between">
-            <span className="text-sm font-medium text-ink-soft">{t("consumption.total")}</span>
+            <span className="text-sm font-medium text-ink-soft">{t("guest.consumption.total")}</span>
             <span className="tabular text-3xl font-bold text-ink">{formatBRL(total)}</span>
           </GlassCard>
 
@@ -52,7 +52,7 @@ export function ConsumptionList({ entries, baseHref }: { entries: ConsumptionEnt
                     <span className="tabular text-sm font-semibold text-ink">{formatDateTime(e.at)}</span>
                     <Badge tone={e.method === "pix" ? "ok" : "info"}>
                       {e.method === "pix" ? <QrCode className="size-3.5" /> : <BedDouble className="size-3.5" />}
-                      {e.method === "pix" ? t("consumption.pix") : t("consumption.room")}
+                      {e.method === "pix" ? t("guest.consumption.pix") : t("guest.consumption.room")}
                     </Badge>
                   </div>
                   <ul className="mt-3 space-y-1.5">
@@ -67,19 +67,19 @@ export function ConsumptionList({ entries, baseHref }: { entries: ConsumptionEnt
                     ))}
                   </ul>
                   <div className="mt-3 flex items-center justify-between border-t border-brand-700/10 pt-3">
-                    <span className="text-xs text-ink-soft">{e.method === "pix" ? t("consumption.paid") : t("consumption.charged")}</span>
+                    <span className="text-xs text-ink-soft">{e.method === "pix" ? t("guest.consumption.paid") : t("guest.consumption.charged")}</span>
                     <span className="tabular font-bold text-ink">{formatBRL(e.totalCents)}</span>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
                     <Link href={`${baseHref}/recibo/${e.token}`} className={buttonClasses("glass", "sm")}>
-                      <FileDown className="size-4" /> {t("consumption.receipt")}
+                      <FileDown className="size-4" /> {t("guest.consumption.receipt")}
                     </Link>
                     {room.hasLock && (
                       <button
                         onClick={() => setHelp(e.token)}
                         className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-ink-soft hover:bg-brand-700/5 hover:text-ink"
                       >
-                        <CircleAlert className="size-4" /> {t("consumption.problem")}
+                        <CircleAlert className="size-4" /> {t("guest.consumption.problem")}
                       </button>
                     )}
                   </div>

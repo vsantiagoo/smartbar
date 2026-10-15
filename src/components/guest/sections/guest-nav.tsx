@@ -13,8 +13,8 @@ export function GuestNav({ baseHref }: { baseHref: string }) {
   if (path !== baseHref && path !== consumption) return null;
 
   const items = [
-    { href: baseHref, label: t("nav.catalog"), icon: Store, active: path === baseHref },
-    { href: consumption, label: t("nav.consumption"), icon: Receipt, active: path === consumption },
+    { href: baseHref, label: t("guest.nav.catalog"), icon: Store, active: path === baseHref },
+    { href: consumption, label: t("guest.nav.consumption"), icon: Receipt, active: path === consumption },
   ];
   return (
     <nav aria-label="SmartBar" className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto max-w-lg px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] print:hidden">

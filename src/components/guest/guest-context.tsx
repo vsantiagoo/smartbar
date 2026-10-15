@@ -1,6 +1,7 @@
 "use client";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { LANG_COOKIE, LOCALE_TAG, detectLang, translate, type GuestKey, type Lang } from "@/lib/i18n/guest";
+import { createContext, useContext, useMemo, type ReactNode } from "react";
+import { I18nProvider, useI18n, type I18nValue } from "@/lib/i18n/client";
+import type { Lang } from "@/lib/i18n/config";
 
 /** O que a tela do hóspede precisa saber do quarto (vem do servidor, uma vez). */
 export interface GuestRoomInfo {
@@ -17,63 +18,38 @@ export interface GuestRoomInfo {
   whatsapp: string | null;
 }
 
-interface GuestValue {
-  lang: Lang;
-  setLang: (l: Lang) => void;
-  t: (key: GuestKey, vars?: Record<string, string | number>) => string;
-  /** Formata data e hora no idioma escolhido. */
-  formatDateTime: (iso: string) => string;
+/** Idioma (do provider comum) + dados do quarto (só da vitrine). */
+export interface GuestValue extends I18nValue {
   room: GuestRoomInfo;
 }
 
-const GuestContext = createContext<GuestValue | null>(null);
-
-function writeLangCookie(lang: Lang): void {
-  try {
-    document.cookie = `${LANG_COOKIE}=${lang}; path=/; max-age=31536000; samesite=lax`;
-  } catch {
-    /* cookies bloqueados: o idioma vale só nesta visita */
-  }
-}
+const RoomContext = createContext<GuestRoomInfo | null>(null);
 
 /**
- * Idioma + dados do quarto. O idioma inicial vem do cookie (lido no servidor);
- * na primeira visita, sem cookie, usa o idioma do celular.
+ * Casca da vitrine. O idioma é do I18nProvider, compartilhado com o painel e o
+ * site; aqui ficam só os dados do quarto.
  */
-export function GuestProvider({ initialLang, hasLangCookie, room, children }: { initialLang: Lang; hasLangCookie: boolean; room: GuestRoomInfo; children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(initialLang);
-
-  useEffect(() => {
-    if (hasLangCookie) return;
-    const detected = detectLang(navigator.language);
-    if (detected !== initialLang) setLangState(detected);
-  }, [hasLangCookie, initialLang]);
-
-  useEffect(() => {
-    document.documentElement.lang = LOCALE_TAG[lang];
-  }, [lang]);
-
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    writeLangCookie(l);
-  }, []);
-
-  const value = useMemo<GuestValue>(
-    () => ({
-      lang,
-      setLang,
-      room,
-      t: (key, vars) => translate(lang, key, vars),
-      formatDateTime: (iso) =>
-        new Intl.DateTimeFormat(LOCALE_TAG[lang], { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "America/Sao_Paulo" }).format(new Date(iso)),
-    }),
-    [lang, setLang, room],
+export function GuestProvider({
+  initialLang,
+  hasLangCookie,
+  room,
+  children,
+}: {
+  initialLang: Lang;
+  hasLangCookie: boolean;
+  room: GuestRoomInfo;
+  children: ReactNode;
+}) {
+  return (
+    <I18nProvider initialLang={initialLang} hasLangCookie={hasLangCookie}>
+      <RoomContext.Provider value={room}>{children}</RoomContext.Provider>
+    </I18nProvider>
   );
-  return <GuestContext.Provider value={value}>{children}</GuestContext.Provider>;
 }
 
 export function useGuest(): GuestValue {
-  const ctx = useContext(GuestContext);
-  if (!ctx) throw new Error("useGuest fora do GuestProvider");
-  return ctx;
+  const i18n = useI18n();
+  const room = useContext(RoomContext);
+  if (!room) throw new Error("useGuest fora do GuestProvider");
+  return useMemo(() => ({ ...i18n, room }), [i18n, room]);
 }
