@@ -26,12 +26,14 @@ export function EdgeGlow() {
   );
 
   return (
-    /*
-      A intensidade sai para o CSS (`.edge-glow`) porque ela MUDA com o tema:
-      sobre o fundo claro o ouro é um calor discreto, mas sobre o escuro o mesmo
-      valor vira uma barra alaranjada crua nas laterais. No escuro ele recua a
-      quase um terço e abre mais o desfoque, para ser luz, não contorno.
-    */
-    <div ref={ref} aria-hidden className="edge-glow pointer-events-none fixed inset-0 z-50 opacity-0 will-change-[opacity]" />
+    <div
+      ref={ref}
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-50 opacity-0 will-change-[opacity]"
+      style={{
+        boxShadow:
+          "inset 0 0 72px -24px rgb(var(--gold-500) / 0.55), inset 0 0 22px -8px rgb(var(--gold-400) / 0.4)",
+      }}
+    />
   );
 }

@@ -22,21 +22,21 @@ export async function FinalCta() {
         `flex-col` existe por causa do `mt-auto` dos botões: é ele que os
         empurra para o pé da seção quando sobra altura.
       */
-      className="night-block relative isolate flex touch-pan-y scroll-mt-24 flex-col overflow-hidden bg-brand-950 px-6 pb-10 pt-24 text-white sm:px-10 sm:pt-32 md:min-h-[55.9vw]"
+      className="relative isolate flex touch-pan-y scroll-mt-24 flex-col overflow-hidden bg-brand-950 px-6 pb-10 pt-24 text-white sm:px-10 sm:pt-32 md:min-h-[55.9vw]"
     >
       {/*
         Fundo vivo: a foto do hotel muda de hora sob o cursor. O véu por cima
         segura o contraste do texto branco — sem ele, o céu claro do meio-dia
         engoliria o título.
       */}
-      <DayNightLens className="night-media-top absolute inset-0 -z-10" />
-      <div aria-hidden className="night-media-top absolute inset-0 -z-10 bg-brand-950/42" />
+      <DayNightLens className="absolute inset-0 -z-10" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-brand-950/42" />
       {/* O escuro vai para onde o texto está, não para a foto inteira: um oval
           no centro segura o contraste do título e deixa o céu e as pontas da
           arquitetura à vista. A faixa de baixo fecha a página. */}
       <div
         aria-hidden
-        className="night-media-top absolute inset-0 -z-10"
+        className="absolute inset-0 -z-10"
         style={{
           background:
             "radial-gradient(ellipse 70% 52% at 50% 44%, rgb(var(--brand-950) / 0.74), transparent 72%), linear-gradient(to bottom, transparent 62%, rgb(var(--brand-950) / 0.88))",

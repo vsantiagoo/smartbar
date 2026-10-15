@@ -223,13 +223,13 @@ export function ProductReveal() {
       /* `touch-pan-y`: o navegador fica com a rolagem vertical e devolve o gesto
          horizontal para nós — é o que deixa o arraste montar o produto sem
          travar a página. */
-      className="night-block relative grid min-h-dvh touch-pan-y place-items-center overflow-hidden bg-black px-6 py-16 sm:px-10"
+      className="relative grid min-h-dvh touch-pan-y place-items-center overflow-hidden bg-black px-6 py-16 sm:px-10"
     >
       <BackToTop tone="light" />
 
       {/* O quadro. `pointer-events-none` para o vídeo não virar alvo de arrasto:
           quem escuta o ponteiro é a seção inteira, de ponta a ponta da tela. */}
-      <div className="night-media relative w-full max-w-[1200px]">
+      <div className="relative w-full max-w-[1200px]">
         <video
           ref={videoRef}
           className="pointer-events-none w-full select-none will-change-[transform,opacity]"
@@ -246,7 +246,7 @@ export function ProductReveal() {
             o produto parecer suspenso no escuro em vez de colado num retângulo. */}
         <div
           aria-hidden
-          className="night-vignette pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0"
           style={{
             boxShadow: "inset 0 0 120px 48px #000, inset 0 0 40px 10px #000",
           }}

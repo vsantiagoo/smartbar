@@ -26,16 +26,8 @@ export async function Hero() {
     { src: "/images/hero/fachada.jpg", alt: t("site.hero.alt2") },
   ];
   return (
-    /*
-      A margem em volta da moldura é branca e a foto fica só dentro dela. No
-      escuro ela fica TRANSPARENTE em vez de trocar de cor: por baixo está o
-      gradiente escuro que a casca do site já pinta, então a moldura acompanha
-      o tema sem ninguém precisar manter duas cores em sincronia.
-    */
-    <section
-      id="inicio"
-      className="relative flex h-dvh min-h-[640px] items-center justify-center overflow-hidden bg-white dark:bg-transparent"
-    >
+    /* bg-white: a margem em volta da moldura é branca; a foto fica só dentro dela. */
+    <section id="inicio" className="relative flex h-dvh min-h-[640px] items-center justify-center overflow-hidden bg-white">
       {/*
         Tela da moldura: as fotos e o escurecimento ficam recortados aqui dentro,
         então a animação acontece só dentro da borda branca vazada.
@@ -46,7 +38,7 @@ export async function Hero() {
         aberta que `surface` (36px) para a borda branca não parecer um card.
       */}
       <div
-        className="pointer-events-none absolute inset-1.5 overflow-hidden rounded-[2.25rem] border border-white/45 dark:border-white/10 sm:inset-2.5 sm:rounded-[2.5rem]"
+        className="pointer-events-none absolute inset-1.5 overflow-hidden rounded-[2.25rem] border border-white/45 sm:inset-2.5 sm:rounded-[2.5rem]"
         aria-hidden
       >
         <HeroSlideshow shots={SHOTS} />

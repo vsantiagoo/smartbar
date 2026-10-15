@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { Logo } from "@/components/ui/logo";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { marketingCopy } from "@/lib/content/copy";
 import { getT } from "@/lib/i18n/server";
 import { HeaderFade } from "./header-fade";
@@ -19,7 +18,7 @@ import { SectionNav } from "./section-nav";
  * As margens laterais (`header-fade.tsx`) põem tudo por dentro da moldura
  * branca do hero (`inset-3`/`sm:inset-5` em `hero.tsx`).
  */
-export async function SiteHeader({ initialDark }: { initialDark: boolean }) {
+export async function SiteHeader() {
   const c = marketingCopy(await getT()).header;
   const brand = (
     <span className="inline-flex pr-5 sm:pr-7">
@@ -57,23 +56,16 @@ export async function SiteHeader({ initialDark }: { initialDark: boolean }) {
         </div>
 
         {/*
-          Coluna da direita: as preferências do visitante — idioma e tema —
-          juntas, como no cabeçalho do hóspede.
-
-          O espelho invisível da marca saiu daqui. Ele existia para dar a esta
-          coluna o peso da esquerda quando só havia um controle; com dois, ele
-          passaria a ser o MENOR dos dois pesos e deixaria o cluster vazar por
-          cima da barra de menus. As colunas laterais são `1fr`, então enquanto
-          houver espaço livre elas se igualam sozinhas e a barra fica no centro
-          — o espelho era cinto e suspensório.
-
-          `header-fade.tsx` usa o mesmo px nos dois lados, então o cluster
-          encosta na borda com o mesmo respiro da logo.
+          Coluna da direita. O espelho invisível da marca continua aqui porque é
+          ele que dá a esta coluna o mesmo peso da esquerda — sem ele a barra
+          escorrega do centro. O seletor de idioma fica POR CIMA dele, encostado
+          na borda: como a moldura (`header-fade.tsx`) usa o mesmo px dos dois
+          lados, ele espelha exatamente o espaçamento da logo.
         */}
-        <div className="flex items-center gap-1.5 justify-self-end sm:gap-2">
-          <LanguageSwitcher tone="dark" />
-          <ThemeToggle initialDark={initialDark} size="sm" />
-        </div>
+        <span className="relative flex items-center justify-self-end">
+          <span aria-hidden className="invisible">{brand}</span>
+          <LanguageSwitcher tone="dark" className="absolute right-0 top-1/2 -translate-y-1/2" />
+        </span>
       </header>
     </HeaderFade>
   );

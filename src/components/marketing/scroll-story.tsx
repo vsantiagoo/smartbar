@@ -21,7 +21,7 @@ export async function ScrollStory() {
   return (
     <section
       id="como-funciona"
-      className="night-block relative overflow-hidden bg-brand-950 px-6 py-20 text-white sm:px-10 sm:py-28"
+      className="relative overflow-hidden bg-brand-950 px-6 py-20 text-white sm:px-10 sm:py-28"
     >
       {/* Esta seção cabe inteira na tela: o menu para com ela no meio, não no topo. */}
       <CenterAnchor target="como-funciona" />

@@ -57,8 +57,6 @@ export default async function GuestLayout({
   return (
     <div
       id="guest-root"
-      /* Alvo do <ThemeToggle>: ele sobe no DOM até aqui para trocar o tema. */
-      data-theme-root=""
       data-theme={dark ? "dark" : undefined}
       style={whitelabel as CSSProperties}
       className="relative min-h-dvh overflow-x-hidden"

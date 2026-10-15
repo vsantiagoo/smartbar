@@ -33,7 +33,7 @@ function FactStrip({ block, delay }: { block: FactBlock; delay: number }) {
     <Reveal delay={delay} className="mt-5">
       <div className="glass rounded-panel p-7">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <p className="text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-300">{block.title}</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-brand-500">{block.title}</p>
           <p className="text-sm text-ink-soft">{block.text}</p>
         </div>
         {hasItems && (
@@ -101,8 +101,7 @@ export function PlansGrid() {
                   <p
                     className={cn(
                       "text-sm font-semibold uppercase tracking-wide",
-                      // Mesmo motivo da sobrescrita: azul da marca some sobre o vidro escuro.
-                      plan.highlight ? "text-gold-400" : "text-brand-600 dark:text-brand-300",
+                      plan.highlight ? "text-gold-400" : "text-brand-500",
                     )}
                   >
                     {plan.tier}

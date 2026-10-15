@@ -39,13 +39,7 @@ export function Eyebrow({
     <p
       className={cn(
         "flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em]",
-        /*
-          Azul da marca em corpo miúdo precisa de um degrau mais forte em CADA
-          tema — medido contra o fundo de cada um: brand-500 dava 3,93 no claro
-          e 3,34 no escuro, os dois abaixo do mínimo de 4,5. Escurecer no claro
-          e clarear no escuro leva a 5,81 e 7,1.
-        */
-        tone === "light" ? "text-brand-600 dark:text-brand-300" : "text-white/55",
+        tone === "light" ? "text-brand-500" : "text-white/55",
         centered && "justify-center",
         className,
       )}
