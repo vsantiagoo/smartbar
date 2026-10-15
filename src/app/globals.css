@@ -526,6 +526,112 @@
     box-shadow: var(--rim-dark), var(--cast-2);
   }
   /*
+    Moldura de luz quente nas bordas da janela (`edge-glow.tsx`). Sobre o fundo
+    claro o ouro é um calor discreto; sobre o escuro o MESMO valor vira uma
+    barra alaranjada crua, que foi um dos delatores do modo escuro. No escuro
+    ela recua a quase um terço e abre o desfoque: vira luz, não contorno.
+  */
+  .edge-glow {
+    box-shadow:
+      inset 0 0 72px -24px rgb(var(--gold-500) / 0.55),
+      inset 0 0 22px -8px rgb(var(--gold-400) / 0.4);
+  }
+  [data-theme="dark"] .edge-glow {
+    box-shadow:
+      inset 0 0 120px -46px rgb(var(--gold-500) / 0.2),
+      inset 0 0 44px -22px rgb(var(--gold-400) / 0.12);
+  }
+
+  /*
+    Curva de desvanecimento para as máscaras do modo escuro: quase parada no
+    começo, acelerando no fim. Ver a nota em `.night-media-top`.
+  */
+  :root {
+    --fade-in-down: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgb(0 0 0 / 0.015) 9%,
+      rgb(0 0 0 / 0.06) 18%,
+      rgb(0 0 0 / 0.16) 26%,
+      rgb(0 0 0 / 0.34) 34%,
+      rgb(0 0 0 / 0.6) 42%,
+      rgb(0 0 0 / 0.85) 48%,
+      #000 56%
+    );
+  }
+
+  /*
+    MÍDIA QUE NASCE DO ESCURO. O vídeo do produto e a foto da chamada final
+    dissolviam as bordas com uma vinheta PRETA — que só funciona enquanto o
+    fundo atrás é preto. Com o véu noturno (abaixo) ele deixou de ser, e a
+    vinheta virou o que ela mesma tentava evitar: um retângulo recortado.
+
+    A máscara não tem esse problema porque não pinta nada: ela apaga o pixel,
+    seja qual for o fundo. Só vale no escuro — no claro a vinheta continua
+    exatamente como era.
+  */
+  [data-theme="dark"] .night-vignette {
+    /* A vinheta vem em `style` inline, daí o !important para desligá-la. */
+    box-shadow: none !important;
+  }
+  [data-theme="dark"] .night-media {
+    -webkit-mask-image: radial-gradient(ellipse 88% 82% at 50% 50%, #000 50%, transparent 94%);
+    mask-image: radial-gradient(ellipse 88% 82% at 50% 50%, #000 50%, transparent 94%);
+  }
+  /*
+    Só o TOPO desvanece: esta é a última seção da página, e o pé dela já tem um
+    escurecimento próprio que fecha o site. Vale para as três camadas da
+    chamada final (foto, véu e oval de contraste) — são divs irmãs, e mascarar
+    só a foto deixaria as outras duas cortando reto no mesmo lugar.
+
+    A CURVA importa mais que o comprimento. Uma máscara linear tem derivada
+    constante, mas o olho não lê luminância em linha reta: com a foto clara
+    nascendo do escuro, os primeiros por cento do degradê já aparecem de uma
+    vez e desenham exatamente a borda que a máscara deveria apagar. Alongar não
+    resolvia — testei até 75% e a linha continuava. O que resolve é começar
+    quase parado e acelerar depois, que é o que estes paradas desenham.
+  */
+  [data-theme="dark"] .night-media-top {
+    -webkit-mask-image: var(--fade-in-down);
+    mask-image: var(--fade-in-down);
+  }
+
+  /*
+    BLOCO NOTURNO — as seções escuras do site (o "como funciona", o produto, a
+    chamada final) existem para quebrar o ritmo contra um fundo CLARO: é delas
+    que vem a respiração da página. No modo escuro esse mesmo recurso se volta
+    contra o site — preto chapado sobre azul-escuro, com uma linha reta em cima
+    e outra embaixo. São esses cortes seguidos que tiram o brilho do escuro.
+
+    Aqui o preenchimento sólido dá lugar a um VÉU: um pouco mais fundo que a
+    volta, o bastante para o ritmo sobreviver, com as duas pontas desvanecendo
+    para o olho não achar onde a seção começa e onde termina. O claro não é
+    tocado — lá o bloco continua sólido, como sempre foi.
+
+    `isolation` prende o véu ao contexto da própria seção: sem ela, o `z-index`
+    negativo escaparia para trás do fundo da casca e o véu sumiria.
+  */
+  [data-theme="dark"] .night-block {
+    background-color: transparent;
+    isolation: isolate;
+  }
+  [data-theme="dark"] .night-block::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--brand-950) / 0.5),
+      rgb(var(--brand-950) / 0.72) 50%,
+      rgb(var(--brand-950) / 0.5)
+    );
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  }
+
+  /*
     Entrada ao rolar (componente <Reveal>).
 
     A curva é `(0.16, 1, 0.3, 1)`: quase toda a distância é vencida no primeiro

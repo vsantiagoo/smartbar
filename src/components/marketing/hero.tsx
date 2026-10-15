@@ -46,7 +46,7 @@ export async function Hero() {
         aberta que `surface` (36px) para a borda branca não parecer um card.
       */}
       <div
-        className="pointer-events-none absolute inset-1.5 overflow-hidden rounded-[2.25rem] border border-white/45 sm:inset-2.5 sm:rounded-[2.5rem]"
+        className="pointer-events-none absolute inset-1.5 overflow-hidden rounded-[2.25rem] border border-white/45 dark:border-white/10 sm:inset-2.5 sm:rounded-[2.5rem]"
         aria-hidden
       >
         <HeroSlideshow shots={SHOTS} />
