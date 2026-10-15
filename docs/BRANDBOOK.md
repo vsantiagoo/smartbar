@@ -172,6 +172,15 @@ fim, é uma porta.
 O cadeado grande da declaração ([`lock-3d.tsx`](../src/components/marketing/lock-3d.tsx))
 é peça à parte: geometria 3D desenhada à mão, com interação de arraste.
 
+Ele segue a mesma luz do vidro (§5) — uma fonte só, fixa no espaço da câmera,
+de modo que é o cadeado que passa por baixo dela ao girar. Com uma diferença
+que vale registrar, porque é contraintuitiva: ali a luz manda na **cor**, não na
+opacidade. A face virada para a fonte vem saturada, a oposta desbota para um
+cinza azulado e recua. Sobre um papel claro é a saturação que cria volume —
+escurecer o traço para "iluminar" engrossa o desenho e custa a finura, sem
+acrescentar relevo nenhum. A opacidade fica com a profundidade, que é o que o
+olho usa para ordenar o que está na frente.
+
 Lucide continua valendo para o **vocabulário comum** de interface (setas,
 check, chevron). Um sinal da marca se desenha quando o conceito é do produto.
 

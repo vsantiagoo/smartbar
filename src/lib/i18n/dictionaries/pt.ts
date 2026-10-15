@@ -13,10 +13,6 @@ export const pt = {
   // Cabeçalho
   "guest.header.room": "Quarto {room}",
   "guest.header.hello": "Olá, {name}",
-  "guest.header.lock.ready": "Pronto para uso",
-  "guest.header.lock.offline": "Trava sem conexão",
-  "guest.header.lock.none": "Pagamento por Pix",
-  "guest.header.language": "Idioma",
   "guest.header.help": "Ajuda",
   "guest.header.home": "Início",
   "guest.header.theme": "Tema claro ou escuro",
@@ -166,7 +162,6 @@ export const pt = {
   "guest.receipt.status.charged": "Lançado na conta do quarto",
   "guest.receipt.print": "Baixar / imprimir recibo",
   "guest.receipt.back": "Meu consumo",
-  "guest.receipt.notfound": "Recibo não encontrado.",
   "guest.receipt.footer": "Comprovante emitido pelo SmartBar. Guarde para prestação de contas.",
 
   // Ajuda
@@ -210,7 +205,6 @@ export const pt = {
   "admin.status.connecting": "Conectando…",
 
   "admin.dashboard.title": "Visão geral",
-  "admin.dashboard.subtitle": "Faturamento do minibar em tempo real",
   "admin.dashboard.feedTitle": "Últimas vendas aprovadas",
   "admin.dashboard.feedHint": "Atualiza sozinho a cada compra concluída pelo hóspede.",
   "admin.dashboard.feedEmpty": "Nenhuma venda aprovada hoje ainda.",

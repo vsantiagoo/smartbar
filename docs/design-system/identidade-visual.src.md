@@ -76,14 +76,14 @@ Entrelinha 1,6 no corpo e 1,2 nos títulos, com tracking apertado. Os grandes t�
 
 **Vidro.** Seis superfícies, cada uma com desfoque e saturação próprios; misturá-las é o erro mais comum.
 
-| Classe | Onde | Fundo |
+| Classe | Nível | Onde |
 | --- | --- | --- |
-| `.glass` | Cartões sobre fundo claro | Branco 10% |
-| `.glass-strong` | Cartões que precisam de leitura | Branco 82% |
-| `.glass-frost` | Cartões de resultados | Cinza-azulado 12% |
-| `.glass-navy` | Cartão de destaque | Azul-marinho 82% |
-| `.glass-dark` | Cabeçalho e menu sobre foto | Preto-azulado 42% |
-| `.glass-tint` | Botões e itens ativos | Nenhum — a cor vem do `bg-` ao lado |
+| `.glass-chip` | 1 · apoiada — 14px, sem sombra projetada | Selo, campo, ícone |
+| `.glass` | 2 · elevada — 22px + cast-1 | Cards sobre fundo claro |
+| `.glass-tint` | 2 · elevada | Botões e itens ativos — a cor vem do `bg-` ao lado |
+| `.glass-dark` | 2 · elevada | Cabeçalho e menu sobre foto |
+| `.glass-strong` | 3 · sobreposta — 34px + cast-2 | Quando o texto precisa de leitura |
+| `.glass-navy` | 3 · sobreposta | Cartão de destaque, texto branco |
 
 O relevo vem do **fio de luz interno** (um traço branco de 1 px no topo), não do preenchimento. Cartão dentro de cartão não é vidro: o de fora é `.glass`, o de dentro é um bloco sólido leve.
 

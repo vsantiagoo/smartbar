@@ -205,5 +205,3 @@ export function marketingCopy(t: TFunction) {
   };
 }
 
-/** Ids das âncoras da navegação — não dependem do idioma. */
-export const SECTION_IDS = ["inicio", "como-funciona", "resultados", "planos", "explorar"] as const;

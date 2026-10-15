@@ -31,6 +31,24 @@ Se o erro aparecer no `npm run build`, é porque sobrou build antigo que o OneDr
 Remove-Item .next -Recurse -Force
 ```
 
+### Um servidor por vez
+
+Como o `predev` apaga o `.next`, **dois servidores não convivem** — e a falha é
+traiçoeira porque não dá erro nenhum: o segundo `npm run dev` vê a porta 3000
+ocupada, sobe na 3001, e o `.next` que ele acabou de apagar era o que o primeiro
+estava servindo. A partir daí a página carrega em branco e o console enche de
+404 em `layout.css` e `main-app.js`, sem uma única mensagem de erro da aplicação.
+Rodar `npm run build` com o dev no ar dá no mesmo.
+
+Antes de subir ou buildar, libere a porta:
+
+```powershell
+Get-NetTCPConnection -LocalPort 3000 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+```
+
+Depois confira no log que saiu `Local: http://localhost:3000` e não um aviso de
+`Port is in use`.
+
 | Frente | URL | O que testar |
 | --- | --- | --- |
 | Site público (landing) | `/` | Hero com fotos, declaração com cadeado 3D interativo, cards de vidro, menu responsivo |

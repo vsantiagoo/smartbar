@@ -101,14 +101,14 @@ arredonde mais.
 O material do sistema. Seis superfícies, cada uma com desfoque e saturação
 próprios — misturá-las é o erro mais comum.
 
-| Classe | Onde | Fundo |
+| Classe | Nível | Onde |
 | --- | --- | --- |
-| `.glass` | Cartões sobre fundo claro | Branco 10% |
-| `.glass-strong` | Cartões que precisam de leitura | Branco 82% |
-| `.glass-frost` | Painéis de escrita | Cinza-azulado 12% |
-| `.glass-navy` | Cartão de destaque | `brand-800` 82% |
-| `.glass-dark` | Cabeçalho sobre foto | Preto-azulado 42% |
-| `.glass-tint` | Botões e itens ativos | **nenhum** |
+| `.glass-chip` | 1 · apoiada — 14px, sem sombra projetada | Selo, campo, ícone |
+| `.glass` | 2 · elevada — 22px + cast-1 | Cards sobre fundo claro |
+| `.glass-tint` | 2 · elevada | Botões e itens ativos — a cor vem do `bg-` ao lado |
+| `.glass-dark` | 2 · elevada | Cabeçalho e menu sobre foto |
+| `.glass-strong` | 3 · sobreposta — 34px + cast-2 | Quando o texto precisa de leitura |
+| `.glass-navy` | 3 · sobreposta | Cartão de destaque, texto branco |
 
 `.glass-tint` é o único sem cor própria: ele traz só desfoque, borda luminosa e
 brilho interno. **A cor vem de um `bg-{cor}/{alpha}` ao lado** —

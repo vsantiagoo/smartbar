@@ -16,7 +16,7 @@ import { SectionNav } from "./section-nav";
  * partir de 768px, quando há espaço sem apertar o menu.
  *
  * As margens laterais (`header-fade.tsx`) põem tudo por dentro da moldura
- * branca do hero (`inset-3`/`sm:inset-5` em `hero.tsx`).
+ * branca do hero (`inset-1.5`/`sm:inset-2.5` em `hero.tsx`).
  */
 export async function SiteHeader() {
   const c = marketingCopy(await getT()).header;

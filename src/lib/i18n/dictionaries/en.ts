@@ -12,10 +12,6 @@ import type { DictKey } from "@/lib/i18n/dictionaries/pt";
 export const en: Record<DictKey, string> = {
   "guest.header.room": "Room {room}",
   "guest.header.hello": "Hello, {name}",
-  "guest.header.lock.ready": "Ready to use",
-  "guest.header.lock.offline": "Lock offline",
-  "guest.header.lock.none": "Pay with Pix",
-  "guest.header.language": "Language",
   "guest.header.help": "Help",
   "guest.header.home": "Home",
   "guest.header.theme": "Light or dark theme",
@@ -152,7 +148,6 @@ export const en: Record<DictKey, string> = {
   "guest.receipt.status.charged": "Charged to room account",
   "guest.receipt.print": "Download / print receipt",
   "guest.receipt.back": "My consumption",
-  "guest.receipt.notfound": "Receipt not found.",
   "guest.receipt.footer": "Receipt issued by SmartBar. Keep it for your expense reports.",
 
   "guest.help.title": "How can we help?",
@@ -194,7 +189,6 @@ export const en: Record<DictKey, string> = {
   "admin.status.connecting": "Connecting…",
 
   "admin.dashboard.title": "Overview",
-  "admin.dashboard.subtitle": "Minibar revenue in real time",
   "admin.dashboard.feedTitle": "Latest approved sales",
   "admin.dashboard.feedHint": "Updates on its own with every purchase a guest completes.",
   "admin.dashboard.feedEmpty": "No approved sales yet today.",
