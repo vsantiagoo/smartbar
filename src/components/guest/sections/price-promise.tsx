@@ -12,7 +12,7 @@ export function PricePromise() {
           <ShieldCheck className="size-[18px]" />
         </span>
         <div>
-          <p className="text-sm font-semibold text-ink">{t("guest.rules.title")}</p>
+          <p className="font-heading text-sm font-semibold text-ink">{t("guest.rules.title")}</p>
           <p className="mt-0.5 text-xs leading-snug text-ink-soft">{t("guest.rules.text")}</p>
         </div>
       </div>

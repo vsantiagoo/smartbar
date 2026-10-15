@@ -29,7 +29,7 @@ export async function QuickLinks() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{c.kicker}</p>
-          <h2 className="mt-3 font-display text-[2.3rem] leading-[1.06] sm:text-[2.9rem]">{c.title}</h2>
+          <h2 className="mt-3 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
         </Reveal>
 
         <ul className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">

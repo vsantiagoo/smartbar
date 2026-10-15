@@ -20,10 +20,11 @@ export async function HomeBridge() {
       <BackToTop />
       <Reveal className="mx-auto flex max-w-6xl flex-col items-center gap-2 md:flex-row md:justify-between md:gap-6">
         <h2
-          className="max-w-3xl flex-1 self-start font-display text-ink md:self-center"
-          style={{ fontSize: "clamp(44px,5.2vw,76px)", lineHeight: 1.05, letterSpacing: "-0.015em" }}
+          className="max-w-3xl flex-1 self-start text-ink md:self-center"
+          // letter-spacing em `em`: -2,8px no tamanho máximo (72px), proporcional no celular.
+          style={{ fontSize: "clamp(42px,5vw,72px)", fontWeight: 400, lineHeight: 1.08, letterSpacing: "-0.0389em" }}
         >
-          {c.title} <span className="italic text-gold-500">{c.titleAccent}</span>
+          {c.title} <span className="text-gold-500">{c.titleAccent}</span>
         </h2>
         <Lock3D className="size-56 shrink-0 sm:size-64 md:size-[17rem] lg:size-[19rem]" />
       </Reveal>
