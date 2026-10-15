@@ -54,9 +54,21 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
   return (
     <header className="relative z-30 print:hidden">
       <div className="mb-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:grid-cols-[1fr_minmax(0,28rem)_1fr]">
-        <LogoMark tone="light" className="size-8 shrink-0 justify-self-start" />
+        <LogoMark
+          tone="light"
+          className={cn(
+            "size-8 shrink-0 justify-self-start transition-opacity duration-200 sm:opacity-100",
+            menuOpen && "max-sm:opacity-0",
+          )}
+        />
 
-        <div className="glass min-w-0 max-w-[58vw] rounded-[20px] px-5 py-2.5 text-center leading-tight sm:max-w-none">
+        {/* No mobile, a barra cede o lugar da linha para os ícones quando o menu abre. */}
+        <div
+          className={cn(
+            "glass min-w-0 max-w-[58vw] rounded-[20px] px-5 py-2.5 text-center leading-tight transition-opacity duration-200 sm:max-w-none sm:opacity-100",
+            menuOpen && "max-sm:pointer-events-none max-sm:opacity-0",
+          )}
+        >
           <p className="truncate font-heading text-sm font-semibold text-white/90">
             {HOTEL_NAME_PLACEHOLDER}
           </p>
@@ -66,14 +78,14 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
         </div>
 
         {/* Lado direito. Mobile: hambúrguer no topo (alinhado com a logo e a barra);
-            ao abrir, os ícones expandem PARA O LADO (linha horizontal à direita, na
-            faixa logo abaixo). sm+: os ícones ficam sempre em linha, sem hambúrguer. */}
+            ao abrir, os ícones expandem PARA O LADO, na MESMA linha, à esquerda do X
+            e centrados com a barra do hotel. sm+: linha fixa, sem hambúrguer. */}
         <div ref={rightRef} className="relative justify-self-end">
           <button
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={t("header.menu")}
             aria-expanded={menuOpen}
-            className="glass-dark glass-liquid grid size-11 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 sm:hidden"
+            className="glass-dark glass-liquid grid size-10 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 sm:hidden"
           >
             <span className="relative block h-4 w-5" aria-hidden>
               <span
@@ -100,22 +112,22 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
           {/* Ordem: Home · Assistente · Ajuda · Idioma · Tema. */}
           <div
             className={cn(
-              "flex items-center gap-2",
+              "flex items-center gap-1.5 sm:gap-2",
               // sm+: linha estática à direita.
-              "sm:static sm:translate-x-0 sm:opacity-100 sm:[pointer-events:auto]",
-              // Mobile: linha horizontal absoluta na faixa abaixo do topo, alinhada à
-              // direita, que desliza/surge do lado (não abre para baixo como card).
-              "max-sm:absolute max-sm:right-0 max-sm:top-[calc(100%+0.55rem)] max-sm:z-50 max-sm:origin-right max-sm:transition-all max-sm:duration-300 max-sm:ease-out",
+              "sm:static sm:translate-x-0 sm:translate-y-0 sm:opacity-100 sm:[pointer-events:auto]",
+              // Mobile: MESMA linha do hambúrguer — a fileira abre para a esquerda do X,
+              // centrada verticalmente com a barra do hotel (nunca para baixo).
+              "max-sm:absolute max-sm:right-[calc(100%+0.4rem)] max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:z-50 max-sm:origin-right max-sm:transition-[transform,opacity] max-sm:duration-300 max-sm:ease-out",
               menuOpen
                 ? "max-sm:translate-x-0 max-sm:opacity-100"
-                : "max-sm:pointer-events-none max-sm:translate-x-5 max-sm:opacity-0",
+                : "max-sm:pointer-events-none max-sm:translate-x-4 max-sm:opacity-0",
             )}
           >
             <Link
               href="/"
               aria-label={t("header.home")}
               onClick={() => setMenuOpen(false)}
-              className="glass-dark glass-liquid glass-liquid-shimmer grid size-11 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95"
+              className="glass-dark glass-liquid glass-liquid-shimmer grid size-10 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 sm:size-11"
             >
               <House className="size-5" />
             </Link>
@@ -126,7 +138,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                 setMenuOpen(false);
               }}
               aria-label={t("header.assistant")}
-              className="glass-dark glass-liquid grid size-11 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95"
+              className="glass-dark glass-liquid grid size-10 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 sm:size-11"
             >
               <Sparkles className="size-5" />
             </button>
@@ -137,17 +149,17 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                 setMenuOpen(false);
               }}
               aria-label={t("header.help")}
-              className="glass-tint glass-liquid grid size-11 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95"
+              className="glass-tint glass-liquid grid size-10 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95 sm:size-11"
             >
               <CircleHelp className="size-5" />
             </button>
 
-            <div ref={menu} className="relative">
+            <div ref={menu} className="relative shrink-0">
               <button
                 onClick={() => setLangOpen((o) => !o)}
                 aria-label={t("header.language")}
                 aria-expanded={langOpen}
-                className="glass-dark glass-liquid grid size-11 place-items-center rounded-full text-white/80 transition hover:bg-white/15"
+                className="glass-dark glass-liquid grid size-10 place-items-center rounded-full text-white/80 transition hover:bg-white/15 sm:size-11"
               >
                 <span className="flex items-center gap-0.5 text-xs font-bold">
                   <Globe className="size-4" />
