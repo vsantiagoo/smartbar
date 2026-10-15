@@ -4,16 +4,17 @@ import { Reveal } from "@/components/ui/reveal";
 import { BackToTop } from "./back-to-top";
 import { CenterAnchor } from "./center-anchor";
 import { marketingCopy } from "@/lib/content/copy";
+import { getT } from "@/lib/i18n/server";
 
 const ICONS: Record<string, LucideIcon> = { qr: QrCode, lock: Lock, stock: Boxes };
 
 /**
  * SEÇÃO · "Como funciona" — bloco escuro com sobrescrita, título e três cards
  * de vidro (glassmorfismo). Layout estático, alinhado à esquerda.
- * Texto em `marketingCopy.story`.
+ * Texto em `marketingCopy(await getT()).story`.
  */
-export function ScrollStory() {
-  const c = marketingCopy.story;
+export async function ScrollStory() {
+  const c = marketingCopy(await getT()).story;
   return (
     <section
       id="como-funciona"

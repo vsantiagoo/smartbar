@@ -1,11 +1,12 @@
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
+import { getT } from "@/lib/i18n/server";
 import { BackToTop } from "./back-to-top";
 import { GlowBackdrop } from "./glow-backdrop";
 
 /** SEÇÃO · Números de referência do mercado, em cards de vidro (bloco emocional do Orbit). */
-export function ImpactStats() {
-  const c = marketingCopy.stats;
+export async function ImpactStats() {
+  const c = marketingCopy(await getT()).stats;
   return (
     <section id="resultados" className="relative isolate px-6 py-16 sm:px-10 sm:py-20">
       <BackToTop />

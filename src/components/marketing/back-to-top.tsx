@@ -1,5 +1,6 @@
 "use client";
 import { ArrowUpRight } from "lucide-react";
+import { useI18n } from "@/lib/i18n/client";
 import type { MouseEvent, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -27,11 +28,12 @@ function subir(e: MouseEvent<HTMLAnchorElement>) {
  * `tone="light"` para as seções azul-marinho, onde o traço escuro sumiria.
  */
 export function BackToTop({ tone = "dark" }: { tone?: "dark" | "light" }) {
+  const { t } = useI18n();
   return (
     <a
       href="#inicio"
       onClick={subir}
-      aria-label="Voltar ao início"
+      aria-label={t("site.finalCta.backToTop")}
       className={cn(
         "absolute bottom-6 right-6 z-10 transition duration-200 hover:-translate-y-0.5 hover:translate-x-0.5 sm:bottom-8 sm:right-10",
         tone === "light" ? "text-white/60 hover:text-white" : "text-ink-soft hover:text-ink",

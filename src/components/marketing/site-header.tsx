@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { Logo } from "@/components/ui/logo";
 import { marketingCopy } from "@/lib/content/copy";
+import { getT } from "@/lib/i18n/server";
 import { HeaderFade } from "./header-fade";
 import { SectionNav } from "./section-nav";
 
@@ -16,8 +18,8 @@ import { SectionNav } from "./section-nav";
  * As margens laterais (`header-fade.tsx`) põem tudo por dentro da moldura
  * branca do hero (`inset-3`/`sm:inset-5` em `hero.tsx`).
  */
-export function SiteHeader() {
-  const c = marketingCopy.header;
+export async function SiteHeader() {
+  const c = marketingCopy(await getT()).header;
   const brand = (
     <span className="inline-flex pr-5 sm:pr-7">
       {/*
@@ -51,6 +53,8 @@ export function SiteHeader() {
             <span className="sm:hidden">{c.ctaShort}</span>
             <span className="hidden sm:inline">{c.cta}</span>
           </Link>
+          {/* Idioma dentro da barra, para não desequilibrar as colunas que a centralizam. */}
+          <LanguageSwitcher tone="dark" buttonClassName="size-8 sm:size-9" />
         </div>
 
         {/* Espelho invisível da marca: dá à coluna da direita o mesmo peso da esquerda,

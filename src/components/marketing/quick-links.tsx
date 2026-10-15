@@ -1,6 +1,7 @@
 import { ArrowUpRight, LayoutDashboard, Palette, Smartphone } from "lucide-react";
 import Link from "next/link";
 import { marketingCopy } from "@/lib/content/copy";
+import { getT } from "@/lib/i18n/server";
 import { DEMO_HOTEL_SLUG, DEMO_ROOM_TOKEN } from "@/lib/config";
 import { Reveal } from "@/components/ui/reveal";
 import { BackToTop } from "./back-to-top";
@@ -14,8 +15,8 @@ const ROUTES: Record<string, string> = {
 };
 
 /** SEÇÃO · Atalhos para as demonstrações funcionais (hóspede, painel, design system). */
-export function QuickLinks() {
-  const c = marketingCopy.explore;
+export async function QuickLinks() {
+  const c = marketingCopy(await getT()).explore;
   return (
     /*
       Respiro desigual de propósito: menos em cima (o conteúdo sobe e o vazio

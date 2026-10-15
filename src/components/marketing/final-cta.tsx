@@ -3,12 +3,13 @@ import { Logo } from "@/components/ui/logo";
 import { buttonClasses } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
+import { getT } from "@/lib/i18n/server";
 import { BackToTopButton } from "./back-to-top";
 import { DayNightLens } from "./day-night-lens";
 
 /** SEÇÃO · Chamada final + rodapé, no padrão de encerramento do Orbit. */
-export function FinalCta() {
-  const c = marketingCopy.finalCta;
+export async function FinalCta() {
+  const c = marketingCopy(await getT()).finalCta;
   return (
     <footer
       id="contato"

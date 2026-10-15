@@ -18,10 +18,13 @@ import { cn } from "@/lib/utils";
 export function LanguageSwitcher({
   tone = "dark",
   className,
+  buttonClassName,
   onAfterSelect,
 }: {
   tone?: "dark" | "light";
   className?: string;
+  /** Substitui as classes de TAMANHO do botão (ex.: na barra do site, menor). */
+  buttonClassName?: string;
   /** Ex.: fechar o menu mobile do hóspede depois de escolher. */
   onAfterSelect?: () => void;
 }) {
@@ -44,9 +47,8 @@ export function LanguageSwitcher({
         aria-expanded={open}
         className={cn(
           "grid place-items-center rounded-full transition",
-          tone === "dark"
-            ? "glass-dark glass-liquid size-9 text-white/80 hover:bg-white/15 min-[360px]:size-10 sm:size-11"
-            : "glass-chip size-11 bg-white/60 text-ink-soft hover:bg-white/80 hover:text-ink",
+          tone === "dark" ? "glass-dark glass-liquid text-white/80 hover:bg-white/15" : "glass-chip bg-white/60 text-ink-soft hover:bg-white/80 hover:text-ink",
+          buttonClassName ?? (tone === "dark" ? "size-9 min-[360px]:size-10 sm:size-11" : "size-11"),
         )}
       >
         <span className="flex items-center gap-0.5 text-xs font-bold">

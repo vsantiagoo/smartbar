@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
+import { getT } from "@/lib/i18n/server";
 import { BackToTop } from "./back-to-top";
 import { Lock3D } from "./lock-3d";
 
@@ -12,8 +13,8 @@ import { Lock3D } from "./lock-3d";
  * Mesma caixa e mesmo alinhamento do "Como funciona" logo abaixo, para as duas
  * telas compartilharem a margem esquerda.
  */
-export function HomeBridge() {
-  const c = marketingCopy.statement;
+export async function HomeBridge() {
+  const c = marketingCopy(await getT()).statement;
   return (
     <section className="relative px-6 py-12 sm:px-10 sm:py-16">
       <BackToTop />

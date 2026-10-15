@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { marketingCopy } from "@/lib/content/copy";
+import { useI18n } from "@/lib/i18n/client";
 import { useActiveSection } from "@/lib/marketing/use-active-section";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +25,9 @@ function maskFor(left: boolean, right: boolean): string | undefined {
  * página rola.
  */
 export function SectionNav({ className }: { className?: string }) {
-  const ids = marketingCopy.nav.map((n) => n.id);
+  const { t } = useI18n();
+  const nav = marketingCopy(t).nav;
+  const ids = nav.map((n) => n.id);
   const active = useActiveSection(ids);
   const navRef = useRef<HTMLElement>(null);
   const activeRef = useRef<HTMLAnchorElement>(null);
@@ -60,11 +63,11 @@ export function SectionNav({ className }: { className?: string }) {
   return (
     <nav
       ref={navRef}
-      aria-label="Seções da página"
+      aria-label={t("site.nav.label")}
       className={cn("scroll-hide flex max-w-full gap-1 overflow-x-auto text-white", className)}
       style={mask ? { maskImage: mask, WebkitMaskImage: mask } : undefined}
     >
-      {marketingCopy.nav.map((item) => {
+      {nav.map((item) => {
         const on = active === item.id;
         return (
           <a

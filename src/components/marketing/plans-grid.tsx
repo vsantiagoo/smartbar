@@ -5,6 +5,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { Segmented } from "@/components/ui/segmented";
 import { marketingCopy } from "@/lib/content/copy";
+import { useI18n } from "@/lib/i18n/client";
 import { cn } from "@/lib/utils";
 import { BackToTop } from "./back-to-top";
 import { GlowBackdrop } from "./glow-backdrop";
@@ -51,7 +52,8 @@ function FactStrip({ block, delay }: { block: FactBlock; delay: number }) {
 }
 
 export function PlansGrid() {
-  const c = marketingCopy.plans;
+  const { t } = useI18n();
+  const c = marketingCopy(t).plans;
   const [segmentId, setSegmentId] = useState<string>(c.segments[2]!.id);
   const segment = c.segments.find((s) => s.id === segmentId) ?? c.segments[0]!;
 

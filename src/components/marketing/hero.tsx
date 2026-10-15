@@ -3,6 +3,7 @@ import Link from "next/link";
 import { buttonClasses } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { marketingCopy } from "@/lib/content/copy";
+import { getT } from "@/lib/i18n/server";
 import { HeroParallax } from "./hero-parallax";
 import { HeroSlideshow, type HeroShot } from "./hero-slideshow";
 
@@ -15,13 +16,15 @@ import { HeroSlideshow, type HeroShot } from "./hero-slideshow";
  * `SHOTS` abaixo. O vídeo do hero (Seedance) continua pendente; quando existir,
  * ele entra no lugar de `<HeroSlideshow>`.
  */
-const SHOTS: HeroShot[] = [
-  { src: "/images/hero/lobby.jpg", alt: "Lobby de hotel ao entardecer, com piso espelhado e luz quente" },
-  { src: "/images/hero/fachada.jpg", alt: "Fachada iluminada de um hotel na hora azul" },
-];
+/** As descrições das fotos (alt) vêm do dicionário — ver dentro do componente. */
 
-export function Hero() {
-  const c = marketingCopy.hero;
+export async function Hero() {
+  const t = await getT();
+  const c = marketingCopy(t).hero;
+  const SHOTS: HeroShot[] = [
+    { src: "/images/hero/lobby.jpg", alt: t("site.hero.alt1") },
+    { src: "/images/hero/fachada.jpg", alt: t("site.hero.alt2") },
+  ];
   return (
     /* bg-white: a margem em volta da moldura é branca; a foto fica só dentro dela. */
     <section id="inicio" className="relative flex h-dvh min-h-[640px] items-center justify-center overflow-hidden bg-white">
