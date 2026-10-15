@@ -54,13 +54,8 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
   return (
     <header className="relative z-30 print:hidden">
       <div className="mb-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:grid-cols-[1fr_minmax(0,28rem)_1fr]">
-        <LogoMark
-          tone="light"
-          className={cn(
-            "size-8 shrink-0 justify-self-start transition-opacity duration-200 sm:opacity-100",
-            menuOpen && "max-sm:opacity-0",
-          )}
-        />
+        {/* A logo nunca some — a fileira de ícones abre ao lado dela. */}
+        <LogoMark tone="light" className="size-8 shrink-0 justify-self-start" />
 
         {/* No mobile, a barra cede o lugar da linha para os ícones quando o menu abre. */}
         <div
@@ -85,7 +80,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={t("header.menu")}
             aria-expanded={menuOpen}
-            className="glass-dark glass-liquid grid size-10 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 sm:hidden"
+            className="glass-dark glass-liquid grid size-9 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:hidden"
           >
             <span className="relative block h-4 w-5" aria-hidden>
               <span
@@ -112,7 +107,8 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
           {/* Ordem: Home · Assistente · Ajuda · Idioma · Tema. */}
           <div
             className={cn(
-              "flex items-center gap-1.5 sm:gap-2",
+              // Em telas bem estreitas os ícones encolhem para caber ao lado da logo.
+              "flex items-center gap-1 min-[360px]:gap-1.5 sm:gap-2",
               // sm+: linha estática à direita.
               "sm:static sm:translate-x-0 sm:translate-y-0 sm:opacity-100 sm:[pointer-events:auto]",
               // Mobile: MESMA linha do hambúrguer — a fileira abre para a esquerda do X,
@@ -127,7 +123,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
               href="/"
               aria-label={t("header.home")}
               onClick={() => setMenuOpen(false)}
-              className="glass-dark glass-liquid glass-liquid-shimmer grid size-10 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 sm:size-11"
+              className="glass-dark glass-liquid glass-liquid-shimmer grid size-9 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
               <House className="size-5" />
             </Link>
@@ -138,7 +134,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                 setMenuOpen(false);
               }}
               aria-label={t("header.assistant")}
-              className="glass-dark glass-liquid grid size-10 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 sm:size-11"
+              className="glass-dark glass-liquid grid size-9 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
               <Sparkles className="size-5" />
             </button>
@@ -149,7 +145,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                 setMenuOpen(false);
               }}
               aria-label={t("header.help")}
-              className="glass-tint glass-liquid grid size-10 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95 sm:size-11"
+              className="glass-tint glass-liquid grid size-9 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
               <CircleHelp className="size-5" />
             </button>
@@ -159,7 +155,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                 onClick={() => setLangOpen((o) => !o)}
                 aria-label={t("header.language")}
                 aria-expanded={langOpen}
-                className="glass-dark glass-liquid grid size-10 place-items-center rounded-full text-white/80 transition hover:bg-white/15 sm:size-11"
+                className="glass-dark glass-liquid grid size-9 place-items-center rounded-full text-white/80 transition hover:bg-white/15 min-[360px]:size-10 sm:size-11"
               >
                 <span className="flex items-center gap-0.5 text-xs font-bold">
                   <Globe className="size-4" />
