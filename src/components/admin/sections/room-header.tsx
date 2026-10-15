@@ -1,12 +1,15 @@
+"use client";
 import { ArrowLeft, BedDouble, Lock, LockOpen, Wifi, WifiOff } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { GlassCard } from "@/components/ui/glass-card";
 import { formatDateTime, timeAgo } from "@/lib/utils";
 import type { RoomDetail } from "@/lib/types";
+import { useI18n } from "@/lib/i18n/client";
 
 /** SEÇÃO · Cabeçalho do quarto: hóspede, estadia e estado do hardware. */
 export function RoomHeader({ detail }: { detail: RoomDetail }) {
+  const { t } = useI18n();
   const { room, stay } = detail;
   return (
     <div>
@@ -19,14 +22,14 @@ export function RoomHeader({ detail }: { detail: RoomDetail }) {
             <BedDouble className="size-8" />
           </span>
           <div>
-            <h1 className="text-3xl font-bold leading-none">Quarto {room.number}</h1>
+            <h1 className="text-3xl font-bold leading-none">{t("admin.room.number", { number: room.number })}</h1>
             <p className="mt-2 text-ink-soft">
               {stay ? (
                 <>
-                  <span className="font-semibold text-ink">{stay.guestName}</span> · check-in {formatDateTime(stay.checkInAt)}
+                  <span className="font-semibold text-ink">{stay.guestName}</span> · {t("admin.room.checkIn", { date: formatDateTime(stay.checkInAt) })}
                 </>
               ) : (
-                "Sem estadia ativa"
+                t("admin.room.noStay")
               )}
             </p>
           </div>
@@ -34,11 +37,11 @@ export function RoomHeader({ detail }: { detail: RoomDetail }) {
         <div className="flex flex-wrap gap-2">
           <Badge tone={room.deviceOnline ? "ok" : "danger"} dot pulse={room.deviceOnline}>
             {room.deviceOnline ? <Wifi className="size-3.5" /> : <WifiOff className="size-3.5" />}
-            {room.deviceOnline ? "Trava online" : `Sem sinal${room.deviceLastSeenAt ? ` ${timeAgo(room.deviceLastSeenAt)}` : ""}`}
+            {room.deviceOnline ? t("admin.room.lockOnline") : `${t("admin.room.noSignal")}${room.deviceLastSeenAt ? ` ${timeAgo(room.deviceLastSeenAt)}` : ""}`}
           </Badge>
           <Badge tone={room.lockState === "unlocked" ? "warn" : "neutral"}>
             {room.lockState === "unlocked" ? <LockOpen className="size-3.5" /> : <Lock className="size-3.5" />}
-            {room.lockState === "unlocked" ? "Aberto agora" : "Trancado"}
+            {room.lockState === "unlocked" ? t("admin.room.openNow") : t("admin.room.locked")}
           </Badge>
           {room.deviceId && <Badge tone="neutral">{room.deviceId}</Badge>}
         </div>

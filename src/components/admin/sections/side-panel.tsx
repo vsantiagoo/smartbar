@@ -58,6 +58,7 @@ export function SidePanel({ data, freshIds }: { data: DashboardSnapshot; freshId
 }
 
 function RestockTab({ needs }: { needs: DashboardSnapshot["restockNeeds"] }) {
+  const { t } = useI18n();
   const grouped = useMemo(() => {
     const m = new Map<string, { room: string; items: string[]; missing: number }>();
     for (const n of needs) {
@@ -69,7 +70,7 @@ function RestockTab({ needs }: { needs: DashboardSnapshot["restockNeeds"] }) {
     return [...m.values()].sort((a, b) => a.room.localeCompare(b.room));
   }, [needs]);
 
-  if (grouped.length === 0) return <EmptyState icon={PackageCheck} title="Estoque em dia" description="Nenhum quarto abaixo do mínimo." className="py-10" />;
+  if (grouped.length === 0) return <EmptyState icon={PackageCheck} title={t("admin.side.stockOk")} description={t("admin.side.stockOkHint")} className="py-10" />;
   return (
     <div>
       <ul className="space-y-2">
@@ -94,6 +95,7 @@ function RestockTab({ needs }: { needs: DashboardSnapshot["restockNeeds"] }) {
 }
 
 function DevicesTab({ rooms }: { rooms: DashboardSnapshot["rooms"] }) {
+  const { t } = useI18n();
   const now = useNow();
   const sorted = [...rooms].sort((a, b) => Number(a.deviceOnline) - Number(b.deviceOnline) || a.number.localeCompare(b.number));
   return (
@@ -105,16 +107,16 @@ function DevicesTab({ rooms }: { rooms: DashboardSnapshot["rooms"] }) {
               {r.number}
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-semibold text-ink">{r.deviceId ?? "Sem dispositivo"}</span>
+              <span className="block truncate text-sm font-semibold text-ink">{r.deviceId ?? t("admin.side.noDevice")}</span>
               <span className="flex items-center gap-1.5 text-xs text-ink-soft">
                 {r.deviceOnline ? <Wifi className="size-3 text-ok-500" /> : <WifiOff className="size-3 text-crimson-500" />}
-                {r.deviceOnline ? "Online" : "Sem sinal"}
+                {r.deviceOnline ? t("admin.side.online") : t("admin.side.offline")}
                 {now !== null && r.lastSeenAt && ` · ${timeAgo(r.lastSeenAt, now)}`}
               </span>
             </span>
             <Badge tone={r.lockState === "unlocked" ? "warn" : "neutral"}>
               {r.lockState === "unlocked" ? <LockOpen className="size-3.5" /> : <Lock className="size-3.5" />}
-              {r.lockState === "unlocked" ? "Aberta" : "Trancada"}
+              {r.lockState === "unlocked" ? t("admin.side.unlocked") : t("admin.side.lockedF")}
             </Badge>
           </Link>
         </li>

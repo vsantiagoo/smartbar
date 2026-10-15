@@ -3,23 +3,25 @@ import { ChevronDown, Lock, PanelTopClose, PanelTopOpen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Badge, type BadgeTone } from "@/components/ui/badge";
 import { GlassCard } from "@/components/ui/glass-card";
+import { useI18n } from "@/lib/i18n/client";
+import type { DictKey } from "@/lib/i18n/translate";
 import { cn } from "@/lib/utils";
 import type { DashboardSnapshot } from "@/lib/types";
 
 const STORAGE_KEY = "smartbar-presentation-collapsed";
 
 type StepState = "done" | "waiting" | "attention";
-const STATE_UI: Record<StepState, { label: string; tone: BadgeTone }> = {
-  done: { label: "Em operação", tone: "ok" },
-  waiting: { label: "Aguardando", tone: "neutral" },
-  attention: { label: "Atenção", tone: "warn" },
+const STATE_UI: Record<StepState, { labelKey: DictKey; tone: BadgeTone }> = {
+  done: { labelKey: "admin.pres.state.done", tone: "ok" },
+  waiting: { labelKey: "admin.pres.state.waiting", tone: "neutral" },
+  attention: { labelKey: "admin.pres.state.attention", tone: "warn" },
 };
 
 /** Referências do Plano de Negócios (hotel de 50 quartos) — não são medições deste hotel. */
 const BENCHMARKS = [
-  { label: "Perda de estoque", from: "22%", to: "< 1%" },
-  { label: "Check-out do hóspede", from: "8–12 min", to: "2–3 min" },
-  { label: "Governança por quarto", from: "15 min", to: "9 min" },
+  { labelKey: "admin.pres.bench.shrinkage" as DictKey, from: "22%", to: "< 1%" },
+  { labelKey: "admin.pres.bench.checkout" as DictKey, from: "8–12 min", to: "2–3 min" },
+  { labelKey: "admin.pres.bench.housekeeping" as DictKey, from: "15 min", to: "9 min" },
 ];
 
 /**
@@ -28,6 +30,7 @@ const BENCHMARKS = [
  * em etapas, no padrão do design system Orbit). Pode ser recolhida.
  */
 export function SystemPresentation({ data }: { data: DashboardSnapshot }) {
+  const { t } = useI18n();
   const [collapsed, setCollapsed] = useState(false);
   const [openStep, setOpenStep] = useState<number | null>(0);
 
@@ -56,25 +59,25 @@ export function SystemPresentation({ data }: { data: DashboardSnapshot }) {
 
   const steps: { title: string; live: string; state: StepState; detail: string }[] = [
     {
-      title: "Hóspede escolhe no celular",
-      live: `${totalRooms} quartos com QR Code ativo`,
+      title: t("admin.pres.1.title"),
+      live: t("admin.pres.1.live", { n: totalRooms }),
       state: totalRooms > 0 ? "done" : "waiting",
       detail:
-        "Cada quarto tem um QR Code. O hóspede abre a vitrine no celular, sem baixar app nem criar conta, e escolhe o que vai consumir. Só o que ele declara pode ser liberado.",
+        t("admin.pres.1.detail"),
     },
     {
-      title: "Pagamento confirmado",
-      live: `${opened} ${opened === 1 ? "pedido aprovado" : "pedidos aprovados"} hoje · ${data.pixSharePct}% via Pix`,
+      title: t("admin.pres.2.title"),
+      live: t("admin.pres.2.live", { n: opened, pix: data.pixSharePct }),
       state: opened > 0 ? "done" : "waiting",
       detail:
-        "O pagamento é prévio: Pix com confirmação automática, ou lançamento na conta do quarto validado pelo cartão-chave do hóspede. Sem consumo sem registro, sem risco de contestação.",
+        t("admin.pres.2.detail"),
     },
     {
-      title: "Trava liberada e estoque atualizado",
-      live: offline > 0 ? `${totalRooms - offline} de ${totalRooms} travas online` : `${totalRooms} de ${totalRooms} travas online`,
+      title: t("admin.pres.3.title"),
+      live: t("admin.pres.3.live", { online: totalRooms - offline, total: totalRooms }),
       state: offline > 0 ? "attention" : "done",
       detail:
-        "Assim que o pagamento é confirmado, a trava abre por 15 segundos e o item é abatido do estoque daquele quarto. A governança recebe a lista do que repor, sem conferência por rádio.",
+        t("admin.pres.3.detail"),
     },
   ];
 
@@ -86,20 +89,20 @@ export function SystemPresentation({ data }: { data: DashboardSnapshot }) {
       <div className="relative p-6 sm:p-8">
         <div className="flex items-start justify-between gap-4">
           <div className="max-w-xl">
-            <Badge tone="gold">SmartBar · Plano Plus</Badge>
+            <Badge tone="gold">{t("admin.pres.badge")}</Badge>
             <h2 className="mt-4 text-[1.75rem] font-bold leading-[1.15] !text-white sm:text-[2.1rem]">
-              Cada consumo pago antes de abrir. <span className="text-gold-400">Nenhum item some.</span>
+              {t("admin.pres.title")} <span className="text-gold-400">{t("admin.pres.titleAccent")}</span>
             </h2>
             {!collapsed && (
               <p className="mt-3 text-[0.95rem] text-white/70">
-                O hóspede escolhe no celular, paga e a trava libera sozinha. Você acompanha tudo daqui, em tempo real.
+                {t("admin.pres.subtitle")}
               </p>
             )}
           </div>
           <button
             onClick={toggle}
             aria-expanded={!collapsed}
-            aria-label={collapsed ? "Expandir apresentação" : "Recolher apresentação"}
+            aria-label={collapsed ? t("admin.pres.expand") : t("admin.pres.collapse")}
             className="grid size-10 shrink-0 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
           >
             {collapsed ? <PanelTopOpen className="size-5" /> : <PanelTopClose className="size-5" />}
@@ -108,7 +111,7 @@ export function SystemPresentation({ data }: { data: DashboardSnapshot }) {
 
         {!collapsed && (
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1.25fr_1fr]">
-            <ol className="space-y-2.5" aria-label="Como o SmartBar funciona">
+            <ol className="space-y-2.5" aria-label={t("admin.pres.stepsLabel")}>
               {steps.map((s, i) => {
                 const ui = STATE_UI[s.state];
                 const isOpen = openStep === i;
@@ -125,7 +128,7 @@ export function SystemPresentation({ data }: { data: DashboardSnapshot }) {
                         <span className="block truncate text-sm text-white/65">{s.live}</span>
                       </span>
                       <Badge tone={ui.tone} dot pulse={s.state === "done"} className="hidden sm:inline-flex">
-                        {ui.label}
+                        {t(ui.labelKey)}
                       </Badge>
                       <ChevronDown className={cn("size-5 shrink-0 text-white/60 transition", isOpen && "rotate-180")} />
                     </button>
@@ -138,11 +141,11 @@ export function SystemPresentation({ data }: { data: DashboardSnapshot }) {
             <div className="flex flex-col gap-6">
               <Orbit />
               <div>
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">Antes → depois (referência do estudo)</p>
+                <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">{t("admin.pres.benchTitle")}</p>
                 <ul className="space-y-2">
                   {BENCHMARKS.map((b) => (
-                    <li key={b.label} className="flex items-center justify-between gap-3 text-sm">
-                      <span className="text-white/70">{b.label}</span>
+                    <li key={b.labelKey} className="flex items-center justify-between gap-3 text-sm">
+                      <span className="text-white/70">{t(b.labelKey)}</span>
                       <span className="tabular font-semibold text-white">
                         <span className="text-white/45 line-through">{b.from}</span> <span className="text-gold-400">→ {b.to}</span>
                       </span>

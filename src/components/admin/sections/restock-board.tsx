@@ -65,8 +65,8 @@ export function RestockBoard({ hotelId, needs }: { hotelId: string; needs: Resto
         actions={
           groups.length > 0 && (
             <div className="flex gap-2">
-              <Badge tone="danger">{groups.length} {groups.length === 1 ? "quarto" : "quartos"}</Badge>
-              <Badge tone="neutral">{totalItems} un. a repor</Badge>
+              <Badge tone="danger">{t("admin.restock.rooms", { n: groups.length })}</Badge>
+              <Badge tone="neutral">{t("admin.restock.units", { n: totalItems })}</Badge>
             </div>
           )
         }
@@ -93,11 +93,11 @@ export function RestockBoard({ hotelId, needs }: { hotelId: string; needs: Resto
                       <BedDouble className="size-5" />
                     </span>
                     <div>
-                      <p className="tabular text-xl font-bold leading-none text-ink">Quarto {g.roomNumber}</p>
-                      <p className="mt-1 text-xs text-ink-soft">Andar {g.floor ?? "—"}</p>
+                      <p className="tabular text-xl font-bold leading-none text-ink">{t("admin.room.number", { number: g.roomNumber })}</p>
+                      <p className="mt-1 text-xs text-ink-soft">{t("admin.room.floor", { floor: g.floor ?? "—" })}</p>
                     </div>
                   </div>
-                  <Badge tone="danger">{g.needs.length} {g.needs.length === 1 ? "item" : "itens"}</Badge>
+                  <Badge tone="danger">{t("admin.restock.items", { n: g.needs.length })}</Badge>
                 </div>
 
                 <ul className="mt-4 flex-1 divide-y divide-brand-700/10">
@@ -107,13 +107,13 @@ export function RestockBoard({ hotelId, needs }: { hotelId: string; needs: Resto
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium text-ink">{n.productName}</p>
                         <p className="tabular text-xs text-ink-soft">
-                          Tem {n.quantity} · repor <span className="font-bold text-crimson-600">+{n.missing}</span>
+                          {t("admin.restock.has", { n: n.quantity })} <span className="font-bold text-crimson-600">+{n.missing}</span>
                         </p>
                       </div>
                       <button
                         disabled={pending}
                         onClick={() => confirm(n.roomId, n.productId)}
-                        aria-label={`Confirmar reposição de ${n.productName} no quarto ${g.roomNumber}`}
+                        aria-label={t("admin.restock.confirmAria", { product: n.productName, room: g.roomNumber })}
                         className="glass-tint grid size-9 shrink-0 place-items-center rounded-full border-white/60 bg-white/40 text-brand-700 transition hover:bg-ok-500/85 hover:text-white active:scale-90 disabled:opacity-50"
                       >
                         <Check className="size-4" strokeWidth={2.5} />
@@ -123,7 +123,7 @@ export function RestockBoard({ hotelId, needs }: { hotelId: string; needs: Resto
                 </ul>
 
                 <Button className="mt-4 w-full" disabled={pending} onClick={() => confirm(g.roomId, null)}>
-                  Confirmar reposição
+                  {t("admin.restock.confirm")}
                 </Button>
               </GlassCard>
             </li>
