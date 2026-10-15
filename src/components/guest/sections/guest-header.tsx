@@ -145,7 +145,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
                 setMenuOpen(false);
               }}
               aria-label={t("header.help")}
-              className="glass-tint glass-liquid grid size-9 shrink-0 place-items-center rounded-full bg-gold-500/80 text-white transition hover:bg-gold-500/95 active:scale-95 min-[360px]:size-10 sm:size-11"
+              className="glass-dark glass-liquid grid size-9 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
               <CircleHelp className="size-5" />
             </button>
