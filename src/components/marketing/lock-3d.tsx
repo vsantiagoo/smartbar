@@ -55,6 +55,12 @@ interface Vtx {
   sy: number;
   sz: number;
   inside: boolean;
+  /** Normal no espaço do MODELO: para onde esta parte da superfície aponta. */
+  nx: number;
+  ny: number;
+  nz: number;
+  /** Quanto este vértice recebe da luz da cena, recalculado a cada quadro. */
+  lum: number;
 }
 type Tier = 0 | 1 | 2;
 interface Edge {
@@ -70,8 +76,18 @@ interface Rail {
   shackle: boolean;
 }
 
-function vtx(x: number, y: number, z: number): Vtx {
-  return { mx: x, my: y, mz: z, tx: x, ty: y, tz: z, sx: 0, sy: 0, sz: 0, inside: false };
+function vtx(x: number, y: number, z: number, n?: [number, number, number]): Vtx {
+  let [nx, ny, nz] = n ?? [0, 0, 0];
+  // A normal TEM de ser unitária: se não for, o produto escalar com a luz passa
+  // de 1 e o expoente fracionário do sombreamento devolve NaN — que depois vira
+  // um índice de lote inexistente e apaga o desenho inteiro.
+  const l = Math.hypot(nx, ny, nz);
+  if (l > 0) {
+    nx /= l;
+    ny /= l;
+    nz /= l;
+  }
+  return { mx: x, my: y, mz: z, tx: x, ty: y, tz: z, sx: 0, sy: 0, sz: 0, inside: false, nx, ny, nz, lum: 1 };
 }
 
 function isInsideBody(x: number, y: number, z: number): boolean {
@@ -114,15 +130,26 @@ function buildMesh() {
       const th = (k / SIDES) * Math.PI * 2 + Math.PI / SIDES;
       const c = Math.cos(th);
       const r = notched && c > 0.2 ? TUBE * 0.3 : TUBE;
-      return vtx(cx + r * c * nx, cy + r * c * ny, r * Math.sin(th));
+      const sn = Math.sin(th);
+      // A direção radial do anel já é a normal da superfície do tubo — sai de graça.
+      return vtx(cx + r * c * nx, cy + r * c * ny, r * sn, [c * nx, c * ny, sn]);
     });
   });
 
+  /*
+    RITMO DO TUBO. Os trinta e cinco aros transversais vinham todos no mesmo
+    peso: de longe aquilo não lia como um tubo, lia como uma tela de arame, e a
+    trama competia com a silhueta. Agora um a cada três é uma COSTELA (nível 1)
+    e os outros recuam para o nível 2 — a geometria é a mesma, só a leitura
+    muda. Objeto torneado tem ritmo; malha de software tem densidade uniforme.
+  */
   rings.forEach((ring, i) => {
+    const costela: Tier = i % 3 === 0 ? 1 : 2;
     ring.forEach((v, k) => {
-      add(v, ring[(k + 1) % SIDES]!, 1, true);
+      add(v, ring[(k + 1) % SIDES]!, costela, true);
       const next = rings[i + 1];
       if (next) {
+        // As longitudinais são a estrutura do tubo: elas é que desenham a curva.
         add(v, next[k]!, 0, true);
         add(v, next[(k + 1) % SIDES]!, 2, true);
       }
@@ -145,15 +172,28 @@ function buildMesh() {
     const x1 = W - inset;
     const y0 = TOP + inset;
     const y1 = BOT - inset;
+    /*
+      Normal do perfil: a direção que sai do eixo do corpo e passa pelo canto.
+      Nos chanfros das fatias extremas ela também inclina para fora em z, que é
+      para onde a quina de verdade aponta.
+    */
+    const cy = (TOP + BOT) / 2;
+    const face = inset > 0 ? Math.sign(z) * 0.72 : 0;
+    const p = (px: number, py: number): Vtx => {
+      const dx = px;
+      const dy = py - cy;
+      const l = Math.hypot(dx, dy) || 1;
+      return vtx(px, py, z, [dx / l, dy / l, face]);
+    };
     return [
-      vtx(x0 + CH, y0, z),
-      vtx(x1 - CH, y0, z),
-      vtx(x1, y0 + CH, z),
-      vtx(x1, y1 - CH, z),
-      vtx(x1 - CH, y1, z),
-      vtx(x0 + CH, y1, z),
-      vtx(x0, y1 - CH, z),
-      vtx(x0, y0 + CH, z),
+      p(x0 + CH, y0),
+      p(x1 - CH, y0),
+      p(x1, y0 + CH),
+      p(x1, y1 - CH),
+      p(x1 - CH, y1),
+      p(x0 + CH, y1),
+      p(x0, y1 - CH),
+      p(x0, y0 + CH),
     ];
   };
   const slices = [profile(CH, D), profile(0, D - CH), profile(0, 0), profile(0, -D + CH), profile(CH, -D)];
@@ -176,20 +216,22 @@ function buildMesh() {
     [slices[0]!, D],
     [slices[4]!, -D],
   ] as const) {
-    const center = vtx(0, (TOP + BOT) / 2, z);
+    const center = vtx(0, (TOP + BOT) / 2, z, [0, 0, Math.sign(z)]);
     bodyExtra.push(center);
     for (const v of face) add(center, v, 2, false);
-    const top = vtx(0, TOP + CH, z);
-    const bottom = vtx(0, BOT - CH, z);
-    const left = vtx(-W + CH, BAND, z);
-    const right = vtx(W - CH, BAND, z);
+    const nFace: [number, number, number] = [0, 0, Math.sign(z)];
+    const top = vtx(0, TOP + CH, z, nFace);
+    const bottom = vtx(0, BOT - CH, z, nFace);
+    const left = vtx(-W + CH, BAND, z, nFace);
+    const right = vtx(W - CH, BAND, z, nFace);
     bodyExtra.push(top, bottom, left, right);
     add(top, bottom, 1, false);
     add(left, right, 1, false);
   }
   for (const x of [-W, W]) {
-    const a = vtx(x, BAND, D - CH);
-    const b = vtx(x, BAND, -D + CH);
+    const nSide: [number, number, number] = [Math.sign(x), 0, 0];
+    const a = vtx(x, BAND, D - CH, nSide);
+    const b = vtx(x, BAND, -D + CH, nSide);
     bodyExtra.push(a, b);
     add(a, b, 1, false);
   }
@@ -219,9 +261,27 @@ function buildMesh() {
 
 /* ──────────────────────────────── Estilo ──────────────────────────────── */
 
-const TIER_ALPHA = [0.8, 0.46, 0.22] as const;
-const TIER_WIDTH = [1, 0.75, 0.6] as const;
-const BUCKETS = 8;
+/*
+  LUZ DA CENA — uma fonte só, vinda de cima, da esquerda e da frente, FIXA no
+  espaço da câmera. Como ela não gira junto, é o cadeado que passa por baixo
+  dela: a face virada para a luz acende e a oposta apaga, e isso muda enquanto
+  ele roda. É a mesma regra do vidro (Brandbook §5): aro igual nos quatro lados
+  é o delator de material sintético, porque na natureza a luz vem de uma direção.
+
+  y negativo é para cima (o modelo cresce para baixo) e z negativo é em direção
+  à câmera.
+*/
+const LIGHT: [number, number, number] = (() => {
+  const v: [number, number, number] = [-0.38, -0.82, -0.43];
+  const l = Math.hypot(...v);
+  return [v[0] / l, v[1] / l, v[2] / l];
+})();
+/** Quanto a face na sombra ainda aparece. Zero apagaria metade do desenho. */
+const AMBIENT = 0.3;
+
+const TIER_ALPHA = [0.95, 0.44, 0.17] as const;
+const TIER_WIDTH = [1.15, 0.72, 0.55] as const;
+const BUCKETS = 12;
 const PARTICLES = [
   { rail: 0, speed: 30, u: 0.05 },
   { rail: 1, speed: 23, u: 0.55 },
@@ -314,16 +374,36 @@ export function Lock3D({ className }: { className?: string }) {
     let w = 0;
     let h = 0;
     let dpr = 1;
+    /*
+      O degradê da malha é redesenhado a cada quadro entre o TOPO DO ARCO e a
+      BASE DO CORPO já projetados — ou seja, ao longo do eixo do próprio
+      cadeado. Antes ele era fixo em coordenadas de tela: a cor ficava parada e
+      o objeto deslizava por dentro dela ao girar, que é o delator de um objeto
+      que não carrega a própria cor. Um gradiente por quadro é barato.
+    */
+    const AXIS_TOP = { x: 0, y: ARC_CY - R, z: 0 };
+    const AXIS_BOT = { x: 0, y: BOT, z: 0 };
+    const axA = { sx: 0, sy: 0, sz: 0 };
+    const axB = { sx: 0, sy: 0, sz: 0 };
     let mesh: CanvasGradient | string = "#000";
+    const meshGradient = (): CanvasGradient | string => {
+      project(AXIS_TOP.x, AXIS_TOP.y, AXIS_TOP.z, axA);
+      project(AXIS_BOT.x, AXIS_BOT.y, AXIS_BOT.z, axB);
+      // De topo e base no mesmo pixel sai um gradiente inválido: cai na cor do meio.
+      if (Math.hypot(axB.sx - axA.sx, axB.sy - axA.sy) < 1) {
+        const [r, gg2, b] = NEON[2]![1];
+        return `rgb(${r},${gg2},${b})`;
+      }
+      const g = ctx.createLinearGradient(axA.sx, axA.sy, axB.sx, axB.sy);
+      for (const [stop, [r, gg2, b]] of NEON) g.addColorStop(stop, `rgb(${r},${gg2},${b})`);
+      return g;
+    };
     const resize = () => {
       dpr = Math.min(2, window.devicePixelRatio || 1);
       w = canvas.clientWidth;
       h = canvas.clientHeight;
       canvas.width = Math.max(1, Math.round(w * dpr));
       canvas.height = Math.max(1, Math.round(h * dpr));
-      const g = ctx.createLinearGradient(0, 0, 0, h || 1);
-      for (const [stop, [r, gg2, b]] of NEON) g.addColorStop(stop, `rgb(${r},${gg2},${b})`);
-      mesh = g;
     };
     resize();
 
@@ -349,6 +429,36 @@ export function Lock3D({ className }: { className?: string }) {
       out.sx = ox + x2 * k * S;
       out.sy = oy + y3 * k * S;
       out.sz = z3;
+    };
+
+    /*
+      Gira uma DIREÇÃO com a mesma matriz da câmera — sem o deslocamento do
+      centro e sem a divisão da perspectiva, que valem para pontos, não para
+      normais. É o que leva a normal do modelo para o espaço onde a luz mora.
+    */
+    const dir = { x: 0, y: 0, z: 0 };
+    const rotDir = (x: number, y: number, z: number) => {
+      const x1 = x * crl - y * srl;
+      const y1 = x * srl + y * crl;
+      const x2 = x1 * cyw + z * syw;
+      const z2 = -x1 * syw + z * cyw;
+      dir.x = x2;
+      dir.y = y1 * cpt - z2 * spt;
+      dir.z = y1 * spt + z2 * cpt;
+    };
+
+    /** Lambert meio-a-meio: sem o "/2 + 0.5" a metade na sombra sumiria de vez. */
+    const shade = (v: Vtx, swc: number, sws: number) => {
+      if (v.nx === 0 && v.ny === 0 && v.nz === 0) {
+        v.lum = 1;
+        return;
+      }
+      // O arco também gira na dobradiça: a normal acompanha o mesmo giro.
+      const nx = v.nx * swc - v.nz * sws;
+      const nz = v.nx * sws + v.nz * swc;
+      rotDir(nx, v.ny, nz);
+      const d = dir.x * LIGHT[0] + dir.y * LIGHT[1] + dir.z * LIGHT[2];
+      v.lum = AMBIENT + (1 - AMBIENT) * clamp(d * 0.5 + 0.5, 0, 1) ** 1.35;
     };
 
     let liftP = 0;
@@ -447,17 +557,41 @@ export function Lock3D({ className }: { className?: string }) {
       liftP = clamp(st.open / 0.4, 0, 1);
       swingA = -SWING * clamp((st.open - 0.3) / 0.7, 0, 1.12);
 
+      const swc = Math.cos(swingA);
+      const sws = Math.sin(swingA);
       for (const v of shackleVerts) {
         openXform(v);
         project(v.tx, v.ty, v.tz, v);
+        shade(v, swc, sws);
       }
-      for (const v of bodyVerts) project(v.tx, v.ty, v.tz, v);
+      for (const v of bodyVerts) {
+        project(v.tx, v.ty, v.tz, v);
+        shade(v, 1, 0);
+      }
 
       for (let tier = 0; tier < 3; tier++) for (let b = 0; b < BUCKETS; b++) paths[tier]![b] = new Path2D();
 
-      const push = (tier: Tier, x1: number, y1: number, z1: number, x2: number, y2: number, z2: number) => {
-        const n = clamp(0.5 - (z1 + z2) / 240, 0, 1);
-        const p = paths[tier]![Math.min(BUCKETS - 1, Math.floor(n * BUCKETS))]!;
+      /*
+        O bucket era só profundidade. Agora é profundidade VEZES luz — ou seja,
+        "quanto esta aresta se faz presente". Uma aresta perto mas virada para
+        longe da luz recua; uma aresta ao fundo, de cara para a luz, respira.
+        Combinar os dois num fator só mantém o custo igual ao de antes: nada de
+        multiplicar o número de lotes.
+      */
+      const push = (
+        tier: Tier,
+        x1: number,
+        y1: number,
+        z1: number,
+        x2: number,
+        y2: number,
+        z2: number,
+        lum: number,
+      ) => {
+        const depth = clamp(0.5 - (z1 + z2) / 240, 0, 1);
+        const n = clamp(depth * (0.24 + 0.76 * lum), 0, 1);
+        const b = clamp(Math.floor(n * BUCKETS), 0, BUCKETS - 1) || 0;
+        const p = paths[tier]![b]!;
         p.moveTo(x1, y1);
         p.lineTo(x2, y2);
       };
@@ -487,30 +621,40 @@ export function Lock3D({ className }: { className?: string }) {
             out.tz + (inn.tz - out.tz) * lo,
             tmp,
           );
-          push(e.tier, out.sx, out.sy, out.sz, tmp.sx, tmp.sy, tmp.sz);
+          // O ponto de corte nasce na parede do corpo: herda a luz de quem ficou fora.
+          push(e.tier, out.sx, out.sy, out.sz, tmp.sx, tmp.sy, tmp.sz, out.lum);
           continue;
         }
-        push(e.tier, a.sx, a.sy, a.sz, b.sx, b.sy, b.sz);
+        push(e.tier, a.sx, a.sy, a.sz, b.sx, b.sy, b.sz, (a.lum + b.lum) / 2);
       }
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
       ctx.lineCap = "round";
       const boost = 1 + 0.18 * clamp(st.open, 0, 1);
+      mesh = meshGradient();
       ctx.strokeStyle = mesh;
       for (let tier = 0; tier < 3; tier++) {
         for (let b = 0; b < BUCKETS; b++) {
           const n = (b + 0.5) / BUCKETS;
-          const a = Math.min(1, TIER_ALPHA[tier]! * (0.22 + 0.78 * n) * boost);
+          const a = Math.min(1, TIER_ALPHA[tier]! * (0.13 + 0.87 * n) * boost);
           // Brilho: só as arestas da frente ganham um traço largo e translúcido
           // por baixo — é o que dá o halo de neon sem borrar a malha inteira.
+          /*
+            O bucket `n` já é a profundidade (1 = mais perto da câmera), então
+            sai de graça: aresta perto engrossa, aresta longe afina. Sem isto o
+            traço tem a mesma espessura no fundo e na frente — o objeto vira
+            desenho técnico, porque é justamente a espessura que o olho usa
+            para ordenar o que está na frente.
+          */
+          const lw = TIER_WIDTH[tier]! * (0.6 + 0.78 * n);
           if (tier === 0 && n > 0.45) {
             ctx.globalAlpha = a * 0.17;
-            ctx.lineWidth = TIER_WIDTH[tier]! * 6;
+            ctx.lineWidth = lw * 6;
             ctx.stroke(paths[tier]![b]!);
           }
           ctx.globalAlpha = a;
-          ctx.lineWidth = TIER_WIDTH[tier]!;
+          ctx.lineWidth = lw;
           ctx.stroke(paths[tier]![b]!);
         }
       }
@@ -539,29 +683,32 @@ export function Lock3D({ className }: { className?: string }) {
         p.trail.push({ x: tmp.sx, y: tmp.sy });
         if (p.trail.length > TRAIL) p.trail.shift();
 
+        // O feixe é um ponto no espaço: perto dilata, longe encolhe.
+        const kp = clamp(FOCAL / (FOCAL + tmp.sz), 0.72, 1.3);
+
         for (let j = 1; j < p.trail.length; j++) {
           const q = j / p.trail.length;
           ctx.strokeStyle = goldA(q ** 1.6 * 0.6);
-          ctx.lineWidth = 0.5 + q * 1.6;
+          ctx.lineWidth = (0.5 + q * 1.6) * kp;
           ctx.beginPath();
           ctx.moveTo(p.trail[j - 1]!.x, p.trail[j - 1]!.y);
           ctx.lineTo(p.trail[j]!.x, p.trail[j]!.y);
           ctx.stroke();
         }
-        const halo = ctx.createRadialGradient(tmp.sx, tmp.sy, 0, tmp.sx, tmp.sy, 11);
-        halo.addColorStop(0, goldA(0.38));
+        const halo = ctx.createRadialGradient(tmp.sx, tmp.sy, 0, tmp.sx, tmp.sy, 11 * kp);
+        halo.addColorStop(0, goldA(0.38 * kp));
         halo.addColorStop(1, goldA(0));
         ctx.fillStyle = halo;
         ctx.beginPath();
-        ctx.arc(tmp.sx, tmp.sy, 11, 0, Math.PI * 2);
+        ctx.arc(tmp.sx, tmp.sy, 11 * kp, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = goldA(1);
         ctx.beginPath();
-        ctx.arc(tmp.sx, tmp.sy, 2.2, 0, Math.PI * 2);
+        ctx.arc(tmp.sx, tmp.sy, 2.2 * kp, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = "rgba(255,250,228,0.95)";
         ctx.beginPath();
-        ctx.arc(tmp.sx, tmp.sy, 1, 0, Math.PI * 2);
+        ctx.arc(tmp.sx, tmp.sy, 1 * kp, 0, Math.PI * 2);
         ctx.fill();
       }
     };
