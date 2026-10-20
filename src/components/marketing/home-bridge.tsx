@@ -2,7 +2,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
 import { getT } from "@/lib/i18n/server";
 import { BackToTop } from "./back-to-top";
-import { Lock3D } from "./lock-3d";
+import { ScrollUnlock } from "./scroll-unlock";
 
 /**
  * SEÇÃO · A declaração da marca, sozinha na tela clara entre o hero (foto) e o
@@ -18,7 +18,7 @@ export async function HomeBridge() {
   return (
     <section className="relative px-6 py-12 sm:px-10 sm:py-16">
       <BackToTop />
-      <Reveal className="mx-auto flex max-w-6xl flex-col items-center gap-2 md:flex-row md:justify-between md:gap-6">
+      <Reveal weight="lead" className="mx-auto flex max-w-6xl flex-col items-center gap-2 md:flex-row md:justify-between md:gap-6">
         <h2
           className="max-w-3xl flex-1 self-start text-ink md:self-center"
           // letter-spacing em `em`: -2,8px no tamanho máximo (72px), proporcional no celular.
@@ -26,7 +26,12 @@ export async function HomeBridge() {
         >
           {c.title} <span className="text-gold-500">{c.titleAccent}</span>
         </h2>
-        <Lock3D className="size-56 shrink-0 sm:size-64 md:size-[17rem] lg:size-[19rem]" />
+        {/*
+          A trava abre conforme a página desce — ver `scroll-unlock.tsx`. O
+          hover continua valendo por cima: quem passa o mouse destrava por
+          inteiro, esteja onde estiver na rolagem.
+        */}
+        <ScrollUnlock className="size-56 sm:size-64 md:size-[17rem] lg:size-[19rem]" />
       </Reveal>
     </section>
   );

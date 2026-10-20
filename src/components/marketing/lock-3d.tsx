@@ -325,7 +325,22 @@ function spring(pos: number, vel: number, target: number, k: number, c: number, 
  * quadro: gira de forma orgânica, vibra e destrava só do lado direito no hover,
  * e pode ser arrastado — ao soltar, volta por mola com um leve arremesso.
  */
-export function Lock3D({ className }: { className?: string }) {
+export function Lock3D({
+  className,
+  unlock,
+}: {
+  className?: string;
+  /**
+   * Destravar vindo de FORA (0–1) — hoje, o progresso da rolagem. Chega como
+   * ref, e não como prop de valor, de propósito: ele muda a cada quadro, e uma
+   * prop faria o React re-renderizar sessenta vezes por segundo para animar um
+   * canvas que já tem o próprio laço. O laço lê `.current` e pronto.
+   *
+   * SOMA ao hover, nunca o substitui: quem passa o mouse continua destravando
+   * por inteiro, esteja a página onde estiver.
+   */
+  unlock?: { current: number };
+}) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reduced = usePrefersReducedMotion();
@@ -751,8 +766,10 @@ export function Lock3D({ className }: { className?: string }) {
     const step = (dt: number) => {
       st.t += dt;
       const soft = reduced;
-      const wantsOpen = st.hover && st.t >= st.holdClosedUntil;
-      [st.open, st.openV] = spring(st.open, st.openV, wantsOpen ? 1 : 0, soft ? 400 : 70, soft ? 40 : 11, dt);
+      const porMouse = st.hover && st.t >= st.holdClosedUntil ? 1 : 0;
+      // O maior dos dois manda: o scroll abre sozinho, o mouse abre por cima.
+      const alvoAbrir = Math.max(porMouse, clamp(unlock?.current ?? 0, 0, 1));
+      [st.open, st.openV] = spring(st.open, st.openV, alvoAbrir, soft ? 400 : 70, soft ? 40 : 11, dt);
 
       if (st.drag) {
         st.velX *= 0.9;
@@ -925,7 +942,7 @@ export function Lock3D({ className }: { className?: string }) {
       wrap.removeEventListener("pointerup", onUp);
       wrap.removeEventListener("pointercancel", onUp);
     };
-  }, [reduced]);
+  }, [reduced, unlock]);
 
   return (
     <div
