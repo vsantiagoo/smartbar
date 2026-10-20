@@ -1,4 +1,14 @@
 "use client";
+/*
+  eslint-disable @next/next/no-img-element --
+  As três fotos aqui não são imagens de conteúdo: são camadas empilhadas de um
+  mesmo efeito, recortadas por máscaras radiais que seguem o cursor. Precisam
+  ocupar exatamente a mesma caixa e estar TODAS carregadas antes do primeiro
+  movimento — com o carregamento tardio do `next/image`, a lente abriria um
+  buraco na primeira passada, porque a camada da noite está tecnicamente
+  visível (só mascarada) e só baixaria ao ser revelada. O wrapper que o
+  `<Image fill>` insere também entraria entre a máscara e a foto.
+*/
 import { useEffect, useRef, type CSSProperties } from "react";
 import { usePrefersReducedMotion } from "@/lib/marketing/use-scroll-progress";
 import { clamp, cn } from "@/lib/utils";

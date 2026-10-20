@@ -146,6 +146,27 @@ Importe o repositório, configure as variáveis do `.env.example` e faça o depl
 - **Integração PMS** (botão "Enviar ao PMS"): plano Premium, ainda não implementada.
 - **Vídeo do hero:** pendente de créditos na Higgsfield (ver acima).
 
+## Qualidade de código
+
+Duas checagens, e elas **não se sobrepõem**:
+
+```bash
+npm run typecheck   # tsc --noEmit
+npm run lint        # eslint .
+```
+
+O `tsconfig.json` já roda com `noUnusedLocals` e `noUnusedParameters`, então
+variável e import órfãos **o compilador pega**. O linter existe para o que ele
+não vê: dependências de hooks, acessibilidade e as regras do próprio Next.
+Hoje os dois passam sem nenhum apontamento.
+
+A configuração é o formato novo do ESLint (`eslint.config.mjs`). Duas decisões
+ficam registradas lá, com o motivo: o projeto está preso ao **ESLint 9** porque
+o `eslint-config-next` do Next 15 declara peer `^7 || ^8 || ^9` — a 10 já é a
+versão corrente, mas quebraria o preset. E o `FlatCompat` existe só porque esse
+preset ainda é publicado no formato antigo; sai dali no dia em que o Next
+publicar no formato novo.
+
 ## Verificação feita
 
-`tsc --noEmit` (strict + `noUncheckedIndexedAccess`), `next build`, migration + seed executadas num Postgres real (atomicidade, idempotência, estoque nunca negativo, RLS de reposição) e fluxos ponta a ponta no navegador. **Ainda não testado contra um projeto Supabase real** (Auth, Realtime e o repositório de produção) — faça um teste com o seu projeto antes de ir ao ar.
+`tsc --noEmit` (strict + `noUncheckedIndexedAccess`), `eslint .`, `next build`, migration + seed executadas num Postgres real (atomicidade, idempotência, estoque nunca negativo, RLS de reposição) e fluxos ponta a ponta no navegador. **Ainda não testado contra um projeto Supabase real** (Auth, Realtime e o repositório de produção) — faça um teste com o seu projeto antes de ir ao ar.

@@ -177,7 +177,7 @@ function buildStore(): MockStore {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
+  // `var` e obrigatorio aqui: `let`/`const` nao declaram global no TS.
   var __smartbarMock: MockStore | undefined;
 }
 

@@ -139,7 +139,7 @@ export default function DesignSystemPage() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {(["glass", "strong", "solid", "navy"] as const).map((s) => (
             <GlassCard key={s} surface={s} className="min-h-32">
-              <p className={`font-semibold ${s === "navy" ? "text-white" : "text-ink"}`}>surface="{s}"</p>
+              <p className={`font-semibold ${s === "navy" ? "text-white" : "text-ink"}`}>surface=&quot;{s}&quot;</p>
               <p className={`mt-1 text-sm ${s === "navy" ? "text-white/70" : "text-ink-soft"}`}>GlassCard</p>
             </GlassCard>
           ))}

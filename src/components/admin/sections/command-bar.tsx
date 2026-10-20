@@ -33,11 +33,6 @@ function greetingKey(now: number | null): DictKey {
 export function CommandBar({ hotelName, rooms, offlineCount }: { hotelName: string; rooms: DashboardRoom[]; offlineCount: number }) {
   const { t } = useI18n();
   const router = useRouter();
-  const ACTIONS: Command[] = [
-    { id: "a-restock", groupKey: "admin.cmd.groupActions", label: t("admin.cmd.openRestock"), hint: t("admin.cmd.housekeeping"), href: "/admin/reposicao", icon: PackageCheck },
-    { id: "a-rooms", groupKey: "admin.cmd.groupActions", label: t("admin.cmd.allRooms"), href: "/admin/quartos", icon: BedDouble },
-    { id: "a-home", groupKey: "admin.cmd.groupActions", label: t("admin.cmd.overview"), href: "/admin", icon: LayoutDashboard },
-  ];
   const CHIPS = [
     { label: t("admin.cmd.roomsToRestock"), href: "/admin/reposicao" },
     { label: t("admin.cmd.allRoomsShort"), href: "/admin/quartos" },
@@ -72,9 +67,20 @@ export function CommandBar({ hotelName, rooms, offlineCount }: { hotelName: stri
         href: `/admin/quartos/${r.number}`,
         icon: BedDouble,
       }));
-    const actions = ACTIONS.filter((a) => !q || a.label.toLowerCase().includes(q));
-    return [...roomCmds, ...actions];
-  }, [query, rooms]);
+    /*
+      Os atalhos fixos nascem AQUI DENTRO, e não no corpo do componente, porque
+      dependem de `t`: montados fora, eles eram recriados a cada render e este
+      memo não os observava — ao trocar de idioma, a lista continuava servindo
+      os rótulos antigos, já que `router.refresh()` preserva o estado dos
+      componentes de cliente e o memo seguia em cache.
+    */
+    const actions: Command[] = [
+      { id: "a-restock", groupKey: "admin.cmd.groupActions", label: t("admin.cmd.openRestock"), hint: t("admin.cmd.housekeeping"), href: "/admin/reposicao", icon: PackageCheck },
+      { id: "a-rooms", groupKey: "admin.cmd.groupActions", label: t("admin.cmd.allRooms"), href: "/admin/quartos", icon: BedDouble },
+      { id: "a-home", groupKey: "admin.cmd.groupActions", label: t("admin.cmd.overview"), href: "/admin", icon: LayoutDashboard },
+    ];
+    return [...roomCmds, ...actions.filter((a) => !q || a.label.toLowerCase().includes(q))];
+  }, [query, rooms, t]);
 
   function go(cmd: Command | undefined) {
     if (!cmd) return;
