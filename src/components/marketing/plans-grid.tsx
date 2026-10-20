@@ -9,6 +9,7 @@ import { marketingCopy } from "@/lib/content/copy";
 import { useI18n } from "@/lib/i18n/client";
 import { cn } from "@/lib/utils";
 import { BackToTop } from "./back-to-top";
+import { Seam } from "./seam";
 import { GlowBackdrop } from "./glow-backdrop";
 
 /**
@@ -67,7 +68,7 @@ export function PlansGrid() {
     <section id="planos" className="relative isolate px-6 py-16 sm:-scroll-mt-14 sm:px-10 sm:py-20">
       <BackToTop />
       <GlowBackdrop flip />
-      <div className="mx-auto max-w-6xl">
+      <Seam className="mx-auto max-w-6xl">
         {/* Caixa mais larga que a das outras seções: o título daqui é uma frase
             inteira e, em `max-w-xl`, quebraria em quatro linhas apertadas. */}
         <Reveal weight="lead" className="max-w-3xl">
@@ -146,7 +147,7 @@ export function PlansGrid() {
         */}
         <FactStrip block={c.setup} delay={120} />
         <FactStrip block={c.custom} delay={160} />
-      </div>
+      </Seam>
     </section>
   );
 }

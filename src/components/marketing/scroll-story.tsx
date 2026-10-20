@@ -4,6 +4,7 @@ import { Logo } from "@/components/ui/logo";
 import { MarkRoomCode, MarkShelf, MarkUnlock } from "@/components/ui/marks";
 import { Reveal } from "@/components/ui/reveal";
 import { BackToTop } from "./back-to-top";
+import { Seam } from "./seam";
 import { CenterAnchor } from "./center-anchor";
 import { marketingCopy } from "@/lib/content/copy";
 import { getT } from "@/lib/i18n/server";
@@ -26,7 +27,8 @@ export async function ScrollStory() {
       {/* Esta seção cabe inteira na tela: o menu para com ela no meio, não no topo. */}
       <CenterAnchor target="como-funciona" />
       <BackToTop tone="light" />
-      <Reveal weight="lead" className="mx-auto max-w-6xl">
+      <Seam className="mx-auto max-w-6xl">
+        <Reveal weight="lead">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Eyebrow tone="dark">{c.eyebrow}</Eyebrow>
           {/* Só a partir de 640px: no celular o selo disputava a linha com a sobrescrita. */}
@@ -73,7 +75,8 @@ export async function ScrollStory() {
             );
           })}
         </div>
-      </Reveal>
+        </Reveal>
+      </Seam>
     </section>
   );
 }

@@ -3,6 +3,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { marketingCopy } from "@/lib/content/copy";
 import { getT } from "@/lib/i18n/server";
 import { BackToTop } from "./back-to-top";
+import { Seam } from "./seam";
 import { GlowBackdrop } from "./glow-backdrop";
 
 /** SEÇÃO · Números de referência do mercado, em cards de vidro (bloco emocional do Orbit). */
@@ -12,7 +13,7 @@ export async function ImpactStats() {
     <section id="resultados" className="relative isolate px-6 py-16 sm:px-10 sm:py-20">
       <BackToTop />
       <GlowBackdrop />
-      <div className="mx-auto max-w-6xl text-center">
+      <Seam className="mx-auto max-w-6xl text-center">
         <Reveal weight="lead">
           <Eyebrow centered>{c.kicker}</Eyebrow>
           <h2 className="mt-5 text-[2.4rem] font-bold leading-[1.1] sm:text-[3.2rem]">
@@ -37,7 +38,7 @@ export async function ImpactStats() {
             </Reveal>
           ))}
         </div>
-      </div>
+      </Seam>
     </section>
   );
 }

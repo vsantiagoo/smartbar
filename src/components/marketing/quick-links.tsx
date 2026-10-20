@@ -6,6 +6,7 @@ import { getT } from "@/lib/i18n/server";
 import { DEMO_HOTEL_SLUG, DEMO_ROOM_TOKEN } from "@/lib/config";
 import { Reveal } from "@/components/ui/reveal";
 import { BackToTop } from "./back-to-top";
+import { Seam } from "./seam";
 import { GlowBackdrop } from "./glow-backdrop";
 
 const ICONS = { guest: Smartphone, admin: LayoutDashboard, design: Palette } as const;
@@ -27,7 +28,7 @@ export async function QuickLinks() {
     <section id="explorar" className="relative isolate px-6 pb-24 pt-10 sm:px-10 sm:pb-28 sm:pt-12">
       <BackToTop />
       <GlowBackdrop />
-      <div className="mx-auto max-w-6xl">
+      <Seam className="mx-auto max-w-6xl">
         <Reveal weight="lead">
           <Eyebrow>{c.kicker}</Eyebrow>
           <h2 className="mt-5 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
@@ -57,7 +58,7 @@ export async function QuickLinks() {
             );
           })}
         </ul>
-      </div>
+      </Seam>
     </section>
   );
 }
