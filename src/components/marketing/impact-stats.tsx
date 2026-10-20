@@ -13,7 +13,7 @@ export async function ImpactStats() {
       <BackToTop />
       <GlowBackdrop />
       <div className="mx-auto max-w-6xl text-center">
-        <Reveal>
+        <Reveal weight="lead">
           <Eyebrow centered>{c.kicker}</Eyebrow>
           <h2 className="mt-5 text-[2.4rem] font-bold leading-[1.1] sm:text-[3.2rem]">
             {c.title} <span className="text-gold-500">{c.titleAccent}</span>
@@ -23,7 +23,7 @@ export async function ImpactStats() {
 
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {c.items.map((item, i) => (
-            <Reveal key={item.label} delay={i * 90} className="h-full">
+            <Reveal key={item.label} weight="aside" delay={i * 90} className="h-full">
               <div className="glass shake-hover h-full rounded-card px-4 py-7">
                 {/* Plus Jakarta Sans, a mesma da logo: o número vira um gesto da marca. */}
                 <span

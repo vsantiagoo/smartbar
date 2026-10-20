@@ -28,7 +28,7 @@ export async function QuickLinks() {
       <BackToTop />
       <GlowBackdrop />
       <div className="mx-auto max-w-6xl">
-        <Reveal>
+        <Reveal weight="lead">
           <Eyebrow>{c.kicker}</Eyebrow>
           <h2 className="mt-5 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
         </Reveal>
@@ -38,7 +38,7 @@ export async function QuickLinks() {
             const Icon = ICONS[item.route as keyof typeof ICONS];
             return (
               <li key={item.title}>
-                <Reveal delay={i * 100} className="h-full">
+                <Reveal weight="aside" delay={i * 100} className="h-full">
                   <Link
                     href={ROUTES[item.route]!}
                     className="glass lift group flex h-full flex-col rounded-card p-6"

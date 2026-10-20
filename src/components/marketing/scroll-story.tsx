@@ -26,7 +26,7 @@ export async function ScrollStory() {
       {/* Esta seção cabe inteira na tela: o menu para com ela no meio, não no topo. */}
       <CenterAnchor target="como-funciona" />
       <BackToTop tone="light" />
-      <Reveal className="mx-auto max-w-6xl">
+      <Reveal weight="lead" className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Eyebrow tone="dark">{c.eyebrow}</Eyebrow>
           {/* Só a partir de 640px: no celular o selo disputava a linha com a sobrescrita. */}

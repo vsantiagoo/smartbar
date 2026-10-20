@@ -43,7 +43,7 @@ export async function FinalCta() {
         }}
       />
 
-      <Reveal className="mx-auto max-w-2xl text-center">
+      <Reveal weight="lead" className="mx-auto max-w-2xl text-center">
         <h2 className="text-[2.2rem] font-bold leading-[1.15] text-white sm:text-[2.8rem]">{c.title}</h2>
         <p className="mx-auto mt-4 max-w-lg text-white/70">{c.subtitle}</p>
       </Reveal>
@@ -54,7 +54,7 @@ export async function FinalCta() {
         tempo é manuseada. `mt-auto` cola o bloco na base sempre que a seção
         tem altura de sobra; no celular, sem `min-h`, o `pt-16` dá o respiro.
       */}
-      <Reveal className="mt-auto flex flex-col items-center gap-3 pt-16">
+      <Reveal weight="aside" className="mt-auto flex flex-col items-center gap-3 pt-16">
         {/* Caminho de volta: o cabeçalho some conforme a página desce (header-fade.tsx).
             Mesmo comportamento da seta de canto — vem do mesmo lugar. */}
         <BackToTopButton

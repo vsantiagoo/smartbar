@@ -1,48 +1,39 @@
 "use client";
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { inscrever, type RevealWeight } from "@/lib/marketing/reveal-engine";
 import { cn } from "@/lib/utils";
 
 interface RevealProps {
   children: ReactNode;
-  /** Atraso em ms — use em listas para entrar em cascata (ex.: i * 90). */
+  /** Defasagem da cascata em listas (ex.: `i * 90`). Vira distância, não tempo. */
   delay?: number;
+  /**
+   * Peso editorial. `lead` para o título que ancora a seção, `aside` para o
+   * apoio que vem de mais longe (cards, números, ilustrações). O padrão `body`
+   * serve ao resto.
+   */
+  weight?: RevealWeight;
   className?: string;
 }
 
 /**
- * Faz o bloco subir e aparecer quando entra na tela (uma vez só).
- * A animação está em .reveal (globals.css) e some com "reduzir movimento".
+ * Revela o bloco conforme ele sobe a tela — ver `lib/marketing/reveal-engine`.
+ *
+ * O progresso é função da POSIÇÃO, não de um gatilho: rolar devagar revela
+ * devagar, parar no meio deixa no meio, voltar desfaz. Com "reduzir movimento"
+ * o bloco nasce visível e parado.
  */
-export function Reveal({ children, delay = 0, className }: RevealProps) {
+export function Reveal({ children, delay = 0, weight = "body", className }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (!("IntersectionObserver" in window)) {
-      setVisible(true);
-      return;
-    }
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setVisible(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    return inscrever(el, weight, delay);
+  }, [delay, weight]);
 
   return (
-    <div
-      ref={ref}
-      className={cn("reveal", visible && "is-visible", className)}
-      style={{ "--reveal-delay": `${delay}ms` } as CSSProperties}
-    >
+    <div ref={ref} className={cn("reveal", className)}>
       {children}
     </div>
   );

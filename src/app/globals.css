@@ -499,27 +499,24 @@
   /*
     Entrada ao rolar (componente <Reveal>).
 
-    A curva é `(0.16, 1, 0.3, 1)`: quase toda a distância é vencida no primeiro
-    terço do tempo, e o resto é desaceleração. É assim que uma coisa com massa
-    chega — rápido no começo, assentando no fim. Uma curva simétrica (ease,
-    ease-in-out) faz o elemento parecer puxado por um motor, em velocidade
-    constante: o movimento mais denunciador de interface gerada.
+    Aqui NÃO há transição. O estado é escrito quadro a quadro pelo motor em
+    `lib/marketing/reveal-engine`, porque o progresso é função da posição do
+    bloco na tela, e não de um relógio disparado por gatilho. Uma transição CSS
+    aqui brigaria com o laço: cada quadro reiniciaria a interpolação do anterior
+    e o movimento ficaria borrachudo.
 
-    A opacidade usa a MESMA curva, mas num tempo menor. Se as duas terminassem
-    juntas, o elemento ainda estaria chegando quando já estivesse opaco, e o
-    último trecho do deslize pareceria um tranco.
+    O que sobra é o estado de partida, para o bloco não piscar opaco no intervalo
+    entre a primeira pintura do navegador e o primeiro quadro do laço.
   */
   .reveal {
-    opacity: 0;
-    transform: translate3d(0, 28px, 0);
-    transition:
-      opacity 0.62s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: var(--reveal-delay, 0ms);
-  }
-  .reveal.is-visible {
+    /*
+      VISÍVEL por padrão, de propósito. É o motor que escurece o bloco ao
+      inscrevê-lo, e só se ele estiver abaixo da dobra. Deixar `opacity: 0`
+      aqui apostaria a página inteira no `requestAnimationFrame` — que não
+      dispara em aba de fundo e é suspenso sob economia de bateria. Sem JS, ou
+      com o laço parado, o conteúdo continua lá.
+    */
     opacity: 1;
-    transform: none;
   }
   /*
     Zona escura do topo da tela do hóspede. Degradê da marca (navy → transparente)

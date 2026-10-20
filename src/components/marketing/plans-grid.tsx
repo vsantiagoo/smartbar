@@ -30,7 +30,7 @@ interface FactBlock {
 function FactStrip({ block, delay }: { block: FactBlock; delay: number }) {
   const hasItems = Boolean(block.items?.length);
   return (
-    <Reveal delay={delay} className="mt-5">
+    <Reveal weight="aside" delay={delay} className="mt-5">
       <div className="glass rounded-panel p-7">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <p className="text-sm font-semibold uppercase tracking-wide text-brand-500">{block.title}</p>
@@ -70,13 +70,13 @@ export function PlansGrid() {
       <div className="mx-auto max-w-6xl">
         {/* Caixa mais larga que a das outras seções: o título daqui é uma frase
             inteira e, em `max-w-xl`, quebraria em quatro linhas apertadas. */}
-        <Reveal className="max-w-3xl">
+        <Reveal weight="lead" className="max-w-3xl">
           <Eyebrow>{c.kicker}</Eyebrow>
           <h2 className="mt-5 text-[2.1rem] font-bold leading-[1.15] sm:text-[2.6rem]">{c.title}</h2>
           <p className="mt-4 max-w-xl text-ink-soft">{c.subtitle}</p>
         </Reveal>
 
-        <Reveal delay={80} className="mt-8">
+        <Reveal weight="aside" delay={80} className="mt-8">
           <Segmented
             label={c.segmentLabel}
             options={c.segments.map((s) => ({ value: s.id, label: s.label }))}
@@ -91,7 +91,7 @@ export function PlansGrid() {
           {c.tiers.map((plan, i) => {
             const valor = segment.prices[i]!;
             return (
-              <Reveal key={plan.tier} delay={i * 110} className="h-full">
+              <Reveal key={plan.tier} weight="aside" delay={i * 110} className="h-full">
                 <div
                   className={cn(
                     "lift flex h-full flex-col rounded-panel p-7",
