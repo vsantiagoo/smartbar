@@ -6,13 +6,16 @@ Gestão inteligente de minibares para hotéis (SaaS B2B2C). O hóspede escolhe n
 
 ## Documentação
 
+Este README é o guia técnico — rodar, arquitetura, onde editar.
+
 | Documento | Para quê |
 | --- | --- |
-| [docs/PRD.md](docs/PRD.md) | Produto: problema, usuários, escopo, fluxos, métricas e roadmap |
-| [docs/BRANDBOOK.md](docs/BRANDBOOK.md) | Identidade visual: cores, tipografia, formas, superfícies de vidro, logo |
-| [docs/DNA-DA-MARCA.md](docs/DNA-DA-MARCA.md) | Essência da marca: propósito, valores, personalidade e tom de voz |
+| [docs/design-system/](docs/design-system/) | Tokens, componentes e identidade visual em formato consumível |
 
-Este README é o guia técnico (rodar, arquitetura, onde editar). Os documentos acima são a fonte de produto e de marca.
+A documentação de **produto, marca e arquitetura** (PRD, Blueprint, DNA da marca
+e Brandbook) é interna e fica em `docs/interno/`, fora deste repositório — ele é
+público. Quem trabalha no projeto tem a pasta localmente; o índice dela está em
+`docs/interno/README.md`.
 
 ## Rodar agora (modo demonstração — sem banco)
 

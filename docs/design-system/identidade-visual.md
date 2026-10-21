@@ -151,6 +151,6 @@ O site se mexe pouco e com propósito. Uma curva única domina as entradas — `
 
 - **Números de resultados em Plus Jakarta Sans.** O código diz que usam "a mesma fonte da logo", mas a logo agora é Arial Bold. Duas saídas: trocar os números para Arial Bold (coerente com a logo) ou aceitar a Jakarta como fonte de números grandes. O guia registra o estado atual.
 - **A Plus Jakarta Sans ainda é baixada** no carregamento só por causa desses números; se eles mudarem, ela pode sair.
-- **Slogan.** "Consumo sem atrito." é proposta (ver DNA da marca); o site continua com "A tecnologia do consumo sem atrito."
+- **Slogan.** "Consumo sem atrito." é proposta e ainda não está no código; o site continua com "A tecnologia do consumo sem atrito."
 - **Tamanho mínimo e área de respiro** do logotipo estão como proposta até serem aprovados.
 - **App do hóspede e painel do hotel** entram neste guia quando estiverem finalizados.

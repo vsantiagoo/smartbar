@@ -114,12 +114,25 @@ const wrap = (title, body) => `<!doctype html><html lang="pt-BR"><head><meta cha
 const logoSvg = rd(path.join(LOGO, "smartbar-logo-dark.svg")).replace(/^<svg /, '<svg class="lg" ');
 const cover = (tag, title, lead) => `<section class="cover"><span class="ver">v1.1 · 2026</span>${logoSvg}<span class="tag">${tag}</span><h1>${title}</h1><p>${lead}</p></section>`;
 
-/* ───────── DNA ───────── */
-const dnaMd = rd(path.join(DS, "dna-da-marca.md"));
-fs.writeFileSync(
-  path.join(OUT, "SmartBar-DNA-da-Marca.html"),
-  wrap("SmartBar — DNA da marca", cover("DNA da marca", "Consumo sem atrito.", "Essência, promessa, slogan, voz e identidade — extraídos do que o site já diz e faz.") + `<main class="sec">${md(dnaMd, { h1: false })}</main>`)
-);
+/* ───────── DNA ─────────
+   O DNA da marca é documento INTERNO: vive em `docs/interno/`, que está no
+   .gitignore porque o repositório é público. Procura ali primeiro e cai no
+   lugar antigo se alguém ainda tiver a cópia solta. Sem o arquivo, gera só o
+   Design System e diz por quê — em vez de estourar um ENOENT cru. */
+const dnaPath = [
+  path.join(DS, "..", "interno", "DNA-DA-MARCA.md"),
+  path.join(DS, "dna-da-marca.md"),
+].find((p) => fs.existsSync(p));
+if (!dnaPath) {
+  console.warn("[build-docs] DNA da marca não encontrado em docs/interno/DNA-DA-MARCA.md — pulando o HTML do DNA.");
+}
+const dnaMd = dnaPath ? rd(dnaPath) : "";
+if (dnaMd) {
+  fs.writeFileSync(
+    path.join(OUT, "SmartBar-DNA-da-Marca.html"),
+    wrap("SmartBar — DNA da marca", cover("DNA da marca", "Consumo sem atrito.", "Essência, promessa, slogan, voz e identidade — extraídos do que o site já diz e faz.") + `<main class="sec">${md(dnaMd, { h1: false })}</main>`)
+  );
+}
 
 /* ───────── Design System ───────── */
 const tokens = JSON.parse(rd(path.join(DS, "tokens.json")));

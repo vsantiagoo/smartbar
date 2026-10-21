@@ -10,3 +10,7 @@ next-env.d.ts
 # Material de trabalho de imagens (gerações brutas + prompts). Fica só no disco/OneDrive.
 Imagens/
 human-output/
+
+# Documentação interna: produto, marca e arquitetura. O repositório é público,
+# e só o README da raiz e o docs/design-system/ devem aparecer nele.
+docs/interno/
