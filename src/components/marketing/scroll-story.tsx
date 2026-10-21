@@ -27,7 +27,7 @@ export async function ScrollStory() {
       {/* Esta seção cabe inteira na tela: o menu para com ela no meio, não no topo. */}
       <CenterAnchor target="como-funciona" />
       <BackToTop tone="light" />
-      <Seam className="mx-auto max-w-6xl">
+      <Seam tone="dark" className="mx-auto max-w-6xl">
         <Reveal weight="lead">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Eyebrow tone="dark">{c.eyebrow}</Eyebrow>
