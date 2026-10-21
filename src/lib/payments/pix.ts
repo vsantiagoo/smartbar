@@ -40,7 +40,7 @@ function crc16(payload: string): string {
 
 const strip = (s: string): string => s.normalize("NFD").replace(/[^\x20-\x7E]/g, "");
 
-export function buildBrCode(args: { key: string; name: string; city: string; amountCents: number; txid: string }): string {
+function buildBrCode(args: { key: string; name: string; city: string; amountCents: number; txid: string }): string {
   const body =
     tlv("00", "01") +
     tlv("26", tlv("00", "br.gov.bcb.pix") + tlv("01", args.key)) +

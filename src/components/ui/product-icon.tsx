@@ -50,7 +50,7 @@ const TINTS: Record<string, string> = {
   package: "from-brand-100 to-white text-brand-600",
 };
 
-export function productIcon(key: string): LucideIcon {
+function productIcon(key: string): LucideIcon {
   return ICONS[key] ?? Package;
 }
 

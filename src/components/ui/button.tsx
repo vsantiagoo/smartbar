@@ -2,8 +2,8 @@ import { LoaderCircle } from "lucide-react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export type ButtonVariant = "primary" | "accent" | "danger" | "glass" | "soft" | "ghost";
-export type ButtonSize = "sm" | "md" | "lg" | "icon";
+type ButtonVariant = "primary" | "accent" | "danger" | "glass" | "soft" | "ghost";
+type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 const base =
   "inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition " +

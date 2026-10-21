@@ -19,7 +19,7 @@ export interface GuestRoomInfo {
 }
 
 /** Idioma (do provider comum) + dados do quarto (só da vitrine). */
-export interface GuestValue extends I18nValue {
+interface GuestValue extends I18nValue {
   room: GuestRoomInfo;
 }
 

@@ -22,7 +22,7 @@ import { InViewIntro } from "./logo-inview";
  * `<Logo className="[--logo-size:2rem]" />`.
  */
 
-export type LogoTone = "brand" | "light";
+type LogoTone = "brand" | "light";
 
 const HALO = "48 139 255"; // azul do halo (medido)
 

@@ -11,7 +11,7 @@ export const isSupabaseConfigured: boolean = Boolean(
 export const isDemoMode: boolean = !isSupabaseConfigured;
 
 /** Botões de simulação (pagar Pix, aproximar cartão). Desligue em produção. */
-export const demoToolsEnabled: boolean = process.env.NEXT_PUBLIC_DEMO_TOOLS !== "false";
+const demoToolsEnabled: boolean = process.env.NEXT_PUBLIC_DEMO_TOOLS !== "false";
 
 /**
  * Servidor: as rotas /api/mock/* só respondem se as ferramentas de demo estiverem

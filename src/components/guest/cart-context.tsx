@@ -2,7 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { CatalogItem } from "@/lib/types";
 
-export interface CartLine {
+interface CartLine {
   item: CatalogItem;
   quantity: number;
 }

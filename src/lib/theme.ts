@@ -62,7 +62,7 @@ export function isHex(v: string): boolean {
   return /^#[0-9a-fA-F]{6}$/.test(v);
 }
 
-export function hexToRgb(hex: string): RGB {
+function hexToRgb(hex: string): RGB {
   const h = hex.replace("#", "");
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
@@ -80,7 +80,7 @@ export type Step = (typeof STEPS)[number];
  * Escala 50–950 a partir de uma cor-base posicionada em `baseStep`.
  * Passos mais claros misturam com branco; mais escuros, com preto.
  */
-export function deriveScale(baseHex: string, baseStep: Step): Record<Step, RGB> {
+function deriveScale(baseHex: string, baseStep: Step): Record<Step, RGB> {
   const base = hexToRgb(baseHex);
   const b = STEPS.indexOf(baseStep);
   const last = STEPS.length - 1;

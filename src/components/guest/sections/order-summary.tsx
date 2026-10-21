@@ -1,7 +1,7 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { formatBRL } from "@/lib/utils";
 
-export interface SummaryLine {
+interface SummaryLine {
   name: string;
   quantity: number;
   unitPriceCents: number;

@@ -15,7 +15,7 @@ export function startOfDayInTz(tz: string, now: Date = new Date()): Date {
   return new Date(`${parts}T00:00:00${offset === "" ? "+00:00" : offset}`);
 }
 
-export function hourInTz(iso: string, tz: string): number {
+function hourInTz(iso: string, tz: string): number {
   const h = new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "numeric", hour12: false }).format(new Date(iso));
   return Number(h) % 24;
 }

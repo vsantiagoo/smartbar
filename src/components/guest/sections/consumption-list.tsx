@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/ui/primitives";
 import { formatBRL } from "@/lib/utils";
 import type { PaymentMethod, TransactionItem } from "@/lib/types";
 
-export interface ConsumptionEntry {
+interface ConsumptionEntry {
   token: string;
   at: string;
   method: PaymentMethod;

@@ -13,7 +13,7 @@ import { translator, type TFunction } from "@/lib/i18n/translate";
  * Ler o cookie torna a rota dinâmica — é o preço de trocar de idioma sem
  * prefixo de URL (/en, /es), que exigiria reorganizar todas as rotas.
  */
-export async function getLang(): Promise<Lang> {
+async function getLang(): Promise<Lang> {
   const store = await cookies();
   return parseLang(store.get(LANG_COOKIE)?.value) ?? "pt";
 }
