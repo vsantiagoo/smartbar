@@ -73,7 +73,9 @@ class MockPixProvider implements PixProvider {
 }
 
 export function getPixProvider(): PixProvider {
-  const provider = process.env.PIX_PROVIDER ?? "mock";
+  // `||` e não `??`: linha vazia no .env cairia no `throw` abaixo e todo checkout
+  // Pix devolveria 500.
+  const provider = process.env.PIX_PROVIDER || "mock";
   if (provider === "mock") return new MockPixProvider();
   throw new Error(`PIX_PROVIDER "${provider}" ainda não implementado — veja src/lib/payments/pix.ts`);
 }

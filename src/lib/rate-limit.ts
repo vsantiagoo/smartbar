@@ -90,17 +90,79 @@ export function origem(request: Request): string {
   return request.headers.get("x-real-ip") ?? "sem-ip";
 }
 
-/** Orçamentos por endpoint. Generosos para o uso real, apertados para laço. */
+/*
+  ORÇAMENTOS — e a razão de haver DOIS níveis.
+
+  O erro fácil aqui é chavear tudo por IP. Num hotel, todos os hóspedes saem
+  pelo MESMO endereço público: um limite de dez pedidos por minuto por IP
+  bloquearia o décimo primeiro hóspede a pedir alguma coisa no mesmo minuto —
+  punindo exatamente quem está usando o produto como deve.
+
+  Por isso cada endpoint tem dois freios:
+
+    POR IP     generoso. Só existe para deter laço e flood, e precisa caber um
+               hotel inteiro atrás de um NAT.
+    POR ALVO   apertado, e chaveado pelo que identifica o uso legítimo — o
+               quarto que pede, o pedido que é consultado. É este que impede o
+               abuso de verdade, e ele não vaza para o vizinho.
+*/
 export const ORCAMENTO = {
-  /** Montar um pedido é raro: um hóspede faz poucos por estadia. */
-  checkout: { limite: 10, janelaMs: 60_000 },
-  /** Chamar a recepção, idem. */
-  suporte: { limite: 5, janelaMs: 60_000 },
-  /** Consultar o próprio pedido acontece em laço na tela de espera. */
-  consulta: { limite: 120, janelaMs: 60_000 },
-  /** O leitor da porta: uma aproximação por vez, com folga para retentativa. */
-  dispositivo: { limite: 30, janelaMs: 60_000 },
+  /** Um quarto não faz dez pedidos por minuto. Um hotel inteiro, sim. */
+  checkout: { porAlvo: 10, porIp: 120, janelaMs: 60_000 },
+  /** Chamar a recepção é raro por quarto, comum no prédio todo. */
+  suporte: { porAlvo: 5, porIp: 60, janelaMs: 60_000 },
+  /**
+   * A tela de espera consulta a cada 3s — 20 por minuto por pedido. O teto por
+   * pedido dá folga de 3×; o teto por IP precisa caber muitos quartos esperando
+   * ao mesmo tempo.
+   */
+  consulta: { porAlvo: 60, porIp: 600, janelaMs: 60_000 },
+  /** Leitores da porta: um por quarto, todos pela rede do hotel. */
+  dispositivo: { porAlvo: 30, porIp: 300, janelaMs: 60_000 },
 } as const;
+
+type Orcamento = { porAlvo: number; porIp: number; janelaMs: number };
+
+/**
+ * Aplica os dois freios de um endpoint: o largo, por IP, e o apertado, por
+ * alvo. Devolve `null` quando passa, ou a recusa pronta.
+ *
+ * Para quando o alvo já é conhecido antes de qualquer trabalho — o token na
+ * URL. Quando ele só aparece depois de ler o corpo, use `freioPorIp` e
+ * `freioPorAlvo` em dois passos.
+ */
+export function aplicarFreio(
+  nome: string,
+  orcamento: Orcamento,
+  request: Request,
+  alvo: string,
+): Response | null {
+  return freioPorIp(nome, orcamento, request) ?? freioPorAlvo(nome, orcamento, alvo);
+}
+
+/**
+ * Só o nível largo, por IP. Vem ANTES de ler o corpo da requisição: é o que
+ * detém flood sem gastar trabalho com ele.
+ */
+export function freioPorIp(nome: string, orcamento: Orcamento, request: Request): Response | null {
+  const r = freio(`${nome}:ip:${origem(request)}`, orcamento.porIp, orcamento.janelaMs);
+  return r.permitido ? null : respostaFreada(r);
+}
+
+/**
+ * Só o nível apertado, por alvo. Vem DEPOIS de validar o corpo, já com o
+ * quarto em mãos.
+ *
+ * Os dois níveis são funções separadas de propósito. Com um alvo opcional num
+ * único `aplicarFreio`, o handler que só conhece o quarto depois de ler o
+ * corpo precisa chamar duas vezes — e cobra o orçamento por IP DUAS vezes por
+ * requisição legítima, cortando pela metade o teto que o comentário acima
+ * promete. Dois passos, duas funções: cada orçamento é cobrado uma vez.
+ */
+export function freioPorAlvo(nome: string, orcamento: Orcamento, alvo: string): Response | null {
+  const r = freio(`${nome}:alvo:${alvo}`, orcamento.porAlvo, orcamento.janelaMs);
+  return r.permitido ? null : respostaFreada(r);
+}
 
 /** Resposta pronta de recusa, com o header que o cliente precisa para recuar. */
 export function respostaFreada(r: ResultadoFreio): Response {

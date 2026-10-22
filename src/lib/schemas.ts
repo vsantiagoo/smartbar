@@ -25,5 +25,15 @@ export const rfidSchema = z.object({
 
 export const pixWebhookSchema = z.object({
   event: z.string(),
-  payment: z.object({ id: z.string(), externalReference: z.string().nullish(), status: z.string().nullish() }),
+  payment: z.object({
+    id: z.string(),
+    externalReference: z.string().nullish(),
+    status: z.string().nullish(),
+    /**
+     * Valor pago, em REAIS (o Asaas manda `23.9`, não centavos). Opcional
+     * porque nem todo provedor envia — mas quando vem, é conferido contra o
+     * total do pedido antes de a trava abrir.
+     */
+    value: z.number().nullish(),
+  }),
 });

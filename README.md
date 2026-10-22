@@ -169,7 +169,8 @@ testes cobrem o que nenhum dos dois alcança — as **regras de negócio**.
 Não são testes de cobertura: são os **invariantes que custam dinheiro** se
 quebrarem. Preço e nome vêm do servidor e não do cliente; autorizar é
 idempotente (webhook reenviado não abate estoque duas vezes); o estoque nunca
-fica negativo; a trava só abre com a autorização.
+fica negativo; a trava só abre com a autorização **e com o valor certo pago**; e
+o freio de abuso não pune hóspede legítimo (ver abaixo).
 
 Rodam contra a implementação em memória do repositório — que é o segundo motivo
 de ela existir, além da demonstração: dá para exercitar as regras sem subir

@@ -3,7 +3,7 @@ import { DomainError, getGuestRepo } from "@/lib/data";
 import { getPixProvider } from "@/lib/payments/pix";
 import { PIX_TTL_SECONDS } from "@/lib/guest-constants";
 import { checkoutSchema } from "@/lib/schemas";
-import { freio, origem, ORCAMENTO, respostaFreada } from "@/lib/rate-limit";
+import { freioPorAlvo, freioPorIp, ORCAMENTO } from "@/lib/rate-limit";
 
 const ERRORS: Record<string, { status: number; message: string }> = {
   not_found: { status: 404, message: "Quarto não encontrado." },
@@ -18,12 +18,18 @@ const ERRORS: Record<string, { status: number; message: string }> = {
  * quando o pagamento/cartão é validado (smartbar_authorize_transaction).
  */
 export async function POST(request: Request) {
-  const passe = freio(`checkout:${origem(request)}`, ORCAMENTO.checkout.limite, ORCAMENTO.checkout.janelaMs);
-  if (!passe.permitido) return respostaFreada(passe);
+  // Primeiro o freio largo, por IP: detém flood antes de qualquer trabalho.
+  const flood = freioPorIp("checkout", ORCAMENTO.checkout, request);
+  if (flood) return flood;
 
   const parsed = checkoutSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "Requisição inválida." }, { status: 400 });
   const input = parsed.data;
+
+  // Agora o apertado, por QUARTO — que é o uso legítimo. Um hotel inteiro
+  // compartilha o IP; cada quarto tem o próprio orçamento.
+  const porQuarto = freioPorAlvo("checkout", ORCAMENTO.checkout, input.roomId);
+  if (porQuarto) return porQuarto;
 
   try {
     const repo = getGuestRepo();

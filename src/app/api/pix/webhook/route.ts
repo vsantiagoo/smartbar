@@ -34,6 +34,26 @@ export async function POST(request: Request) {
   const tx = await getGuestRepo().getTransactionById(payment.externalReference);
   if (!tx) return NextResponse.json({ ignored: true });
 
+  // CONFERE O VALOR antes de autorizar. A regra do produto é "a trava não abre
+  // sem pagamento confirmado" — e pagamento confirmado é do valor certo. Sem
+  // esta conferência, um evento de pagamento parcial (ou um erro do gateway
+  // apontando para o pedido errado) abriria a trava do pedido inteiro.
+  //
+  // O valor vem em REAIS e com ponto flutuante; a comparação é feita em
+  // centavos inteiros. Aceita a MAIS — pagar demais é problema de estorno, não
+  // razão para manter o hóspede trancado. Recusa a MENOS.
+  if (typeof payment.value === "number") {
+    const pagoCentavos = Math.round(payment.value * 100);
+    if (pagoCentavos < tx.totalCents) {
+      console.warn("[pix/webhook] valor insuficiente", {
+        transacao: tx.id,
+        esperado: tx.totalCents,
+        pago: pagoCentavos,
+      });
+      return NextResponse.json({ error: "amount_mismatch" }, { status: 409 });
+    }
+  }
+
   const result = await authorizeAndUnlock(tx.id, "pix_webhook");
   return NextResponse.json(result);
 }
