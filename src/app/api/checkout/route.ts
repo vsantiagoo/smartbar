@@ -3,6 +3,7 @@ import { DomainError, getGuestRepo } from "@/lib/data";
 import { getPixProvider } from "@/lib/payments/pix";
 import { PIX_TTL_SECONDS } from "@/lib/guest-constants";
 import { checkoutSchema } from "@/lib/schemas";
+import { freio, origem, ORCAMENTO, respostaFreada } from "@/lib/rate-limit";
 
 const ERRORS: Record<string, { status: number; message: string }> = {
   not_found: { status: 404, message: "Quarto não encontrado." },
@@ -17,6 +18,9 @@ const ERRORS: Record<string, { status: number; message: string }> = {
  * quando o pagamento/cartão é validado (smartbar_authorize_transaction).
  */
 export async function POST(request: Request) {
+  const passe = freio(`checkout:${origem(request)}`, ORCAMENTO.checkout.limite, ORCAMENTO.checkout.janelaMs);
+  if (!passe.permitido) return respostaFreada(passe);
+
   const parsed = checkoutSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "Requisição inválida." }, { status: 400 });
   const input = parsed.data;
