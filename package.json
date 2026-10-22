@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "verificar:supabase": "node scripts/verificar-supabase.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

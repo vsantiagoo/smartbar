@@ -151,17 +151,48 @@ Importe o repositório, configure as variáveis do `.env.example` e faça o depl
 
 ## Qualidade de código
 
-Duas checagens, e elas **não se sobrepõem**:
+Três checagens, e elas **não se sobrepõem**:
 
 ```bash
 npm run typecheck   # tsc --noEmit
 npm run lint        # eslint .
+npm test            # vitest run
 ```
 
 O `tsconfig.json` já roda com `noUnusedLocals` e `noUnusedParameters`, então
 variável e import órfãos **o compilador pega**. O linter existe para o que ele
-não vê: dependências de hooks, acessibilidade e as regras do próprio Next.
-Hoje os dois passam sem nenhum apontamento.
+não vê: dependências de hooks, acessibilidade e as regras do próprio Next. E os
+testes cobrem o que nenhum dos dois alcança — as **regras de negócio**.
+
+### Os testes
+
+Não são testes de cobertura: são os **invariantes que custam dinheiro** se
+quebrarem. Preço e nome vêm do servidor e não do cliente; autorizar é
+idempotente (webhook reenviado não abate estoque duas vezes); o estoque nunca
+fica negativo; a trava só abre com a autorização.
+
+Rodam contra a implementação em memória do repositório — que é o segundo motivo
+de ela existir, além da demonstração: dá para exercitar as regras sem subir
+banco nenhum.
+
+**O que eles não cobrem, e não têm como:** atomicidade sob concorrência. Ela
+vive numa função `security definer` com trava de linha, e só um Postgres de
+verdade a exercita. Para isso, veja abaixo.
+
+### Antes de ir ao ar
+
+```bash
+npm run verificar:supabase
+```
+
+O schema, o seed e as políticas foram escritos e testados num Postgres, mas
+**nunca contra um projeto Supabase real** — Auth, Realtime e o RLS sob a chave
+`anon` só se comprovam lá. Este script faz essa prova: confere se o schema está
+aplicado, se a chave pública **não** lê dados de hóspede, se só o `service_role`
+pode autorizar uma transação, se o banco recusa estoque negativo e se o Realtime
+aceita inscrição.
+
+Ele lê o `.env.local` e não escreve nada que não desfaça.
 
 A configuração é o formato novo do ESLint (`eslint.config.mjs`). Duas decisões
 ficam registradas lá, com o motivo: o projeto está preso ao **ESLint 9** porque
