@@ -117,17 +117,15 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
               <House className="size-5" />
             </Link>
 
-            {/* Mesmo botão de vidro dos irmãos (glass-dark glass-liquid) — a
-                orbe fica MENOR que o círculo, nunca igual, para sobrar o aro
-                escuro ao redor e ela ler como "ícone dentro do botão", não
-                como "o botão virou outra coisa". */}
+            {/* Sem botão de vidro ao redor, de propósito — só a orbe, pura,
+                sem contorno nenhum. Minimalista: ela já é o ícone sozinha. */}
             <button
               onClick={() => {
                 ativarEAbrir();
                 setMenuOpen(false);
               }}
               aria-label={t("guest.header.assistant")}
-              className="glass-dark glass-liquid grid size-9 shrink-0 place-items-center rounded-full transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
+              className="grid size-9 shrink-0 place-items-center rounded-full transition hover:scale-110 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
               <MartsOrb size={26} speaking={speaking} />
             </button>
