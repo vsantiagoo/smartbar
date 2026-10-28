@@ -177,6 +177,7 @@ export const pt = {
   "guest.help.note": "Quer detalhar? (opcional)",
   "guest.help.send": "Enviar",
   "guest.help.sending": "Enviando…",
+  "guest.help.lgpd": "Não inclua dados pessoais sensíveis. Tratamos sua mensagem conforme a Política de Privacidade.",
   "guest.help.done.restock": "Pronto! A governança foi avisada e vai repor os itens com prioridade.",
   "guest.help.done.damaged": "Registrado. A recepção vai conferir e ajustar a cobrança do item.",
   "guest.help.done.door": "Aviso enviado. Testamos a trava e a recepção já sabe do problema.",

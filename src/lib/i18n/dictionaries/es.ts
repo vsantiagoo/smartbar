@@ -162,6 +162,7 @@ export const es: Record<DictKey, string> = {
   "guest.help.note": "¿Quiere dar más detalles? (opcional)",
   "guest.help.send": "Enviar",
   "guest.help.sending": "Enviando…",
+  "guest.help.lgpd": "No incluya datos personales sensibles. Tratamos su mensaje según la Política de Privacidad.",
   "guest.help.done.restock": "¡Listo! La gobernanta fue avisada y repondrá los artículos con prioridad.",
   "guest.help.done.damaged": "Registrado. La recepción revisará y ajustará el cobro del artículo.",
   "guest.help.done.door": "Aviso enviado. Probamos la cerradura y la recepción ya conoce el problema.",

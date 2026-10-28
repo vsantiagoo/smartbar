@@ -117,6 +117,7 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
               className="glass-chip w-full resize-none rounded-2xl bg-white/55 px-4 py-3 text-base text-ink outline-none focus:border-brand-700"
             />
           </label>
+          <p className="text-xs leading-snug text-ink-faint">{t("guest.help.lgpd")}</p>
           <Button size="lg" className="w-full" loading={busy} onClick={send}>
             {busy ? t("guest.help.sending") : t("guest.help.send")}
           </Button>
