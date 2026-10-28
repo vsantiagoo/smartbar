@@ -16,13 +16,16 @@ import { cn } from "@/lib/utils";
  *      (IntersectionObserver — ver `visivel` abaixo) e NUNCA roda com
  *      "reduzir movimento" ativo; nesse caso cai para `.marts-orb`, a esfera
  *      estática em CSS puro definida em globals.css.
- *   2. o canvas de partículas (aqui) — duas famílias de ponto, as duas
- *      amostrando a MESMA fase de cor contínua, por isso "mudam
- *      gradativamente" em vez de piscar ao acaso:
+ *   2. o canvas de partículas (aqui) — só existe com `particles` (padrão
+ *      `false`): a orbe SOZINHA, sem partícula nenhuma, já é o ícone do
+ *      cabeçalho e o conteúdo do painel da Marts; só a orbe FLUTUANTE liga
+ *      isto. Duas famílias de ponto, as duas amostrando a MESMA fase de cor
+ *      contínua, por isso "mudam gradativamente" em vez de piscar ao acaso:
  *        · centelhas do anel — orbitam rente à borda da esfera (citam o aro
  *          de faíscas da referência visual);
- *        · partículas emitidas — nascem na borda, se espalham para fora,
- *          encolhem e apagam, até sumir.
+ *        · partículas emitidas — nascem na borda e se espalham POUCO antes
+ *          de encolher e apagar (arrasto alto, vida curta): o efeito tem que
+ *          ler como parte da orbe, não como algo solto ao redor dela.
  *      As duas são moduladas por uma única `intensidade` (0–1) que sobe e
  *      desce suavemente com `speaking` — não há liga/desliga abrupto.
  *
@@ -35,8 +38,16 @@ import { cn } from "@/lib/utils";
 export interface MartsOrbProps {
   /** Diâmetro da esfera, em px. O canvas de partículas usa uma área maior ao redor. */
   size?: number;
-  /** true enquanto a Marts fala ou processa — liga as partículas. */
+  /** true enquanto a Marts fala ou processa — liga as partículas (só tem efeito com `particles`). */
   speaking?: boolean;
+  /**
+   * Liga o canvas de partículas (centelhas do anel + faíscas emitidas).
+   * `false` por padrão: só a ORBE FLUTUANTE deve ter partículas — no ícone
+   * do cabeçalho e dentro do painel da Marts elas ficavam "soltas" atrás de
+   * um alvo pequeno, sem ler como parte da orbe. A esfera em si (shader)
+   * aparece sempre, com ou sem partículas.
+   */
+  particles?: boolean;
   className?: string;
 }
 
@@ -53,7 +64,7 @@ const PALETA: { var: string; fallback: [number, number, number] }[] = [
 const MAX_PARTICULAS = 56;
 const TAXA_EMISSAO = 24; // por segundo, no pico (intensidade = 1)
 const N_CENTELHAS = 4;
-const ESCALA_CANVAS = 3.2; // quanto maior que a esfera, para a partícula ter para onde ir
+const ESCALA_CANVAS = 2.3; // mais perto da esfera que antes — o efeito deve ler como PARTE da orbe, não soltar longe dela
 const VELOCIDADE_COR = 0.05; // voltas de paleta por segundo — bem lento, para ler como "gradual"
 const RELEITURA_PALETA = 0.5; // segundos entre leituras do tema (acompanha o editor ao vivo sem custar por quadro)
 
@@ -93,20 +104,29 @@ interface Centelha {
   faseCor: number;
 }
 
-export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbProps) {
+export function MartsOrb({ size = 96, speaking = false, particles = false, className }: MartsOrbProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const speakingRef = useRef(speaking);
   speakingRef.current = speaking;
   const reduzido = usePrefersReducedMotion();
-  // Espelha a visibilidade (já medida pelo IntersectionObserver abaixo, para
-  // o canvas de partículas) num estado de React — é o que desmonta o
+  // Espelha a visibilidade num estado de React — é o que desmonta o
   // <GradientOrb> (shader em GPU) quando a orbe sai da tela, em vez de deixar
-  // um WebGL ocioso rodando fora de vista.
+  // um WebGL ocioso rodando fora de vista. Roda SEMPRE (com ou sem
+  // partículas) — é por isso que é um efeito à parte do de partículas abaixo.
   const [visivel, setVisivel] = useState(true);
 
   useEffect(() => {
-    if (reduzido) return; // sem partícula nenhuma: a esfera respira sozinha, por CSS.
+    if (reduzido) return;
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const io = new IntersectionObserver(([entry]) => setVisivel(Boolean(entry?.isIntersecting)), { rootMargin: "80px" });
+    io.observe(wrap);
+    return () => io.disconnect();
+  }, [reduzido]);
+
+  useEffect(() => {
+    if (reduzido || !particles) return; // sem partícula nenhuma: a esfera respira sozinha.
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
     const ctx = canvas?.getContext("2d");
@@ -157,14 +177,14 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
 
     const nascer = (p: Particula) => {
       const ang = Math.random() * Math.PI * 2;
-      const vel = 16 + Math.random() * 28;
+      const vel = 9 + Math.random() * 13; // mais devagar: gruda perto da superfície em vez de se afastar rápido
       p.ativa = true;
       p.x = Math.cos(ang) * raioEsfera;
       p.y = Math.sin(ang) * raioEsfera;
       p.vx = Math.cos(ang) * vel;
       p.vy = Math.sin(ang) * vel;
       p.nascimento = t;
-      p.vida = 1.0 + Math.random() * 0.9;
+      p.vida = 0.7 + Math.random() * 0.5; // vida mais curta = alcance menor
       p.raio = 1.2 + Math.random() * 1.6;
       p.faseCor = Math.random();
       p.seed = Math.random() * Math.PI * 2;
@@ -227,8 +247,8 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
           p.ativa = false;
           continue;
         }
-        p.vx *= Math.max(0, 1 - 0.5 * dt);
-        p.vy *= Math.max(0, 1 - 0.5 * dt);
+        p.vx *= Math.max(0, 1 - 1.3 * dt); // arrasto maior: trava perto da borda, como o aro de faíscas da referência
+        p.vy *= Math.max(0, 1 - 1.3 * dt);
         p.x += p.vx * dt + Math.sin(t * 3 + p.seed) * 0.12;
         p.y += p.vy * dt + Math.cos(t * 2.6 + p.seed) * 0.12;
 
@@ -249,10 +269,11 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
     };
 
     // Só anima enquanto a orbe está na tela — a mesma economia do resto do site.
+    // (`visivel`, o estado de React que desmonta o shader, já é o outro efeito
+    // acima — aqui é só o laço de partículas, próprio deste canvas.)
     const io = new IntersectionObserver(
       ([entry]) => {
         emTela = Boolean(entry?.isIntersecting);
-        setVisivel(emTela);
         if (emTela) iniciar();
       },
       { rootMargin: "80px" },
@@ -267,7 +288,7 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
     };
     // `speaking` é lido via `speakingRef` dentro do laço — de propósito: evita
     // recriar o laço e a reserva de partículas a cada toggle de fala.
-  }, [reduzido, size]);
+  }, [reduzido, size, particles]);
 
   return (
     <div ref={wrapRef} className={cn("relative", className)} style={{ width: size, height: size }}>
@@ -287,12 +308,14 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
         // reservado — evita o "pulo" de layout quando ela volta a aparecer.
         <div style={{ width: size, height: size }} aria-hidden />
       )}
-      <canvas
-        ref={canvasRef}
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2"
-        style={{ width: size * ESCALA_CANVAS, height: size * ESCALA_CANVAS, transform: "translate(-50%, -50%)" }}
-      />
+      {particles && !reduzido && (
+        <canvas
+          ref={canvasRef}
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2"
+          style={{ width: size * ESCALA_CANVAS, height: size * ESCALA_CANVAS, transform: "translate(-50%, -50%)" }}
+        />
+      )}
     </div>
   );
 }

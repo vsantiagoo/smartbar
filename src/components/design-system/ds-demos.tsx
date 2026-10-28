@@ -38,7 +38,7 @@ export function MartsOrbDemo() {
   return (
     <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
       <div className="grid place-items-center py-4" style={{ width: 96 * 3.2, height: 96 * 3.2 }}>
-        <MartsOrb size={96} speaking={falando} />
+        <MartsOrb size={96} speaking={falando} particles />
       </div>
       <Button variant={falando ? "accent" : "glass"} onClick={() => setFalando((v) => !v)}>
         {falando ? "Falando…" : "Simular fala"}

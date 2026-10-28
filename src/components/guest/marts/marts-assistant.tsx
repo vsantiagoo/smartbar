@@ -28,7 +28,7 @@ export function MartsAssistant() {
           aria-label={t("guest.marts.float.label")}
           className="fixed bottom-[5.5rem] right-[max(1rem,env(safe-area-inset-right))] z-40 print:hidden"
         >
-          <MartsOrb size={56} speaking={speaking} />
+          <MartsOrb size={56} speaking={speaking} particles />
         </button>
       )}
       <AssistantSheet />
