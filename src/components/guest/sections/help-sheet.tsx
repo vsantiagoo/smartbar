@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft, CheckCircle2, LockKeyholeOpen, MessageCircle, PackagePlus, TriangleAlert, type LucideIcon } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ExternalLink, LockKeyholeOpen, MessageCircle, PackagePlus, ShieldCheck, TriangleAlert, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { useGuest } from "@/components/guest/guest-context";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,18 @@ const OPTIONS: { kind: SupportKind; icon: LucideIcon; title: DictKey; text: Dict
   { kind: "restock", icon: PackagePlus, title: "guest.help.restock", text: "guest.help.restock.text", done: "guest.help.done.restock" },
   { kind: "damaged", icon: TriangleAlert, title: "guest.help.damaged", text: "guest.help.damaged.text", done: "guest.help.done.damaged" },
   { kind: "door_problem", icon: LockKeyholeOpen, title: "guest.help.door", text: "guest.help.door.text", done: "guest.help.done.door" },
+];
+
+/**
+ * Documentos de uso por parte do hóspede. Um único tópico na ajuda abre esta
+ * lista — em vez de quatro itens que afogariam as opções de suporte. Abrem em
+ * nova aba para o hóspede não perder a vitrine.
+ */
+const POLICIES: { href: string; label: DictKey }[] = [
+  { href: "/privacidade", label: "guest.help.policies.privacy" },
+  { href: "/termos", label: "guest.help.policies.terms" },
+  { href: "/cookies", label: "guest.help.policies.cookies" },
+  { href: "/reembolso", label: "guest.help.policies.refund" },
 ];
 
 interface HelpSheetProps {
@@ -33,6 +45,7 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<"done" | "error" | null>(null);
+  const [showPolicies, setShowPolicies] = useState(false);
   const current = OPTIONS.find((o) => o.kind === kind);
 
   function close() {
@@ -41,6 +54,7 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
       setKind(initialKind ?? null);
       setNote("");
       setResult(null);
+      setShowPolicies(false);
     }, 200);
   }
 
@@ -122,6 +136,36 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
             {busy ? t("guest.help.sending") : t("guest.help.send")}
           </Button>
         </div>
+      ) : showPolicies ? (
+        <div className="space-y-4 py-2">
+          <button onClick={() => setShowPolicies(false)} className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-ink">
+            <ArrowLeft className="size-4" /> {t("guest.help.back")}
+          </button>
+          <div className="flex items-start gap-3">
+            <span className="grid size-11 shrink-0 place-items-center rounded-2xl glass-chip bg-brand-700/10 text-brand-700">
+              <ShieldCheck className="size-5" />
+            </span>
+            <div>
+              <p className="font-semibold text-ink">{t("guest.help.policies")}</p>
+              <p className="text-sm text-ink-soft">{t("guest.help.policies.intro")}</p>
+            </div>
+          </div>
+          <ul className="space-y-2.5">
+            {POLICIES.map((p) => (
+              <li key={p.href}>
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass group flex w-full items-center justify-between gap-3 rounded-3xl p-3.5 transition hover:bg-white/80 active:scale-[0.99]"
+                >
+                  <span className="font-semibold text-ink dark:group-hover:text-[#2D3D34]">{t(p.label)}</span>
+                  <ExternalLink className="size-4 shrink-0 text-ink-soft" aria-hidden />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : (
         <ul className="space-y-2.5 py-2">
           {OPTIONS.map((o) => (
@@ -140,6 +184,20 @@ export function HelpSheet({ open, onClose, initialKind, transactionToken }: Help
               </button>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => setShowPolicies(true)}
+              className="glass group flex w-full items-center gap-3 rounded-3xl p-3.5 text-left transition hover:bg-white/80 active:scale-[0.99]"
+            >
+              <span className="grid size-11 shrink-0 place-items-center rounded-2xl glass-chip bg-brand-700/10 text-brand-700">
+                <ShieldCheck className="size-5" />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-semibold text-ink dark:group-hover:text-[#2D3D34]">{t("guest.help.policies")}</span>
+                <span className="block text-sm leading-snug text-ink-soft dark:group-hover:text-[#5B6861]">{t("guest.help.policies.text")}</span>
+              </span>
+            </button>
+          </li>
           {wa && (
             <li>
               <a
