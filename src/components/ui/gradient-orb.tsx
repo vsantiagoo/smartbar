@@ -39,20 +39,15 @@ const defaults: Required<GradientOrbConfig> = {
   rotationSpeed: 0.3,
   noiseScale: 0.65,
   // 0.1 (valor original de referência) desenha um ANEL fino — bonito grande,
-  // mas em poucos pixels (o ícone de 22-28px do cabeçalho) o anel fica fino
-  // demais para o antialiasing preservar: lido, dá em nada. 0.38 preenche
-  // mais a esfera (menos "casca oca", mais "bola de luz").
+  // mas em poucos pixels (o ícone de 26px do cabeçalho) o anel fica fino
+  // demais para o antialiasing preservar: lido, dá em quase nada. 0.38
+  // preenche mais a esfera (menos "casca oca", mais "bola de luz").
   //
-  // ⚠️ PENDÊNCIA CONHECIDA (não resolvida ainda): mesmo com 0.38 e o ícone do
-  // cabeçalho em 26px, a orbe ainda está renderizando fraca ou invisível
-  // nesse tamanho pequeno — confirmado por captura de tela real (não só por
-  // leitura de pixel via readPixels, que é pouco confiável aqui: o WebGL por
-  // padrão limpa o backbuffer após compor o quadro, então ler pixel de fora
-  // do próprio loop de render pode dar falso-vazio mesmo com algo desenhado).
-  // Próximo passo ao retomar: comparar lado a lado vários tamanhos (18–56px)
-  // numa página simples, fora do botão de vidro escuro do cabeçalho, para
-  // isolar se o problema é o tamanho do shader ou o contexto onde ele está
-  // embutido (cabeçalho, bg escuro, empilhamento de glass-dark por cima).
+  // Isto sozinho não bastou para o ícone do cabeçalho — resolvido de vez em
+  // `marts-orb.tsx`, que agora SEMPRE desenha a esfera em CSS por baixo deste
+  // shader como base garantida; este componente soma um brilho dinâmico por
+  // cima quando o tamanho do canvas permite, mas nunca é a única coisa que
+  // precisa ler em tamanho pequeno.
   innerRadius: 0.38,
 };
 

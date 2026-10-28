@@ -8,15 +8,20 @@ import { cn } from "@/lib/utils";
 /**
  * ORBE DA MARTS — a assistente virtual do SmartBar.
  *
- * Duas camadas sobrepostas num wrapper de tamanho fixo:
+ * Três camadas sobrepostas num wrapper de tamanho fixo:
  *
- *   1. a esfera — shader em GPU (`GradientOrb`, `gradient-orb.tsx`): vidro
+ *   1. a BASE — `.marts-orb`, esfera estática em CSS puro (globals.css).
+ *      Sempre montada, nunca desliga: é o que garante a orbe legível em
+ *      QUALQUER tamanho. O shader da camada 2 é rico, mas num canvas de
+ *      26px (o ícone do cabeçalho) o brilho dele sozinho fica fraco demais
+ *      para ler — poucos pixels para um degradê sutil. A base em CSS cobre
+ *      esse caso com cor sólida sempre visível.
+ *   2. a esfera em shader (GPU) — `GradientOrb`, `gradient-orb.tsx`: vidro
  *      líquido de verdade, com a superfície girando e ondulando por ruído
- *      3D, não um gradiente estático. SÓ roda enquanto a orbe está visível
+ *      3D, somado por cima da base. SÓ roda enquanto a orbe está visível
  *      (IntersectionObserver — ver `visivel` abaixo) e NUNCA roda com
- *      "reduzir movimento" ativo; nesse caso cai para `.marts-orb`, a esfera
- *      estática em CSS puro definida em globals.css.
- *   2. o canvas de partículas (aqui) — só existe com `particles` (padrão
+ *      "reduzir movimento" ativo — nesse caso só a base aparece.
+ *   3. o canvas de partículas (aqui) — só existe com `particles` (padrão
  *      `false`): a orbe SOZINHA, sem partícula nenhuma, já é o ícone do
  *      cabeçalho e o conteúdo do painel da Marts; só a orbe FLUTUANTE liga
  *      isto. Duas famílias de ponto, as duas amostrando a MESMA fase de cor
@@ -292,21 +297,21 @@ export function MartsOrb({ size = 96, speaking = false, particles = false, class
 
   return (
     <div ref={wrapRef} className={cn("relative", className)} style={{ width: size, height: size }}>
-      {reduzido ? (
-        // "Reduzir movimento" ativo: esfera estática em CSS, sem WebGL nenhum.
-        // `data-speaking` ainda troca o brilho (box-shadow, sem animação) —
-        // só a movimentação é que fica de fora.
-        <div className="marts-orb" data-speaking={speaking} style={{ width: size, height: size }} aria-hidden />
-      ) : visivel ? (
-        // Shader em GPU, só montado enquanto a orbe está na tela — ver `emTela`
-        // no efeito acima, que é quem desmonta isto ao sair de vista.
-        <div style={{ width: size, height: size }} aria-hidden>
+      {/* BASE — sempre presente, nunca unmount. É o que garante a orbe legível
+          em QUALQUER tamanho, inclusive os 26px do ícone do cabeçalho: o
+          shader abaixo é rico e caro, mas num canvas minúsculo o brilho dele
+          fica fraco demais para ler sozinho (poucos pixels, degradê sutil).
+          A esfera em CSS por baixo cobre esse caso — cor sólida, sempre
+          visível — e o shader, quando consegue rodar bem, soma um brilho
+          dinâmico por cima. `data-speaking` muda o brilho dela mesmo sem o
+          shader (e é tudo que sobra com "reduzir movimento" ativo). */}
+      <div className="marts-orb absolute inset-0" data-speaking={speaking} aria-hidden />
+      {!reduzido && visivel && (
+        // Shader em GPU, só montado enquanto a orbe está na tela — ver
+        // `emTela` no efeito acima, que é quem desmonta isto ao sair de vista.
+        <div className="absolute inset-0" aria-hidden>
           <GradientOrb />
         </div>
-      ) : (
-        // Fora de vista: nem WebGL nem CSS animado, só o volume do espaço
-        // reservado — evita o "pulo" de layout quando ela volta a aparecer.
-        <div style={{ width: size, height: size }} aria-hidden />
       )}
       {particles && !reduzido && (
         <canvas
