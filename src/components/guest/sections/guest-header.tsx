@@ -1,13 +1,14 @@
 "use client";
-import { CircleHelp, House, Sparkles } from "lucide-react";
+import { CircleHelp, House } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useGuest } from "@/components/guest/guest-context";
-import { AssistantSheet } from "@/components/guest/sections/assistant-sheet";
 import { HelpSheet } from "@/components/guest/sections/help-sheet";
 import { ThemeToggle } from "@/components/guest/sections/theme-toggle";
+import { useMarts } from "@/components/guest/marts/marts-context";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { LogoMark } from "@/components/ui/logo";
+import { MartsOrb } from "@/components/ui/marts-orb";
 import { cn } from "@/lib/utils";
 
 /** Provisório: até o cadastro do hotel trazer o nome definitivo, a barra mostra este texto. */
@@ -19,8 +20,8 @@ const HOTEL_NAME_PLACEHOLDER = "Nome do seu hotel aqui";
  */
 export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) {
   const { t, room } = useGuest();
+  const { ativarEAbrir, speaking } = useMarts();
   const [helpOpen, setHelpOpen] = useState(false);
-  const [assistantOpen, setAssistantOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const rightRef = useRef<HTMLDivElement>(null);
 
@@ -116,15 +117,19 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
               <House className="size-5" />
             </Link>
 
+            {/* Mesmo botão de vidro dos irmãos (glass-dark glass-liquid) — a
+                orbe fica MENOR que o círculo, nunca igual, para sobrar o aro
+                escuro ao redor e ela ler como "ícone dentro do botão", não
+                como "o botão virou outra coisa". */}
             <button
               onClick={() => {
-                setAssistantOpen(true);
+                ativarEAbrir();
                 setMenuOpen(false);
               }}
               aria-label={t("guest.header.assistant")}
-              className="glass-dark glass-liquid grid size-9 shrink-0 place-items-center rounded-full text-white/85 transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
+              className="glass-dark glass-liquid grid size-9 shrink-0 place-items-center rounded-full transition hover:bg-white/15 active:scale-95 min-[360px]:size-10 sm:size-11"
             >
-              <Sparkles className="size-5" />
+              <MartsOrb size={26} speaking={speaking} />
             </button>
 
             <button
@@ -146,7 +151,6 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
       </div>
 
       <HelpSheet open={helpOpen} onClose={() => setHelpOpen(false)} />
-      <AssistantSheet open={assistantOpen} onClose={() => setAssistantOpen(false)} />
 
       {/* Saudação centralizada sob a barra */}
       <p className="cursor-default text-center text-xs font-semibold uppercase tracking-[0.14em] text-brand-300 transition-all duration-300 hover:text-white hover:[text-shadow:0_0_8px_rgb(255_255_255/0.9),0_0_18px_rgb(140_200_255/0.75)]">

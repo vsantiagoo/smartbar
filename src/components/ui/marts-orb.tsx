@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "@/lib/marketing/use-scroll-progress";
+import { GradientOrb } from "@/components/ui/gradient-orb";
 import { cn } from "@/lib/utils";
 
 /**
@@ -9,9 +10,12 @@ import { cn } from "@/lib/utils";
  *
  * Duas camadas sobrepostas num wrapper de tamanho fixo:
  *
- *   1. a esfera (`.marts-orb`, CSS puro em globals.css) — vidro líquido com
- *      brilho que respira. Nunca para, não depende de canvas nem de rAF, e é
- *      a ÚNICA coisa visível quando "reduzir movimento" está ativo.
+ *   1. a esfera — shader em GPU (`GradientOrb`, `gradient-orb.tsx`): vidro
+ *      líquido de verdade, com a superfície girando e ondulando por ruído
+ *      3D, não um gradiente estático. SÓ roda enquanto a orbe está visível
+ *      (IntersectionObserver — ver `visivel` abaixo) e NUNCA roda com
+ *      "reduzir movimento" ativo; nesse caso cai para `.marts-orb`, a esfera
+ *      estática em CSS puro definida em globals.css.
  *   2. o canvas de partículas (aqui) — duas famílias de ponto, as duas
  *      amostrando a MESMA fase de cor contínua, por isso "mudam
  *      gradativamente" em vez de piscar ao acaso:
@@ -22,9 +26,10 @@ import { cn } from "@/lib/utils";
  *      As duas são moduladas por uma única `intensidade` (0–1) que sobe e
  *      desce suavemente com `speaking` — não há liga/desliga abrupto.
  *
- * As cores vêm dos tokens do tema (marca + ouro), lidos do CSS em tempo de
- * execução — não de hex fixos. Um hotel com whitelabel pinta a Marts junto, e
- * o editor de cores em /design-system reflete nela ao vivo.
+ * As cores das PARTÍCULAS vêm dos tokens do tema (marca + ouro), lidos do CSS
+ * em tempo de execução — não de hex fixos. A esfera do shader usa a paleta
+ * própria do componente (ver `hue` em `GradientOrbConfig`); ajustar para bater
+ * exatamente com o tema é um passo isolado, não feito aqui ainda.
  */
 
 export interface MartsOrbProps {
@@ -94,6 +99,11 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
   const speakingRef = useRef(speaking);
   speakingRef.current = speaking;
   const reduzido = usePrefersReducedMotion();
+  // Espelha a visibilidade (já medida pelo IntersectionObserver abaixo, para
+  // o canvas de partículas) num estado de React — é o que desmonta o
+  // <GradientOrb> (shader em GPU) quando a orbe sai da tela, em vez de deixar
+  // um WebGL ocioso rodando fora de vista.
+  const [visivel, setVisivel] = useState(true);
 
   useEffect(() => {
     if (reduzido) return; // sem partícula nenhuma: a esfera respira sozinha, por CSS.
@@ -139,7 +149,7 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
     let acumulador = 0;
     let faseGlobal = Math.random();
     let t = 0;
-    let visivel = true;
+    let emTela = true;
     let raf = 0;
     let anterior = 0;
     let paleta: [number, number, number][] = PALETA.map((p) => p.fallback);
@@ -229,11 +239,11 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
         pontoGlow(cx + p.x, cy + p.y, raio, corNaFase(paleta, faseGlobal + p.faseCor), op);
       }
 
-      raf = visivel ? requestAnimationFrame(quadro) : 0;
+      raf = emTela ? requestAnimationFrame(quadro) : 0;
     };
 
     const iniciar = () => {
-      if (raf || !visivel) return;
+      if (raf || !emTela) return;
       anterior = 0;
       raf = requestAnimationFrame(quadro);
     };
@@ -241,8 +251,9 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
     // Só anima enquanto a orbe está na tela — a mesma economia do resto do site.
     const io = new IntersectionObserver(
       ([entry]) => {
-        visivel = Boolean(entry?.isIntersecting);
-        if (visivel) iniciar();
+        emTela = Boolean(entry?.isIntersecting);
+        setVisivel(emTela);
+        if (emTela) iniciar();
       },
       { rootMargin: "80px" },
     );
@@ -260,7 +271,22 @@ export function MartsOrb({ size = 96, speaking = false, className }: MartsOrbPro
 
   return (
     <div ref={wrapRef} className={cn("relative", className)} style={{ width: size, height: size }}>
-      <div className="marts-orb" data-speaking={speaking} style={{ width: size, height: size }} aria-hidden />
+      {reduzido ? (
+        // "Reduzir movimento" ativo: esfera estática em CSS, sem WebGL nenhum.
+        // `data-speaking` ainda troca o brilho (box-shadow, sem animação) —
+        // só a movimentação é que fica de fora.
+        <div className="marts-orb" data-speaking={speaking} style={{ width: size, height: size }} aria-hidden />
+      ) : visivel ? (
+        // Shader em GPU, só montado enquanto a orbe está na tela — ver `emTela`
+        // no efeito acima, que é quem desmonta isto ao sair de vista.
+        <div style={{ width: size, height: size }} aria-hidden>
+          <GradientOrb />
+        </div>
+      ) : (
+        // Fora de vista: nem WebGL nem CSS animado, só o volume do espaço
+        // reservado — evita o "pulo" de layout quando ela volta a aparecer.
+        <div style={{ width: size, height: size }} aria-hidden />
+      )}
       <canvas
         ref={canvasRef}
         aria-hidden
