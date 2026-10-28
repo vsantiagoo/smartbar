@@ -2,25 +2,39 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useGuest } from "@/components/guest/guest-context";
 
+/** De onde veio a abertura do painel — muda só a saudação (ver assistant-sheet.tsx). */
+export type OrigemAbertura = "clique" | "voz";
+
 interface MartsValue {
   /** Já apresentada ao hóspede nesta estadia — governa se o botão flutuante existe. */
   ativa: boolean;
   /** Painel da Marts aberto. */
   open: boolean;
+  /** De onde veio a abertura mais recente — lido uma vez pelo painel, depois descartado. */
+  origemAbertura: OrigemAbertura;
   /** A orbe deve mostrar as partículas de fala agora (áudio tocando ou simulado). */
   speaking: boolean;
   setSpeaking: (v: boolean) => void;
   /** Voz ligada — preferência do aparelho, não do quarto (ver storage abaixo). */
   vozLigada: boolean;
   alternarVoz: () => void;
+  /** Escuta de "Olá, Marts" ligada — também preferência do aparelho. Só existe
+      de verdade em navegadores com SpeechRecognition (ver listen.ts). */
+  escutaLigada: boolean;
+  alternarEscuta: () => void;
+  /** Desliga sem alternar — usado quando o navegador nega a permissão, para não correr risco de ligar de volta por engano. */
+  desligarEscuta: () => void;
   /** Ativa a Marts (se ainda não estava) e abre o painel. Chame direto no clique. */
   ativarEAbrir: () => void;
+  /** Mesma coisa, mas a saudação do painel sabe que veio da palavra de despertar. */
+  ativarPorVoz: () => void;
   fechar: () => void;
 }
 
 const MartsContext = createContext<MartsValue | null>(null);
 
 const CHAVE_VOZ = "smartbar-marts-voz"; // preferência do APARELHO: fora do escopo por quarto, de propósito
+const CHAVE_ESCUTA = "smartbar-marts-escuta";
 
 /**
  * Estado da Marts, compartilhado entre o ícone do cabeçalho, o botão
@@ -37,8 +51,10 @@ export function MartsProvider({ children }: { children: ReactNode }) {
 
   const [ativa, setAtiva] = useState(false);
   const [open, setOpen] = useState(false);
+  const [origemAbertura, setOrigemAbertura] = useState<OrigemAbertura>("clique");
   const [speaking, setSpeaking] = useState(false);
   const [vozLigada, setVozLigada] = useState(true);
+  const [escutaLigada, setEscutaLigada] = useState(false);
   const [pronto, setPronto] = useState(false);
 
   useEffect(() => {
@@ -52,6 +68,11 @@ export function MartsProvider({ children }: { children: ReactNode }) {
       if (v === "0") setVozLigada(false);
     } catch {
       /* preferência não persiste; segue ligada por padrão */
+    }
+    try {
+      if (localStorage.getItem(CHAVE_ESCUTA) === "1") setEscutaLigada(true);
+    } catch {
+      /* preferência não persiste; segue desligada por padrão — é o mais seguro */
     }
     setPronto(true);
   }, [storageKey]);
@@ -67,6 +88,13 @@ export function MartsProvider({ children }: { children: ReactNode }) {
 
   const ativarEAbrir = useCallback(() => {
     setAtiva(true);
+    setOrigemAbertura("clique");
+    setOpen(true);
+  }, []);
+
+  const ativarPorVoz = useCallback(() => {
+    setAtiva(true);
+    setOrigemAbertura("voz");
     setOpen(true);
   }, []);
 
@@ -84,9 +112,57 @@ export function MartsProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const alternarEscuta = useCallback(() => {
+    setEscutaLigada((v) => {
+      const novo = !v;
+      try {
+        localStorage.setItem(CHAVE_ESCUTA, novo ? "1" : "0");
+      } catch {
+        /* ignora */
+      }
+      return novo;
+    });
+  }, []);
+
+  const desligarEscuta = useCallback(() => {
+    setEscutaLigada(false);
+    try {
+      localStorage.setItem(CHAVE_ESCUTA, "0");
+    } catch {
+      /* ignora */
+    }
+  }, []);
+
   const value = useMemo<MartsValue>(
-    () => ({ ativa, open, speaking, setSpeaking, vozLigada, alternarVoz, ativarEAbrir, fechar }),
-    [ativa, open, speaking, vozLigada, alternarVoz, ativarEAbrir, fechar],
+    () => ({
+      ativa,
+      open,
+      origemAbertura,
+      speaking,
+      setSpeaking,
+      vozLigada,
+      alternarVoz,
+      escutaLigada,
+      alternarEscuta,
+      desligarEscuta,
+      ativarEAbrir,
+      ativarPorVoz,
+      fechar,
+    }),
+    [
+      ativa,
+      open,
+      origemAbertura,
+      speaking,
+      vozLigada,
+      alternarVoz,
+      escutaLigada,
+      alternarEscuta,
+      desligarEscuta,
+      ativarEAbrir,
+      ativarPorVoz,
+      fechar,
+    ],
   );
 
   return <MartsContext.Provider value={value}>{children}</MartsContext.Provider>;

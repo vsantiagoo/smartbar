@@ -1,9 +1,10 @@
 "use client";
-import { Send, Volume2, VolumeX } from "lucide-react";
+import { Mic, MicOff, Send, Volume2, VolumeX } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useGuest } from "@/components/guest/guest-context";
 import { HelpSheet } from "@/components/guest/sections/help-sheet";
 import { useMarts } from "@/components/guest/marts/marts-context";
+import { escutaDisponivel } from "@/components/guest/marts/listen";
 import { casarPergunta, type TopicoId } from "@/components/guest/marts/roteiro";
 import { duracaoEstimadaMs, falar, pararFala, vozDisponivel } from "@/components/guest/marts/voice";
 import { MartsOrb } from "@/components/ui/marts-orb";
@@ -40,10 +41,14 @@ const PERGUNTAS: Pergunta[] = [
 
 export function AssistantSheet() {
   const { t, lang } = useGuest();
-  const { open, fechar, speaking, setSpeaking, vozLigada, alternarVoz } = useMarts();
+  const { open, fechar, origemAbertura, speaking, setSpeaking, vozLigada, alternarVoz, escutaLigada, alternarEscuta } = useMarts();
   const [mensagem, setMensagem] = useState("");
   const [ajudaOpen, setAjudaOpen] = useState(false);
   const [pergunta, setPergunta] = useState("");
+  // Só existe em Chrome/Edge — checado no cliente, depois da montagem, para
+  // o servidor e o cliente renderizarem a mesma coisa na primeira pintura.
+  const [temEscuta, setTemEscuta] = useState(false);
+  useEffect(() => setTemEscuta(escutaDisponivel()), []);
   const simulacaoRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function dizer(texto: string) {
@@ -60,10 +65,11 @@ export function AssistantSheet() {
     }
   }
 
-  // Saudação ao abrir; silêncio limpo ao fechar.
+  // Saudação ao abrir — a frase muda se veio da palavra de despertar ("Olá,
+  // Marts" → "Olá, como posso ajudar?") em vez do convite genérico do clique.
   useEffect(() => {
     if (open) {
-      dizer(t("guest.marts.greeting"));
+      dizer(t(origemAbertura === "voz" ? "guest.marts.wakeGreeting" : "guest.marts.greeting"));
     } else {
       pararFala();
       setSpeaking(false);
@@ -170,13 +176,29 @@ export function AssistantSheet() {
             ))}
           </ul>
 
-          <button
-            onClick={alternarVozAgora}
-            className="inline-flex items-center gap-2 rounded-full px-1 py-1 text-xs font-medium text-ink-soft transition hover:text-ink"
-          >
-            {vozLigada ? <Volume2 className="size-4" aria-hidden /> : <VolumeX className="size-4" aria-hidden />}
-            {vozLigada ? t("guest.marts.mute") : t("guest.marts.unmute")}
-          </button>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <button
+              onClick={alternarVozAgora}
+              className="inline-flex items-center gap-2 rounded-full px-1 py-1 text-xs font-medium text-ink-soft transition hover:text-ink"
+            >
+              {vozLigada ? <Volume2 className="size-4" aria-hidden /> : <VolumeX className="size-4" aria-hidden />}
+              {vozLigada ? t("guest.marts.mute") : t("guest.marts.unmute")}
+            </button>
+
+            {/* Só em navegadores com SpeechRecognition (Chrome/Edge) — nos
+                demais, o botão simplesmente não existe, em vez de aparecer e
+                não funcionar ao tocar. */}
+            {temEscuta && (
+              <button
+                onClick={alternarEscuta}
+                className="inline-flex items-center gap-2 rounded-full px-1 py-1 text-xs font-medium text-ink-soft transition hover:text-ink"
+              >
+                {escutaLigada ? <Mic className="size-4" aria-hidden /> : <MicOff className="size-4" aria-hidden />}
+                {escutaLigada ? t("guest.marts.listen.disable") : t("guest.marts.listen.enable")}
+              </button>
+            )}
+          </div>
+          {temEscuta && <p className="text-xs leading-snug text-ink-faint">{t("guest.marts.listen.hint")}</p>}
         </div>
       </Sheet>
 

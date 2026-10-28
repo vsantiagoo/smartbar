@@ -2,6 +2,7 @@
 import { useGuest } from "@/components/guest/guest-context";
 import { AssistantSheet } from "@/components/guest/sections/assistant-sheet";
 import { useMarts } from "@/components/guest/marts/marts-context";
+import { MartsListener } from "@/components/guest/marts/marts-listener";
 import { MartsOrb } from "@/components/ui/marts-orb";
 
 /**
@@ -32,6 +33,7 @@ export function MartsAssistant() {
         </button>
       )}
       <AssistantSheet />
+      <MartsListener />
     </>
   );
 }

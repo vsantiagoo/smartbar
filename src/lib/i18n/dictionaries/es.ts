@@ -32,6 +32,11 @@ export const es: Record<DictKey, string> = {
   "guest.marts.input.placeholder": "Escribe tu pregunta…",
   "guest.marts.input.send": "Enviar pregunta",
   "guest.marts.fallback": "Esa todavía no sé responderla sola, pero puedo ponerte en contacto con la recepción.",
+  "guest.marts.wakeGreeting": "Hola, ¿cómo puedo ayudar?",
+  "guest.marts.listen.enable": "Escuchar \"Hola, Marts\"",
+  "guest.marts.listen.disable": "Dejar de escuchar",
+  "guest.marts.listen.hint": "Usa el micrófono del navegador. Permanece apagado hasta que lo actives, y nunca graba nada.",
+  "guest.marts.listen.denied": "El navegador denegó el permiso de micrófono.",
 
   "guest.catalog.title": "Sírvase. Pague en segundos.",
   "guest.catalog.subtitle": "Elija lo que va a consumir. La cerradura se abre en cuanto se confirma el pago.",

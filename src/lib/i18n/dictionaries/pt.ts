@@ -33,6 +33,11 @@ export const pt = {
   "guest.marts.input.placeholder": "Digite sua pergunta…",
   "guest.marts.input.send": "Enviar pergunta",
   "guest.marts.fallback": "Essa eu ainda não sei responder sozinha — mas posso te colocar em contato com a recepção.",
+  "guest.marts.wakeGreeting": "Olá, como posso ajudar?",
+  "guest.marts.listen.enable": "Ouvir \"Olá, Marts\"",
+  "guest.marts.listen.disable": "Parar de ouvir",
+  "guest.marts.listen.hint": "Usa o microfone do navegador. Fica desligado até você ligar, e nunca grava nada.",
+  "guest.marts.listen.denied": "O navegador negou a permissão de microfone.",
 
   // Vitrine
   "guest.catalog.title": "Sirva-se. Pague em segundos.",
