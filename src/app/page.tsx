@@ -5,9 +5,11 @@ import { Hero } from "@/components/marketing/hero";
 import { HomeBridge } from "@/components/marketing/home-bridge";
 import { ImpactStats } from "@/components/marketing/impact-stats";
 import { PlansGrid } from "@/components/marketing/plans-grid";
+import { CookieConsent } from "@/components/marketing/cookie-consent";
 import { ProductReveal } from "@/components/marketing/product-reveal";
 import { QuickLinks } from "@/components/marketing/quick-links";
 import { ScrollStory } from "@/components/marketing/scroll-story";
+import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { I18nProvider } from "@/lib/i18n/client";
 import { LANG_COOKIE, parseLang } from "@/lib/i18n/config";
@@ -37,7 +39,9 @@ export default async function HomePage() {
         <QuickLinks />
         <ProductReveal />
         <FinalCta />
+        <SiteFooter />
       </main>
+      <CookieConsent />
     </I18nProvider>
   );
 }
