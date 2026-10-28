@@ -38,17 +38,14 @@ const defaults: Required<GradientOrbConfig> = {
   hue: 0,
   rotationSpeed: 0.3,
   noiseScale: 0.65,
-  // 0.1 (valor original de referência) desenha um ANEL fino — bonito grande,
-  // mas em poucos pixels (o ícone de 26px do cabeçalho) o anel fica fino
-  // demais para o antialiasing preservar: lido, dá em quase nada. 0.38
-  // preenche mais a esfera (menos "casca oca", mais "bola de luz").
-  //
-  // Isto sozinho não bastou para o ícone do cabeçalho — resolvido de vez em
-  // `marts-orb.tsx`, que agora SEMPRE desenha a esfera em CSS por baixo deste
-  // shader como base garantida; este componente soma um brilho dinâmico por
-  // cima quando o tamanho do canvas permite, mas nunca é a única coisa que
-  // precisa ler em tamanho pequeno.
-  innerRadius: 0.38,
+  // 0.1 é o valor original de referência — o anel fino, mais violeta, que é
+  // o visual pedido. Fica aqui de novo: quem garante a leitura do ícone
+  // pequeno do cabeçalho não é mais este número, é a esfera em CSS que
+  // `marts-orb.tsx` desenha sempre por baixo do shader (ver o comentário lá).
+  // Subir este valor só deixava a esfera mais "cheia e dourada" em TODOS os
+  // tamanhos, inclusive onde ninguém pediu — era o efeito colateral errado
+  // para o problema certo.
+  innerRadius: 0.1,
 };
 
 const vertexShader = /* glsl */ `
