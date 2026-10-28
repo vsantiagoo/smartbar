@@ -19,6 +19,8 @@
  *     é olhado (comparado com a palavra de despertar), nunca guardado.
  */
 
+import { normalizar } from "@/components/guest/marts/voice";
+
 type Idioma = "pt" | "en" | "es";
 const BCP47: Record<Idioma, string> = { pt: "pt-BR", en: "en-US", es: "es-ES" };
 
@@ -28,14 +30,6 @@ const PALAVRA_DESPERTAR: Record<Idioma, string[]> = {
   en: ["hello marts", "hi marts"],
   es: ["hola marts"],
 };
-
-function normalizar(s: string): string {
-  return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .trim();
-}
 
 /* Tipos mínimos para a API — não depende do lib.dom (cobertura inconsistente
    entre versões de TypeScript) nem de `any`. Só o que este módulo usa. */
@@ -76,6 +70,10 @@ export function escutaDisponivel(): boolean {
 export interface AlcaEscuta {
   /** Encerra de vez — não tenta mais reiniciar sozinha. */
   parar: () => void;
+  /** Pausa sem desistir — usado enquanto a Marts está falando (ver por quê, abaixo). */
+  pausar: () => void;
+  /** Volta a escutar depois de uma pausa. */
+  retomar: () => void;
 }
 
 /**
@@ -86,12 +84,19 @@ export interface AlcaEscuta {
  * reconhecimento sozinho depois de um tempo de silêncio, e aqui ele é
  * reiniciado automaticamente (`onend` → `start()` de novo), até alguém
  * chamar `parar()`. Se a permissão for negada, desiste sem insistir.
+ *
+ * `pausar()`/`retomar()` existem por um motivo concreto: sem eles, o
+ * microfone continuaria ligado enquanto a PRÓPRIA Marts fala — no aparelho
+ * sem fone, o alto-falante vaza para o microfone, e a voz dela vira "fala"
+ * reconhecida pelo motor. Quem chama isto (`marts-listener.tsx`) pausa
+ * exatamente na janela em que `speaking` está ligado.
  */
 export function iniciarEscuta(idioma: Idioma, onPalavraDespertar: () => void, onErro?: (motivo: string) => void): AlcaEscuta | null {
   const Ctor = obterConstrutor();
   if (!Ctor) return null;
 
   let ativo = true;
+  let pausado = false;
   const rec = new Ctor();
   rec.lang = BCP47[idioma];
   rec.continuous = true;
@@ -118,7 +123,7 @@ export function iniciarEscuta(idioma: Idioma, onPalavraDespertar: () => void, on
     }
   };
   rec.onend = () => {
-    if (!ativo) return;
+    if (!ativo || pausado) return;
     try {
       rec.start();
     } catch {
@@ -139,6 +144,23 @@ export function iniciarEscuta(idioma: Idioma, onPalavraDespertar: () => void, on
         rec.stop();
       } catch {
         /* ignora */
+      }
+    },
+    pausar: () => {
+      pausado = true;
+      try {
+        rec.stop();
+      } catch {
+        /* ignora */
+      }
+    },
+    retomar: () => {
+      pausado = false;
+      if (!ativo) return;
+      try {
+        rec.start();
+      } catch {
+        /* ignora — pode já estar rodando */
       }
     },
   };

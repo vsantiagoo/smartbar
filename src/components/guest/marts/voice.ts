@@ -60,7 +60,11 @@ const NOMES_MASCULINOS = ["daniel", "ricardo", "jorge", "diego", "carlos", "davi
 
 /** Minúsculas e sem acento — usado aqui e no casamento de palavras-chave do roteiro. */
 export function normalizar(s: string): string {
-  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  // Faixa Unicode das marcas diacríticas combinantes (o que o NFD separa dos
+  // caracteres base), escrita em escape \\u — não como caractere literal, que
+  // é frágil: uma ferramenta de edição pode corrompê-lo sem ninguém notar.
+  const MARCAS_COMBINANTES = new RegExp("[\\u0300-\\u036f]", "g");
+  return s.toLowerCase().normalize("NFD").replace(MARCAS_COMBINANTES, "");
 }
 
 function escolherVoz(idioma: Idioma): SpeechSynthesisVoice | null {
