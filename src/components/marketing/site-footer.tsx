@@ -25,7 +25,7 @@ export function SiteFooter() {
   ];
 
   return (
-    <footer className="relative mt-24 border-t border-white/10 bg-black/20 text-ink-soft">
+    <footer className="relative border-t border-white/10 bg-brand-950 text-ink-soft">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-3">
           <Wordmark tone="light" className="text-xl" />
