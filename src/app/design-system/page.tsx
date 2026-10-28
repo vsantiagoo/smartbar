@@ -1,6 +1,6 @@
 import { CircleCheck, TrendingUp } from "lucide-react";
 import type { ReactNode } from "react";
-import { SegmentedDemo, SheetDemo, StepperDemo } from "@/components/design-system/ds-demos";
+import { MartsOrbDemo, SegmentedDemo, SheetDemo, StepperDemo } from "@/components/design-system/ds-demos";
 import { ThemeEditor } from "@/components/design-system/theme-editor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -82,13 +82,23 @@ export default function DesignSystemPage() {
           Design System. Tokens em <code className="font-mono text-sm">tailwind.config.ts</code> e <code className="font-mono text-sm">globals.css</code>.
         </p>
         <nav className="mt-6 flex flex-wrap gap-2 text-sm font-semibold" aria-label="Seções">
-          {["cores", "tipografia", "forma", "niveis", "raios", "acoes", "campos", "dados", "feedback"].map((id) => (
+          {["marts", "cores", "tipografia", "forma", "niveis", "raios", "acoes", "campos", "dados", "feedback"].map((id) => (
             <a key={id} href={`#${id}`} className="glass rounded-full px-4 py-2 capitalize text-ink hover:bg-white/80">
               {id}
             </a>
           ))}
         </nav>
       </header>
+
+      <Section
+        id="marts"
+        title="Marts — assistente virtual"
+        hint="Fase 1: só a orbe. Vidro líquido que respira sozinho (CSS, nunca para); ao falar, duas famílias de partícula acendem — centelhas orbitando a borda e faíscas que nascem na borda, se espalham, encolhem e somem. As cores vêm do tema ao vivo (mude em Cores, abaixo, e volte aqui)."
+      >
+        <GlassCard>
+          <MartsOrbDemo />
+        </GlassCard>
+      </Section>
 
       <Section
         id="cores"
