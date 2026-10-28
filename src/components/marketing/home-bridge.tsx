@@ -16,11 +16,11 @@ import { ScrollUnlock } from "./scroll-unlock";
 export async function HomeBridge() {
   const c = marketingCopy(await getT()).statement;
   return (
-    <section className="relative px-6 py-12 sm:px-10 sm:py-16">
+    <section className="relative px-6 pb-12 pt-6 sm:px-10 sm:pb-16 sm:pt-8">
       <BackToTop />
-      <Reveal weight="lead" className="mx-auto flex max-w-6xl flex-col items-center gap-2 md:flex-row md:justify-between md:gap-6">
+      <Reveal weight="lead" className="mx-auto flex max-w-6xl flex-col items-center gap-2 md:flex-row md:items-start md:justify-between md:gap-6">
         <h2
-          className="max-w-3xl flex-1 self-start text-ink md:self-center"
+          className="max-w-3xl flex-1 self-start text-ink"
           // letter-spacing em `em`: -2,8px no tamanho máximo (72px), proporcional no celular.
           style={{ fontSize: "clamp(42px,5vw,72px)", fontWeight: 400, lineHeight: 1.08, letterSpacing: "-0.0389em" }}
         >
