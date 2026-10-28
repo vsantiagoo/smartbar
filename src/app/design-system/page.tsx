@@ -1,7 +1,6 @@
 import { CircleCheck, TrendingUp } from "lucide-react";
 import type { ReactNode } from "react";
 import { SegmentedDemo, SheetDemo, StepperDemo } from "@/components/design-system/ds-demos";
-import { ReferenceGallery } from "@/components/design-system/reference-gallery";
 import { ThemeEditor } from "@/components/design-system/theme-editor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -83,17 +82,13 @@ export default function DesignSystemPage() {
           Design System. Tokens em <code className="font-mono text-sm">tailwind.config.ts</code> e <code className="font-mono text-sm">globals.css</code>.
         </p>
         <nav className="mt-6 flex flex-wrap gap-2 text-sm font-semibold" aria-label="Seções">
-          {["referencias", "cores", "tipografia", "forma", "niveis", "raios", "acoes", "campos", "dados", "feedback"].map((id) => (
+          {["cores", "tipografia", "forma", "niveis", "raios", "acoes", "campos", "dados", "feedback"].map((id) => (
             <a key={id} href={`#${id}`} className="glass rounded-full px-4 py-2 capitalize text-ink hover:bg-white/80">
               {id}
             </a>
           ))}
         </nav>
       </header>
-
-      <Section id="referencias" title="Referências visuais" hint="O Design System de origem: vidro fosco, degradês suaves, formas amplas e números pontilhados. É daqui que vêm as superfícies e os controles do produto.">
-        <ReferenceGallery />
-      </Section>
 
       <Section
         id="cores"

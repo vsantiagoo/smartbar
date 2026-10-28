@@ -385,6 +385,7 @@ export const en: Record<DictKey, string> = {
   "site.stats.2": "Faster at check-out",
   "site.stats.3": "Less housekeeping time",
   "site.stats.4": "Cheaper than vending machines",
+  "site.stats.fonte": "Industry reference figures for traditional minibar operations, used as estimates. Not a guarantee of results — performance varies with each hotel’s operation.",
   "site.plans.kicker": "Plans",
   "site.plans.title": "From traditional to digital: transform your guest's experience!",
   "site.plans.subtitle": "The price follows the size of the operation. Pick your profile to see the figures.",

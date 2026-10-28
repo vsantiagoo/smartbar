@@ -385,6 +385,7 @@ export const es: Record<DictKey, string> = {
   "site.stats.2": "Más rápido en el check-out",
   "site.stats.3": "Menos tiempo de gobernanta",
   "site.stats.4": "Más barato que las máquinas expendedoras",
+  "site.stats.fonte": "Cifras de referencia del sector para operaciones tradicionales de minibar, usadas como estimación. No son garantía de resultados: el desempeño varía según la operación de cada hotel.",
   "site.plans.kicker": "Planes",
   "site.plans.title": "De lo tradicional a lo digital: ¡transforme la experiencia de su huésped!",
   "site.plans.subtitle": "El precio acompaña el tamaño de la operación. Elija su perfil para ver los valores.",

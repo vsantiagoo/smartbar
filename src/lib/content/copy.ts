@@ -65,6 +65,7 @@ export function marketingCopy(t: TFunction) {
       title: t("site.stats.title"),
       titleAccent: t("site.stats.titleAccent"),
       subtitle: t("site.stats.subtitle"),
+      fonte: t("site.stats.fonte"),
       items: [
         { value: "-95%", label: t("site.stats.1") },
         { value: "75%", label: t("site.stats.2") },

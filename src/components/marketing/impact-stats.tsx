@@ -38,6 +38,11 @@ export async function ImpactStats() {
             </Reveal>
           ))}
         </div>
+
+        {/* Promessa comprovável (item 17): os números são referência de setor e
+            estimativa, não garantia de resultado individual. A ressalva anda
+            junto do número, não escondida nos Termos. */}
+        <p className="mx-auto mt-8 max-w-2xl text-xs leading-snug text-ink-faint">{c.fonte}</p>
       </Seam>
     </section>
   );

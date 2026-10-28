@@ -403,6 +403,7 @@ export const pt = {
   "site.stats.2": "Mais rápido no check-out",
   "site.stats.3": "Menos tempo de governança",
   "site.stats.4": "Mais barato que vending machines",
+  "site.stats.fonte": "Números de referência do setor para operações tradicionais de minibar, usados como estimativa. Não são garantia de resultado — o desempenho varia conforme a operação de cada hotel.",
   "site.plans.kicker": "Planos",
   "site.plans.title": "Do tradicional ao digital: transforme a experiência do seu hóspede!",
   "site.plans.subtitle": "O preço acompanha o porte da operação. Escolha o seu perfil para ver os valores.",
