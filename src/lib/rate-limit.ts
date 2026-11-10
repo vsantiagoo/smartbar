@@ -79,12 +79,40 @@ export function freio(chave: string, limite: number, janelaMs: number): Resultad
 /**
  * De onde veio a requisição, para servir de chave.
  *
- * Atrás de proxy (Vercel), `x-forwarded-for` traz a cadeia e o PRIMEIRO item é
- * o cliente. `x-real-ip` é o reserva. Sem nenhum dos dois, todo mundo cai no
- * mesmo balde — o que aperta demais, e por isso o fallback é explícito e
- * reconhecível em log.
+ * SPOOFING DE `x-forwarded-for`, por que é grave aqui.
+ *
+ * `x-forwarded-for` é um cabeçalho de REQUISIÇÃO — qualquer cliente pode
+ * mandar o valor que quiser. Só é confiável quando um proxy à frente da
+ * aplicação o reescreve, substituindo o que o cliente mandou pelo IP real
+ * da conexão. Vercel, Cloudflare, nginx bem configurado fazem isso.
+ *
+ * Se o SmartBar for exposto sem esse proxy (ou com um proxy que apenas
+ * ANEXA ao cabeçalho do cliente), um atacante envia uma requisição com
+ * `X-Forwarded-For: 1.2.3.4`, outra com `9.9.9.9`, outra com `8.8.8.8`, e
+ * cada requisição vai para um balde diferente do rate limiter — o freio
+ * vira teatro. Pode esgotar estoque, abrir todos os tokens de pedido em
+ * busca ativa, ou forçar o payment gateway a criar cobranças infinitas.
+ *
+ * Por isso a flag `RATE_LIMIT_TRUSTS_XFF`: o operador do deploy marca
+ * explicitamente que a aplicação está atrás de um proxy que reescreve. Sem
+ * essa declaração, o freio IGNORA `x-forwarded-for` e `x-real-ip` e trata
+ * toda a origem como `sem-ip` — aperta demais, mas é a falha-para-fechado.
+ * Entre apertar legítimos e deixar rate limit furado, apertar vence.
+ *
+ * Em desenvolvimento (NODE_ENV!==production) a flag é inferida como true,
+ * para `tests/rate-limit.test.ts` e o dev server seguirem funcionando como
+ * sempre.
  */
+const RATE_LIMIT_TRUSTS_XFF: boolean =
+  process.env.RATE_LIMIT_TRUSTS_XFF === "true" || process.env.NODE_ENV !== "production";
+
 export function origem(request: Request): string {
+  if (!RATE_LIMIT_TRUSTS_XFF) {
+    // Sem proxy confiável declarado: todo mundo cai no mesmo balde. É a
+    // POSTURA SEGURA — melhor um freio apertado para todos do que furado
+    // para um atacante com um `X-Forwarded-For` aleatório por requisição.
+    return "sem-proxy";
+  }
   const encadeado = request.headers.get("x-forwarded-for");
   if (encadeado) return encadeado.split(",")[0]!.trim();
   return request.headers.get("x-real-ip") ?? "sem-ip";
@@ -119,6 +147,13 @@ export const ORCAMENTO = {
   consulta: { porAlvo: 60, porIp: 600, janelaMs: 60_000 },
   /** Leitores da porta: um por quarto, todos pela rede do hotel. */
   dispositivo: { porAlvo: 30, porIp: 300, janelaMs: 60_000 },
+  /**
+   * Painel admin. O freio aqui NÃO é contra o uso legítimo (operadores humanos
+   * clicando) — é contra sessão vazada em polling automático e contra leitura
+   * massiva de snapshot se um RBAC falhar. 120/min cobre o refetch de
+   * tempo real com folga.
+   */
+  admin: { porAlvo: 120, porIp: 600, janelaMs: 60_000 },
 } as const;
 
 type Orcamento = { porAlvo: number; porIp: number; janelaMs: number };

@@ -14,10 +14,21 @@ export const isDemoMode: boolean = !isSupabaseConfigured;
 const demoToolsEnabled: boolean = process.env.NEXT_PUBLIC_DEMO_TOOLS !== "false";
 
 /**
- * Servidor: as rotas /api/mock/* só respondem se as ferramentas de demo estiverem
- * ligadas E (estamos em modo demo OU fora de produção).
+ * Servidor: as rotas /api/mock/* só respondem fora de produção.
+ *
+ * O desenho anterior era `demoToolsEnabled && (isDemoMode || !production)` —
+ * tinha um FLANCO: se um deploy em `NODE_ENV=production` subisse SEM as três
+ * chaves do Supabase (esqueceu uma variável, troca de ambiente mal feita),
+ * `isDemoMode` viraria `true` e as rotas `/api/mock/*` ficariam EXPOSTAS.
+ * `/api/mock/pix/pay` autoriza qualquer pedido sem pagar. `/api/mock/rfid/tap`
+ * destrava remotamente. Era controle de negócio ligado à presença de uma
+ * variável de ambiente — forma errada.
+ *
+ * Agora: em produção, não importa a configuração, as rotas de demo são 404.
+ * Ponto. A ferramenta de demo serve a desenvolvimento e staging; produção
+ * nunca precisa dela.
  */
-export const simulationAllowed: boolean = demoToolsEnabled && (isDemoMode || process.env.NODE_ENV !== "production");
+export const simulationAllowed: boolean = demoToolsEnabled && process.env.NODE_ENV !== "production";
 
 export const DEMO_ADMIN = {
   email: "recepcao@hotelaurora.com.br",

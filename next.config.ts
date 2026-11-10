@@ -30,8 +30,22 @@ const SEGURANCA = [
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()" },
   { key: "X-DNS-Prefetch-Control", value: "on" },
+  /*
+    Cross-Origin-Opener-Policy: cada aba fica isolada no seu PROCESSO. Um
+    outro site que abra uma popup para o SmartBar não consegue falar
+    diretamente com ela via `window.opener` nem especular com Spectre sobre
+    a memória da nossa aba. `same-origin-allow-popups` deixa os botões de
+    pagamento Pix abrirem popups próprias sem travar — o controle aqui é
+    quem pode conversar com a gente, não o contrário.
+
+    Cross-Origin-Resource-Policy: casa com a COOP. Recursos nossos (JS, JSON
+    de API, imagens hospedadas) só podem ser embedados por nós mesmos.
+    Isso fecha hotlinking e um vetor de Spectre do lado do carregador.
+  */
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
+  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
 ];
 
 /*

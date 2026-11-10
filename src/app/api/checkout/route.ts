@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { DomainError, getGuestRepo } from "@/lib/data";
+import { logErro } from "@/lib/log";
 import { getPixProvider } from "@/lib/payments/pix";
 import { PIX_TTL_SECONDS } from "@/lib/guest-constants";
 import { checkoutSchema } from "@/lib/schemas";
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
       const mapped = ERRORS[e.code] ?? { status: 400, message: "Não foi possível criar o pedido." };
       return NextResponse.json({ error: mapped.message, code: e.code }, { status: mapped.status });
     }
-    console.error("[checkout]", e);
+    logErro("[checkout]", e);
     return NextResponse.json({ error: "Erro interno. Tente novamente." }, { status: 500 });
   }
 }

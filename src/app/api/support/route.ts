@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { DomainError, getGuestRepo } from "@/lib/data";
+import { logErro } from "@/lib/log";
 import { supportSchema } from "@/lib/schemas";
 import { freioPorAlvo, freioPorIp, ORCAMENTO } from "@/lib/rate-limit";
 
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
       const status = e.code === "not_found" ? 404 : 503;
       return NextResponse.json({ error: "Não foi possível registrar o pedido agora." }, { status });
     }
-    console.error("[support]", e);
+    logErro("[support]", e);
     return NextResponse.json({ error: "Erro interno." }, { status: 500 });
   }
 }
