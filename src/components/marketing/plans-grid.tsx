@@ -30,24 +30,32 @@ interface FactBlock {
 /** Faixa de vidro com fatos curtos e uma ressalva — usada pelos custos extras. */
 function FactStrip({ block, delay }: { block: FactBlock; delay: number }) {
   const hasItems = Boolean(block.items?.length);
+  /*
+    Contraste medido ao vivo sobre o degradê claro da página (fundo em
+    ~rgb(235,232,231) nessa zona): o eyebrow (brand-500) dava 4,2:1, as
+    descrições (ink-faint) só 2,6-2,8:1 — bem abaixo dos 4,5:1 exigidos
+    por WCAG AA para texto normal. A sensação era de "névoa" apagando o
+    card. Troca para `brand-700` (eyebrow, 8+:1) e `ink-soft` (descrições,
+    4,8:1): leitura nítida mantendo a hierarquia do card.
+  */
   return (
     <Reveal weight="aside" delay={delay} className="mt-5">
       <div className="glass rounded-panel p-7">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <p className="text-sm font-semibold uppercase tracking-wide text-brand-500">{block.title}</p>
-          <p className="text-sm text-ink-soft">{block.text}</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">{block.title}</p>
+          <p className="text-sm text-ink">{block.text}</p>
         </div>
         {hasItems && (
           <dl className="mt-5 grid gap-4 sm:grid-cols-3">
             {block.items!.map((item) => (
               <div key={item.label}>
-                <dt className="text-sm text-ink-soft">{item.label}</dt>
+                <dt className="text-sm font-medium text-ink-soft">{item.label}</dt>
                 <dd className="mt-0.5 text-lg font-bold text-ink">{item.value}</dd>
               </div>
             ))}
           </dl>
         )}
-        <p className={cn("text-xs leading-relaxed text-ink-faint", hasItems ? "mt-5" : "mt-4")}>{block.note}</p>
+        <p className={cn("text-sm leading-relaxed text-ink-soft", hasItems ? "mt-5" : "mt-4")}>{block.note}</p>
       </div>
     </Reveal>
   );

@@ -5,27 +5,12 @@ import { clamp01, cn } from "@/lib/utils";
 
 /** Escala com que a seção CHEGA, antes de se abrir. */
 const CONTIDA = 0.93;
-/**
- * Opacidade do véu sobre a seção ainda fechada.
- *
- * ERA 0.55. Medido ao vivo numa seção alta (Planos, 1.188px) com viewport de
- * 860px: no scrollY em que a seção já estava visível até a metade, o véu
- * ainda estava a 36% — texto do card de "Customização" quase ilegível,
- * preços esmaecidos. O portão deve ser sentido, não impedir a leitura.
- * Ajuste duplo para resolver (ver também JANELA_ENTRADA abaixo).
- */
-const VEU = 0.25;
+/** Opacidade do véu sobre a seção ainda fechada. */
+const VEU = 0.55;
 /** Quanto o conteúdo fica para trás ao sair, em px. */
 const ARRASTO = 72;
 /** Quanto ele esmaece ao sair. Não vai a 1: sumir por completo cria um vazio. */
 const ESMAECE = 0.72;
-/**
- * Em que fração do viewport a entrada se completa (v chega em 1). ERA 0.45:
- * o portão demorava 387px de scroll para fechar, e numa seção mais alta que
- * a tela isso acontecia quando o conteúdo já estava em pleno uso. 0.28
- * encerra em ~241px, logo que a seção realmente aparece.
- */
-const JANELA_ENTRADA = 0.28;
 
 /**
  * O PORTÃO DA SEÇÃO — ela chega fechada e se abre ao assumir a tela.
@@ -76,8 +61,8 @@ export function Seam({
       // Fase de saída, quando a seção já passou do topo. Devolve 1 a 2.
       if (top < 0) return 1 + clamp01(-top / Math.max(1, Math.min(height, vh)));
       // Fase de entrada: 0 quando o topo encosta na borda de baixo, 1 quando
-      // subiu JANELA_ENTRADA da tela — ou seja, a seção se abre enquanto ainda sobe.
-      return clamp01((vh - top) / Math.max(1, vh * JANELA_ENTRADA));
+      // subiu 45% da tela — ou seja, a seção se abre enquanto ainda sobe.
+      return clamp01((vh - top) / Math.max(1, vh * 0.45));
     },
     (v) => {
       const el = ref.current;
