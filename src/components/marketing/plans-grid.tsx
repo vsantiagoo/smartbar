@@ -76,7 +76,11 @@ export function PlansGrid() {
     <section id="planos" className="relative isolate px-6 py-16 sm:-scroll-mt-14 sm:px-10 sm:py-20">
       <BackToTop />
       <GlowBackdrop flip />
-      <Seam className="mx-auto max-w-6xl">
+      {/* openOnly: a seção Planos é a mais densa em texto (preços, descrições,
+          notas). A fase de SAÍDA do portão (translate + opacity ao sair) deixava
+          a página esmaecida enquanto o hóspede ainda lia os cards — o efeito
+          cobrava legibilidade por uma transição que não era necessária aqui. */}
+      <Seam openOnly className="mx-auto max-w-6xl">
         {/* Caixa mais larga que a das outras seções: o título daqui é uma frase
             inteira e, em `max-w-xl`, quebraria em quatro linhas apertadas. */}
         <Reveal weight="lead" className="max-w-3xl">

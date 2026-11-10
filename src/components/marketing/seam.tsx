@@ -37,6 +37,7 @@ const ESMAECE = 0.72;
 export function Seam({
   children,
   tone = "light",
+  openOnly = false,
   className,
 }: {
   children: ReactNode;
@@ -46,6 +47,13 @@ export function Seam({
    * fundo, e cada seção tem o seu.
    */
   tone?: "light" | "dark";
+  /**
+   * Desativa a fase de SAÍDA — a seção não esmaece nem fica para trás quando o
+   * hóspede rola para fora dela. Para seções densas em texto (preços,
+   * descrições), em que a opacidade enquanto se lê atrapalhou mais do que
+   * ajudou. O portão de entrada (escala e véu) continua.
+   */
+  openOnly?: boolean;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -59,7 +67,9 @@ export function Seam({
       const { top, height } = sec.getBoundingClientRect();
 
       // Fase de saída, quando a seção já passou do topo. Devolve 1 a 2.
-      if (top < 0) return 1 + clamp01(-top / Math.max(1, Math.min(height, vh)));
+      // Com openOnly, trava em 1 — a saída existe só como posição, nenhuma
+      // transformação é aplicada no bloco `else` abaixo.
+      if (top < 0) return openOnly ? 1 : 1 + clamp01(-top / Math.max(1, Math.min(height, vh)));
       // Fase de entrada: 0 quando o topo encosta na borda de baixo, 1 quando
       // subiu 45% da tela — ou seja, a seção se abre enquanto ainda sobe.
       return clamp01((vh - top) / Math.max(1, vh * 0.45));
