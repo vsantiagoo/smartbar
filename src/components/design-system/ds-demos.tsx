@@ -4,7 +4,6 @@ import { Segmented } from "@/components/ui/segmented";
 import { Stepper } from "@/components/ui/stepper";
 import { Sheet } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { MartsOrb } from "@/components/ui/marts-orb";
 
 /** Demos interativos do catálogo (precisam de estado no cliente). */
 export function StepperDemo() {
@@ -25,25 +24,6 @@ export function SegmentedDemo() {
         { value: "snack", label: "Snacks" },
       ]}
     />
-  );
-}
-
-/**
- * Vitrine da Orbe da Marts — botão liga/desliga `speaking` para ver as duas
- * famílias de partícula (centelhas do anel + emitidas) entrarem e, ao
- * desligar, terminarem o próprio ciclo em vez de sumir de corte seco.
- */
-export function MartsOrbDemo() {
-  const [falando, setFalando] = useState(false);
-  return (
-    <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
-      <div className="grid place-items-center py-4" style={{ width: 96 * 3.2, height: 96 * 3.2 }}>
-        <MartsOrb size={96} speaking={falando} particles />
-      </div>
-      <Button variant={falando ? "accent" : "glass"} onClick={() => setFalando((v) => !v)}>
-        {falando ? "Falando…" : "Simular fala"}
-      </Button>
-    </div>
   );
 }
 

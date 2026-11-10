@@ -3,8 +3,6 @@ import { notFound } from "next/navigation";
 import type { CSSProperties, ReactNode } from "react";
 import { CartProvider } from "@/components/guest/cart-context";
 import { GuestProvider, type GuestRoomInfo } from "@/components/guest/guest-context";
-import { MartsAssistant } from "@/components/guest/marts/marts-assistant";
-import { MartsProvider } from "@/components/guest/marts/marts-context";
 import { GuestHeader } from "@/components/guest/sections/guest-header";
 import { GuestNav } from "@/components/guest/sections/guest-nav";
 import { APPEARANCE_COOKIE } from "@/lib/appearance";
@@ -64,26 +62,18 @@ export default async function GuestLayout({
       className="relative min-h-dvh overflow-x-hidden"
     >
       <GuestProvider initialLang={hasLangCookie ? (saved as Lang) : "pt"} hasLangCookie={hasLangCookie} room={room}>
-        {/* A Marts precisa do idioma e do quarto do GuestProvider (usa useGuest()
-            por dentro) — por isso fica aninhada aqui, não ao lado dele. */}
-        <MartsProvider>
-          {/* Zona escura de topo: cabeçalho + hero do catálogo */}
-          <div className="guest-hero-zone relative pb-28">
-            <div className="px-4 pt-4 sm:px-6">
-              <GuestHeader initialDark={dark} />
-            </div>
+        {/* Zona escura de topo: cabeçalho + hero do catálogo */}
+        <div className="guest-hero-zone relative pb-28">
+          <div className="px-4 pt-4 sm:px-6">
+            <GuestHeader initialDark={dark} />
           </div>
-          {/* z-10: o conteúdo sobe sob o herói (-mt-24), mas precisa ficar clicável
-              acima da zona do herói, que é posicionada. O cabeçalho (z-30) segue por cima. */}
-          <div className="relative z-10 mx-auto -mt-24 flex w-full max-w-lg flex-col px-4 pb-40 print:pb-4">
-            <CartProvider roomId={ctx.room.id}>{children}</CartProvider>
-            <GuestNav baseHref={`/h/${hotelId}/q/${roomId}`} />
-          </div>
-          {/* Montada uma vez aqui (não em cada página): o botão flutuante é
-              `fixed`, então "acompanha o scroll" em qualquer rota da vitrine
-              sem precisar de nenhum JS de scroll — é só CSS. */}
-          <MartsAssistant />
-        </MartsProvider>
+        </div>
+        {/* z-10: o conteúdo sobe sob o herói (-mt-24), mas precisa ficar clicável
+            acima da zona do herói, que é posicionada. O cabeçalho (z-30) segue por cima. */}
+        <div className="relative z-10 mx-auto -mt-24 flex w-full max-w-lg flex-col px-4 pb-40 print:pb-4">
+          <CartProvider roomId={ctx.room.id}>{children}</CartProvider>
+          <GuestNav baseHref={`/h/${hotelId}/q/${roomId}`} />
+        </div>
       </GuestProvider>
     </div>
   );
