@@ -638,11 +638,26 @@ const CSS = `
 .aurum .au-cta svg{width:12px;height:12px}
 
 .aurum [data-pane="idle"]{padding-top:80px}
-.aurum .au-hint{display:block;width:100%;background:none;border:0;cursor:pointer;padding:4px 0;
-  color:var(--ink3);font:300 8.5px/1.4 inherit;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;
-  animation:au-hint 3.2s ease-in-out infinite}
+.aurum .au-hint{
+  /* Dica no estado de repouso: menor que antes (8.5px, letter-spacing reduzido)
+     para caber "PASSE O MOUSE PARA ENTRAR" dentro da largura util do card
+     (~216px). Cor branca com opacidade pulsando.
+
+     NOTA: NAO usar o shorthand font com inherit — inherit nao e valido
+     dentro do shorthand font, o navegador descarta a declaracao inteira
+     e cai no default de 16px. Precisa ser longhand. */
+  display:block;width:100%;background:none;border:0;cursor:pointer;padding:4px 0;
+  color:#ffffff;
+  font-weight:300;
+  font-size:8.5px;
+  line-height:1.4;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  white-space:nowrap;text-align:center;
+  animation:au-hint 3.2s ease-in-out infinite;
+}
 .aurum .au-hint:focus-visible{outline:1px solid rgb(var(--sb-accent) / .5);outline-offset:3px;border-radius:4px}
-@keyframes au-hint{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes au-hint{0%,100%{opacity:.55}50%{opacity:.95}}
 
 @media (prefers-reduced-motion:reduce){
   .aurum *,.aurum *::before,.aurum *::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
