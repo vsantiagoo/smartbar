@@ -44,9 +44,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // pronuncia com a prosódia errada quando fica fixo em pt e a pessoa escolheu
   // en/es. O idioma vive no mesmo cookie que o site usa.
   const lang = parseLang((await cookies()).get(LANG_COOKIE)?.value) ?? "pt";
-  // Nonce CSP do request. Vem do middleware (src/middleware.ts). Sem ele,
-  // o <script> inline abaixo seria barrado pela CSP do próprio middleware.
-  const nonce = (await headers()).get("x-nonce") ?? undefined;
+  // Nonce CSP do request. Vem do middleware (src/middleware.ts). Em DEV o
+  // middleware não aplica CSP e deixa o header vazio — passa-se undefined,
+  // e o atributo `nonce` nem aparece no HTML. Isso evita hydration mismatch
+  // entre o nonce do SSR e o do próximo render.
+  const nonceHeader = (await headers()).get("x-nonce");
+  const nonce = nonceHeader && nonceHeader.length > 0 ? nonceHeader : undefined;
 
   return (
     <html

@@ -43,14 +43,28 @@ const DEMO_COOKIE = "smartbar_demo_admin";
  * Em modo demo (sem env): exige o cookie de demonstração.
  * A verificação de VÍNCULO com o hotel acontece em requireAdmin() + RLS.
  */
-export async function middleware(request: NextRequest) {
-  // --- 1. Nonce ---
-  const nonce = geraNonce();
-  const csp = montaCsp(nonce);
+const EM_DEV = process.env.NODE_ENV !== "production";
 
-  // O header de request novo é como passamos o nonce para o Server Component.
+export async function middleware(request: NextRequest) {
+  // --- 1. Nonce (SÓ EM PRODUÇÃO) ---
+  //
+  // Em dev a CSP com nonce traz dois problemas sem ganho de segurança:
+  //
+  //   (a) O Fast Refresh do Next usa `eval`/`new Function`, e qualquer CSP
+  //       que não permita `unsafe-eval` bloqueia o HMR — componentes client
+  //       param de hidratar, o cadeado não anima, botões não respondem.
+  //   (b) O nonce muda a cada request. O React compara os atributos do HTML
+  //       SSR com o DOM re-hidratado e acusa hydration mismatch no inline
+  //       script do THEME_BOOT, o que esfarela a árvore client.
+  //
+  // Dev não é alvo público: fica sem CSP. Em produção a CSP volta estrita,
+  // com nonce, `strict-dynamic` e tudo mais.
+  const nonce = EM_DEV ? "" : geraNonce();
+  const csp = EM_DEV ? null : montaCsp(nonce);
+
+  // O header de request só precisa carregar o nonce em produção.
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-nonce", nonce);
+  if (nonce) requestHeaders.set("x-nonce", nonce);
 
   // --- 2. Guarda do /admin/* ---
   const { pathname } = request.nextUrl;
@@ -100,7 +114,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // --- CSP no response (toda rota, inclusive os redirects acima) ---
-  response.headers.set("Content-Security-Policy", csp);
+  if (csp) response.headers.set("Content-Security-Policy", csp);
   return response;
 }
 
@@ -116,13 +130,16 @@ function geraNonce(): string {
   return btoa(b64).replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
 }
 
+/**
+ * CSP de PRODUÇÃO. Em dev o middleware nem chama esta função — ver comentário
+ * no `middleware()` sobre por que dev fica sem CSP.
+ */
 function montaCsp(nonce: string): string {
   return [
     "default-src 'self'",
-    // Scripts: só com nonce deste request OU que um script nonceado tenha
-    // carregado (strict-dynamic). Sem 'unsafe-inline' nem 'unsafe-eval'.
+    // Só scripts com nonce deste request OU carregados por um script nonceado
+    // (strict-dynamic). Sem 'unsafe-inline' nem 'unsafe-eval'.
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
-    // Estilos: unsafe-inline aqui é compromisso consciente (ver comentário).
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "media-src 'self'",
