@@ -7,12 +7,30 @@ import { PIX_TTL_SECONDS } from "@/lib/guest-constants";
 import { checkoutSchema } from "@/lib/schemas";
 import { freioPorAlvo, freioPorIp, ORCAMENTO } from "@/lib/rate-limit";
 
+/*
+  O QUE RETORNAR PARA O CLIENTE — e o que NÃO retornar.
+
+  Nem toda razão de falha é publicável. Discriminar `not_found` por quarto
+  inexistente de `no_active_stay` por quarto SEM estadia ativa entrega ao
+  atacante um oráculo:
+
+    POST { roomId: "q-101" } → 404 "não encontrado"   → quarto não existe
+    POST { roomId: "q-102" } → 409 "sem estadia"      → quarto existe, sem hóspede
+    POST { roomId: "q-103" } → 201                    → quarto existe, com hóspede
+
+  Isso enumera o hotel (mapa de quartos + ocupação) em segundos.
+
+  Só UM código precisa escapar para a UX: `out_of_stock` — o checkout
+  troca a mensagem para "esgotou" e sugere outro item. Os outros três
+  colapsam para a MESMA resposta genérica (400 + mensagem igual) e NÃO
+  acompanham o campo `code`. Quem olha o response do lado de fora não
+  consegue inferir nada.
+*/
+const PUBLICOS = new Set<string>(["out_of_stock"]);
 const ERRORS: Record<string, { status: number; message: string }> = {
-  not_found: { status: 404, message: "Quarto não encontrado." },
   out_of_stock: { status: 409, message: "Um dos itens acabou de esgotar neste quarto." },
-  no_active_stay: { status: 409, message: "Este quarto não tem estadia ativa para lançar na conta." },
-  invalid_items: { status: 400, message: "Itens inválidos no carrinho." },
 };
+const ERRO_GENERICO = { status: 400, message: "Não foi possível criar o pedido." } as const;
 
 /**
  * Cria o pedido (status "pending"). Preços e estoque são revalidados aqui —
@@ -55,8 +73,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ token: tx.publicToken, method: tx.method }, { status: 201 });
   } catch (e) {
     if (e instanceof DomainError) {
-      const mapped = ERRORS[e.code] ?? { status: 400, message: "Não foi possível criar o pedido." };
-      return NextResponse.json({ error: mapped.message, code: e.code }, { status: mapped.status });
+      if (PUBLICOS.has(e.code)) {
+        const mapped = ERRORS[e.code]!;
+        return NextResponse.json({ error: mapped.message, code: e.code }, { status: mapped.status });
+      }
+      // Códigos sensíveis (not_found, no_active_stay, invalid_items, etc.):
+      // resposta ÚNICA, sem `code`, para não virar oráculo de enumeração.
+      // O detalhe fica no log do servidor — útil para a operação, invisível
+      // para o cliente.
+      logErro("[checkout] domain", { code: e.code });
+      return NextResponse.json({ error: ERRO_GENERICO.message }, { status: ERRO_GENERICO.status });
     }
     logErro("[checkout]", e);
     return NextResponse.json({ error: "Erro interno. Tente novamente." }, { status: 500 });

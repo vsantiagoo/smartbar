@@ -27,8 +27,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ id: req.id }, { status: 201 });
   } catch (e) {
     if (e instanceof DomainError) {
-      const status = e.code === "not_found" ? 404 : 503;
-      return NextResponse.json({ error: "Não foi possível registrar o pedido agora." }, { status });
+      // Antes, `not_found` virava 404 e o resto 503. O 404 revelava se um
+      // `roomId` existia — oráculo barato de enumeração. Agora o cliente
+      // recebe sempre a MESMA mensagem e o MESMO status; o código de domínio
+      // fica no log do servidor para a operação, não na resposta pública.
+      logErro("[support] domain", { code: e.code });
+      return NextResponse.json({ error: "Não foi possível registrar o pedido agora." }, { status: 400 });
     }
     logErro("[support]", e);
     return NextResponse.json({ error: "Erro interno." }, { status: 500 });
