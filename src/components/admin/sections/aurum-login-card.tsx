@@ -602,7 +602,11 @@ const CSS = `
 .aurum .au-title b{font-weight:600;background:linear-gradient(175deg,
   color-mix(in srgb, rgb(var(--sb-accent-2)) 85%, #fff),rgb(var(--sb-accent)) 58%,
   color-mix(in srgb, rgb(var(--sb-accent)) 68%, #000));
-  -webkit-background-clip:text;background-clip:text;color:transparent}
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  /* Glow do "SMARTBAR" ao lado (branco + azul-claro), via drop-shadow: text-shadow
+     cobriria o degradê do texto transparente. O branco é mais fraco que no
+     "SMARTBAR" porque aqui o texto é azul e um halo branco forte o borraria. */
+  filter:drop-shadow(0 0 5px rgb(255 255 255 / .4)) drop-shadow(0 0 16px rgb(140 200 255 / .8))}
 .aurum .au-sub{margin:6px 0 0;font-size:10.5px;color:var(--ink2);font-weight:300;line-height:1.45}
 
 .aurum .au-field{margin-bottom:9px}
