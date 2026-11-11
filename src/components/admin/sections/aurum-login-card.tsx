@@ -655,16 +655,21 @@ const CSS = `
 .aurum .au-eye:hover{color:var(--gold-hi)}
 .aurum .au-eye svg{width:13px;height:13px}
 
-.aurum .au-cta{position:relative;width:100%;height:40px;border:0;cursor:pointer;border-radius:9px;overflow:hidden;margin-top:6px;
-  background:linear-gradient(180deg,rgb(var(--sb-accent-2)),rgb(var(--sb-accent)) 48%,color-mix(in srgb, rgb(var(--sb-accent)) 82%, #000));
-  color:rgb(var(--sb-on-accent));font-family:inherit;font-size:17px;font-weight:400;line-height:1;letter-spacing:.015em;
+/* Botão em vidro fosco translúcido (referência: pílula cinza-clara com texto branco):
+   tinta branca leve, desfoque, fio de luz na borda e brilho interno no topo. */
+.aurum .au-cta{position:relative;width:100%;height:40px;border:1px solid rgb(255 255 255 / .22);cursor:pointer;border-radius:14px;overflow:hidden;margin-top:6px;
+  background:linear-gradient(to bottom,rgb(255 255 255 / .30),rgb(255 255 255 / .18));
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
+  color:#fff;font-family:inherit;font-size:17px;font-weight:400;line-height:1;letter-spacing:.015em;
   display:flex;align-items:center;justify-content:center;gap:6px;
-  box-shadow:0 6px 16px -10px rgb(var(--sb-accent) / .5),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.28);
-  transition:transform .28s var(--ease),box-shadow .28s var(--ease)}
+  box-shadow:inset 0 1px 0 rgb(255 255 255 / .45),inset 0 -1px 0 rgb(0 0 0 / .10),0 6px 16px -10px rgb(0 0 0 / .45);
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease),background .28s var(--ease),border-color .28s var(--ease)}
 .aurum .au-cta[disabled]{opacity:.7;cursor:progress}
 .aurum .au-cta::after{content:'';position:absolute;inset:0;left:-140%;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transition:left .8s ease}
-.aurum .au-cta:hover:not([disabled]){transform:translateY(-1px);box-shadow:0 10px 22px -10px rgb(var(--sb-accent) / .6),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(0,0,0,.28)}
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transition:left .8s ease}
+.aurum .au-cta:hover:not([disabled]){transform:translateY(-1px);
+  background:linear-gradient(to bottom,rgb(255 255 255 / .38),rgb(255 255 255 / .24));border-color:rgb(255 255 255 / .38);
+  box-shadow:inset 0 1px 0 rgb(255 255 255 / .55),inset 0 -1px 0 rgb(0 0 0 / .10),0 10px 22px -10px rgb(0 0 0 / .5)}
 .aurum .au-cta:hover:not([disabled])::after{left:140%}
 .aurum .au-cta:active{transform:translateY(0)}
 .aurum .au-cta svg{width:13px;height:13px}
