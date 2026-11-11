@@ -509,11 +509,14 @@ const CSS = `
   --gold:    rgb(var(--sb-accent));
   --gold-hi: rgb(var(--sb-accent-2));
   --ink:     rgb(var(--sb-ink));
-  --ink2:    rgb(var(--sb-ink) / .50);
-  --ink3:    rgb(var(--sb-ink) / .26);
-  --hair:    rgb(var(--sb-border) / .07);
-  --glass:   rgb(var(--sb-surface) / .76);
-  --blurfx:  blur(28px) saturate(60%) brightness(.30) contrast(1.04);
+  --ink2:    rgb(var(--sb-ink) / .60);
+  --ink3:    rgb(var(--sb-ink) / .36);
+  --hair:    rgb(var(--sb-border) / .09);
+  /* Vidro estilo Apple (mesmo material do .glass-dark do design system): tinta
+     translúcida em DEGRADÊ (a luz entra por cima), desfoque com saturação — sem o
+     escurecimento chapado de antes — e aro de luz vindo de cima (--rim-dark). */
+  --glass:   linear-gradient(to bottom, rgb(20 28 44 / .76), rgb(8 13 24 / .88));
+  --blurfx:  blur(30px) saturate(1.6);
 
   --cut:46px; --seam:6px; --r:15px;
   --spring:cubic-bezier(.34,1.26,.44,1);
@@ -546,12 +549,14 @@ const CSS = `
 .aurum .au-glass{position:relative;z-index:1;background:var(--glass);
   backdrop-filter:var(--blurfx);-webkit-backdrop-filter:var(--blurfx);
   padding:24px;padding-top:calc(var(--cut) * .46 + 15px);padding-bottom:22px;
-  box-shadow:0 22px 58px -24px rgba(0,0,0,.92)}
+  box-shadow:var(--rim-dark),inset 0 1px 0 rgb(255 255 255 / .16)}
 .aurum .au-glass::after{content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 65% at 50% 46%,rgba(0,0,0,.26),transparent 80%)}
+  background:radial-gradient(ellipse 80% 65% at 50% 46%,rgba(0,0,0,.14),transparent 80%)}
+/* Brilho especular: faixa de luz no topo, realce na quina de cima e um toque azul na de baixo. */
 .aurum .au-glass::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:linear-gradient(157deg,rgb(var(--sb-border) / .05),transparent 20%),
-    linear-gradient(334deg,rgb(var(--sb-accent-2) / .03),transparent 24%)}
+  background:linear-gradient(to bottom,rgb(255 255 255 / .09),transparent 34%),
+    linear-gradient(157deg,rgb(255 255 255 / .16),transparent 26%),
+    linear-gradient(334deg,rgb(var(--sb-accent-2) / .07),transparent 28%)}
 .aurum .au-grain{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.04;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 
@@ -582,7 +587,11 @@ const CSS = `
 .aurum .au-t-halo{fill:none;stroke:rgb(var(--sb-accent) / .5);stroke-width:2.6;filter:url(#au-fx-soft);
   opacity:.55;transition:opacity .35s ease,stroke-width .35s ease}
 .aurum .au-t-edge{fill:none;stroke-width:1.05;stroke-linejoin:round;stroke:rgb(var(--sb-accent-2) / .85)}
-.aurum .au-scene.au-joined .au-t-halo{opacity:1;stroke-width:3.4}
+/* Card fechado: as duas pontas formam o ícone central; a borda dele pulsa suave. */
+.aurum .au-scene.au-joined .au-t-halo{opacity:1;stroke-width:3.4;animation:au-tip-pulse 3.4s ease-in-out infinite}
+.aurum .au-scene.au-joined .au-t-edge{animation:au-edge-pulse 3.4s ease-in-out infinite}
+@keyframes au-tip-pulse{0%,100%{opacity:.5;stroke-width:2.6}50%{opacity:1;stroke-width:5.2}}
+@keyframes au-edge-pulse{0%,100%{opacity:.72}50%{opacity:1}}
 
 .aurum .au-viewport{position:relative;z-index:3;height:0;transition:height .56s var(--spring)}
 .aurum .au-pane{position:absolute;left:0;top:0;width:100%;display:none;
@@ -604,12 +613,12 @@ const CSS = `
 .aurum .au-head{margin-bottom:15px}
 .aurum .au-title{
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;
-  font-size:27px;font-weight:600;letter-spacing:-.022em;line-height:1.08;margin:0;
+  font-size:27px;font-weight:300;letter-spacing:-.022em;line-height:1.08;margin:0;
 }
 /* Cor #B8D0EE. O texto é claro, então um halo azul-claro atrás dele mantém a
    borda da letra nítida (o contrário do que acontecia com o texto escuro). */
-.aurum .au-title b{font-weight:600;color:#b8d0ee;
-  text-shadow:0 0 10px rgb(140 200 255 / .65),0 0 22px rgb(77 163 255 / .5)}
+.aurum .au-title b{font-weight:300;color:#b8d0ee;
+  text-shadow:0 0 8px rgb(140 200 255 / .6),0 0 20px rgb(77 163 255 / .45)}
 .aurum .au-sub{margin:6px 0 0;font-size:11.5px;color:var(--ink2);font-weight:300;line-height:1.45}
 
 .aurum .au-field{margin-bottom:10px}
