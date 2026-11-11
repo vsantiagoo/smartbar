@@ -278,6 +278,15 @@ export function AurumLoginCard({
     };
     peekBtn?.addEventListener("click", onPeek);
 
+    // A altura do card é fixada em px para animar; se o conteúdo muda com o card
+    // aberto (troca de idioma, mensagem de erro), acompanha para não sobrar nem vazar.
+    const ro = new ResizeObserver(() => {
+      if (current !== "login" || busy) return;
+      H.login = paneLogin.offsetHeight;
+      viewport.style.height = H.login + "px";
+    });
+    ro.observe(paneLogin);
+
     // ─── parallax sutil ───
     const fine = matchMedia("(pointer:fine)").matches;
     const onMove = (e: PointerEvent) => {
@@ -300,6 +309,7 @@ export function AurumLoginCard({
     rafId = requestAnimationFrame(loop);
 
     return () => {
+      ro.disconnect();
       cancelAnimationFrame(rafId);
       clearTimeout(timer);
       clearTimeout(rt);
@@ -357,15 +367,13 @@ export function AurumLoginCard({
                       className="au-brand-txt"
                       style={{ textShadow: GLOW_SHADOW }}
                     >
-                      <b>Aurum</b>
-                      <span className="au-brand-sep" aria-hidden>·</span>
-                      <span>SmartBar</span>
+                      <b>SmartBar</b>
                     </span>
                   </div>
 
                   <div className="au-head">
                     <h1 className="au-title">
-                      {t("admin.login.titleLead")} <b>{t("admin.login.titleAccent")}</b>
+                      <b>{t("admin.login.heading")}</b>
                     </h1>
                     <p className="au-sub">{t("admin.login.subtitle")}</p>
                   </div>
@@ -585,7 +593,6 @@ const CSS = `
   color:#f2f5fa;font-weight:500;
 }
 .aurum .au-brand-txt b{font-weight:700;letter-spacing:.24em}
-.aurum .au-brand-sep{opacity:.55;margin:0 1px}
 
 .aurum .au-head{margin-bottom:14px}
 .aurum .au-title{

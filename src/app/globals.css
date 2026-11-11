@@ -49,6 +49,20 @@
   min-height: 100dvh;
 }
 
+/* Tela de login: fundo liso no claro; no escuro, o mesmo degradê do hóspede. */
+.login-root {
+  background: #e8f0f9;
+}
+.login-root[data-theme="dark"] {
+  background: linear-gradient(
+    160deg,
+    rgb(var(--sky-1)) 0%,
+    rgb(var(--sky-2)) 38%,
+    rgb(var(--sky-3)) 72%,
+    rgb(var(--sky-4)) 100%
+  );
+}
+
 /*
   VIDRO NO ESCURO. A tinta clara do modo claro fica forte demais aqui, mas o
   ajuste não pode ser um preenchimento chapado: isso apagaria a luz direcional

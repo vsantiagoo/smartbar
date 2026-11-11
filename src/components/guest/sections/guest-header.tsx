@@ -140,7 +140,7 @@ export function GuestHeader({ initialDark = false }: { initialDark?: boolean }) 
 
             <LanguageSwitcher tone="dark" onAfterSelect={() => setMenuOpen(false)} />
 
-            <ThemeToggle initialDark={initialDark} />
+            <ThemeToggle initialDark={initialDark} label={t("guest.header.theme")} />
           </div>
         </div>
       </div>

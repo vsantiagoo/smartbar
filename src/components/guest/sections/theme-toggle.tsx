@@ -1,24 +1,32 @@
 "use client";
 import { Moon, Sun } from "lucide-react";
 import { useState } from "react";
-import { useGuest } from "@/components/guest/guest-context";
 import { APPEARANCE_COOKIE } from "@/lib/appearance";
 import { cn } from "@/lib/utils";
 
 /**
  * Botão claro/escuro: pílula de vidro com um knob que desliza entre o sol (claro,
- * glow quente) e a meia-lua (escuro, glow frio). Alterna `data-theme` no #guest-root
- * — o modo escuro fica escopado à casca do app do hóspede — e grava a escolha no
- * cookie para a próxima renderização não piscar.
+ * glow quente) e a meia-lua (escuro, glow frio). Alterna `data-theme` no elemento
+ * `rootId` — o modo escuro fica escopado à casca (o app do hóspede ou a tela de
+ * login) — e grava a escolha no cookie para a próxima renderização não piscar.
+ * O cookie é o mesmo nas duas telas, então a preferência acompanha o usuário.
  */
-export function ThemeToggle({ initialDark }: { initialDark: boolean }) {
-  const { t } = useGuest();
+export function ThemeToggle({
+  initialDark,
+  label,
+  rootId = "guest-root",
+}: {
+  initialDark: boolean;
+  /** aria-label traduzido — vem do chamador, que já está dentro do seu provider. */
+  label: string;
+  rootId?: string;
+}) {
   const [dark, setDark] = useState(initialDark);
 
   const toggle = () => {
     const next = !dark;
     setDark(next);
-    const root = document.getElementById("guest-root");
+    const root = document.getElementById(rootId);
     if (root) {
       if (next) root.setAttribute("data-theme", "dark");
       else root.removeAttribute("data-theme");
@@ -33,7 +41,7 @@ export function ThemeToggle({ initialDark }: { initialDark: boolean }) {
       type="button"
       role="switch"
       aria-checked={dark}
-      aria-label={t("guest.header.theme")}
+      aria-label={label}
       onClick={toggle}
       className="glass-dark glass-liquid relative grid h-9 w-[46px] shrink-0 grid-cols-2 items-center rounded-full px-0.5 active:scale-95 min-[360px]:h-10 min-[360px]:w-14 min-[360px]:px-1 sm:h-11 sm:w-16"
     >
