@@ -373,6 +373,9 @@ export function AurumLoginCard({
 
                   <div className="au-head">
                     <h1 className="au-title">
+                      <span className="au-title-glow" aria-hidden="true">
+                        {t("admin.login.heading")}
+                      </span>
                       <b>{t("admin.login.heading")}</b>
                     </h1>
                     <p className="au-sub">{t("admin.login.subtitle")}</p>
@@ -599,17 +602,16 @@ const CSS = `
   font-family: var(--font-heading, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
   font-size:24px;font-weight:700;letter-spacing:-.018em;line-height:1.08;margin:0;
 }
-.aurum .au-title b{font-weight:600;background:linear-gradient(175deg,
+.aurum .au-title{position:relative}
+.aurum .au-title b{position:relative;z-index:1;font-weight:600;background:linear-gradient(175deg,
   color-mix(in srgb, rgb(var(--sb-accent-2)) 85%, #fff),rgb(var(--sb-accent)) 58%,
   color-mix(in srgb, rgb(var(--sb-accent)) 68%, #000));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  /* Glow via drop-shadow (text-shadow cobriria o degradê do texto transparente).
-     Halo em azul SATURADO (o azul do ponto da logo) e justo: um halo claro/branco
-     tem luminância parecida com a do texto e dissolve a borda das letras, o que
-     lê como desfoque. Com o azul saturado a letra continua nítida sobre o brilho. */
-  filter:drop-shadow(0 0 8px rgb(48 139 255 / .7));
-  /* Contorno fino e claro: define a borda da letra (efeito neon) para o halo não a dissolver. */
-  -webkit-text-stroke:.6px rgb(175 212 255 / .9)}
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+/* Brilho (mesmo azul-claro do "SMARTBAR") numa camada ATRÁS do título. Largo e
+   fraco junto da letra, sem núcleo branco: o preenchimento do texto é mais escuro
+   que o halo, e um halo forte colado nele dissolveria a borda (lê como desfoque). */
+.aurum .au-title-glow{position:absolute;left:0;top:0;font-weight:600;color:transparent;pointer-events:none;
+  text-shadow:0 0 14px rgb(140 200 255 / .5),0 0 30px rgb(140 200 255 / .35)}
 .aurum .au-sub{margin:6px 0 0;font-size:10.5px;color:var(--ink2);font-weight:300;line-height:1.45}
 
 .aurum .au-field{margin-bottom:9px}
