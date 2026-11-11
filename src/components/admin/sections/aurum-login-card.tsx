@@ -499,7 +499,7 @@ const CSS = `
      no SmartBar e perde legibilidade sobre o vidro). */
   --sb-ink:       242 239 234;
   /* Superfície SEMPRE escura — o card é vidro preto; não deriva do tema. */
-  --sb-surface:   8 7 6;
+  --sb-surface:   40 62 74;
   --sb-border:    255 255 255;
   /* ─────────────────────────────────────────────────── */
 
@@ -515,7 +515,7 @@ const CSS = `
   /* Vidro estilo Apple (mesmo material do .glass-dark do design system): tinta
      translúcida em DEGRADÊ (a luz entra por cima), desfoque com saturação — sem o
      escurecimento chapado de antes — e aro de luz vindo de cima (--rim-dark). */
-  --glass:   linear-gradient(to bottom, rgb(20 28 44 / .76), rgb(8 13 24 / .88));
+  --glass:   linear-gradient(to bottom, rgb(36 56 66 / .86), rgb(70 94 106 / .86));
   --blurfx:  blur(30px) saturate(1.6);
 
   --cut:46px; --seam:6px; --r:15px;
@@ -549,14 +549,21 @@ const CSS = `
 .aurum .au-glass{position:relative;z-index:1;background:var(--glass);
   backdrop-filter:var(--blurfx);-webkit-backdrop-filter:var(--blurfx);
   padding:24px;padding-top:calc(var(--cut) * .46 + 15px);padding-bottom:22px;
-  box-shadow:var(--rim-dark),inset 0 1px 0 rgb(255 255 255 / .16)}
+  /* Material do botão de referência (liquid glass azul-petróleo): fio escuro na borda
+     externa, aro de luz teal no topo, aro branco forte embaixo, sombra interna junto às
+     bordas (refração) e luz acumulada na base. */
+  box-shadow:
+    inset 0 0 0 1px rgb(150 190 205 / .22),
+    inset 0 1px 0 rgb(175 210 222 / .38),
+    inset 0 -1px 0 rgb(255 255 255 / .75),
+    inset 0 2px 8px rgb(0 0 0 / .20),
+    inset 0 -16px 26px -16px rgb(225 245 250 / .34)}
 .aurum .au-glass::after{content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 65% at 50% 46%,rgba(0,0,0,.14),transparent 80%)}
-/* Brilho especular: faixa de luz no topo, realce na quina de cima e um toque azul na de baixo. */
+  background:radial-gradient(ellipse 80% 65% at 50% 46%,rgba(0,0,0,.10),transparent 80%)}
+/* Brilho especular suave: luz na quina de cima e acúmulo de luz na base, como no vidro de referência. */
 .aurum .au-glass::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:linear-gradient(to bottom,rgb(255 255 255 / .09),transparent 34%),
-    linear-gradient(157deg,rgb(255 255 255 / .16),transparent 26%),
-    linear-gradient(334deg,rgb(var(--sb-accent-2) / .07),transparent 28%)}
+  background:linear-gradient(157deg,rgb(255 255 255 / .12),transparent 24%),
+    linear-gradient(to top,rgb(215 238 246 / .16),transparent 30%)}
 .aurum .au-grain{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.04;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 
@@ -629,13 +636,15 @@ const CSS = `
 
 .aurum input[type=text],.aurum input[type=email],.aurum input[type=password]{
   width:100%;height:38px;padding:0 33px;margin:0;
-  background:rgb(var(--sb-border) / .022);border:1px solid var(--hair);border-radius:8px;
+  /* Campo "afundado" no vidro, como a pílula selecionada da referência. */
+  background:rgb(8 22 30 / .30);border:1px solid var(--hair);border-radius:8px;
+  box-shadow:inset 0 1px 3px rgb(0 0 0 / .22),inset 0 -1px 0 rgb(255 255 255 / .08);
   color:var(--ink);font-family:inherit;font-size:17px;font-weight:400;line-height:1;letter-spacing:.02em;outline:none;
   transition:border-color .3s,background .3s,box-shadow .3s}
 .aurum input::placeholder{color:var(--ink3);font-weight:200;letter-spacing:.06em}
-.aurum input:hover{border-color:rgb(var(--sb-border) / .13)}
-.aurum input:focus{background:rgb(var(--sb-border) / .04);border-color:rgb(var(--sb-accent) / .42);
-  box-shadow:0 0 0 2px rgb(var(--sb-accent) / .07)}
+.aurum input:hover{border-color:rgb(var(--sb-border) / .18)}
+.aurum input:focus{background:rgb(8 22 30 / .38);border-color:rgb(var(--sb-accent) / .5);
+  box-shadow:inset 0 1px 3px rgb(0 0 0 / .22),0 0 0 2px rgb(var(--sb-accent) / .14)}
 .aurum input.bad{border-color:rgba(226,75,74,.6)}
 
 .aurum .au-err{display:none;margin:4px 0 0;font-size:9.5px;color:#e88a89;letter-spacing:.02em}
