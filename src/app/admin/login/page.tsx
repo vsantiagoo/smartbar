@@ -30,10 +30,10 @@ export default async function AdminLoginPage() {
       <main
         id={ROOT_ID}
         data-theme={dark ? "dark" : undefined}
-        className="login-root relative grid min-h-dvh place-items-center px-4 py-10"
+        className="login-root relative grid min-h-dvh place-items-center px-4 pb-10 pt-24"
       >
         <LoginToolbar initialDark={dark} rootId={ROOT_ID} />
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-lg">
           <AurumLoginCard
             demoEmail={isDemoMode ? DEMO_ADMIN.email : undefined}
             demoPassword={isDemoMode ? DEMO_ADMIN.password : undefined}

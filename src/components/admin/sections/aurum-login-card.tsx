@@ -153,9 +153,12 @@ export function AurumLoginCard({
       });
     }
 
+    // As larguras abaixo estão no espaço já ampliado pelo zoom do CSS; o espaço
+    // disponível do pai não, então divide-se por ele.
+    const Z = parseFloat(getComputedStyle(scene).zoom) || 1;
     function maxWidth() {
       const pad = parseFloat(getComputedStyle(root as Element).paddingLeft) || 16;
-      return Math.max(220, root!.clientWidth - pad * 2 || window.innerWidth);
+      return Math.max(220, (root!.clientWidth - pad * 2 || window.innerWidth) / Z);
     }
     function size(k: string) {
       scene.style.width = Math.min(WIDTH[k] ?? 0, maxWidth()) + "px";
@@ -528,7 +531,9 @@ const CSS = `
   border-radius:var(--r);
 }
 
-.aurum .au-scene{position:relative;z-index:10;width:280px;transition:width .56s var(--spring)}
+/* zoom escala o card INTEIRO (texto, campos, pontas e a borda animada) mantendo as
+   proporções; o JS lê este valor para limitar a largura em telas estreitas. */
+.aurum .au-scene{position:relative;z-index:10;width:280px;zoom:1.25;transition:width .56s var(--spring)}
 .aurum .au-scene.au-no-anim, .aurum .au-scene.au-no-anim *{transition:none !important}
 .aurum .au-lift{animation:au-rise 1.1s cubic-bezier(.16,1,.3,1) both}
 @keyframes au-rise{from{opacity:0;transform:translateY(20px) scale(.978)}to{opacity:1;transform:none}}
