@@ -603,8 +603,8 @@ const CSS = `
 
 .aurum .au-head{margin-bottom:15px}
 .aurum .au-title{
-  font-family: var(--font-heading, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
-  font-size:27px;font-weight:700;letter-spacing:-.018em;line-height:1.08;margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;
+  font-size:27px;font-weight:600;letter-spacing:-.022em;line-height:1.08;margin:0;
 }
 /* Cor #B8D0EE. O texto é claro, então um halo azul-claro atrás dele mantém a
    borda da letra nítida (o contrário do que acontecia com o texto escuro). */
