@@ -55,6 +55,18 @@ Mudam os alfas e o aro (`--rim-dark`). O degradê de tinta, o degradê de borda 
 as camadas de sombra continuam: chapar tudo numa cor lisa apagaria a luz
 direcional justamente na vitrine do hóspede, onde o material mais aparece.
 
+## Variante escopada: o vidro do login
+
+O card de login (`components/LoginCard`) **não usa nenhuma das classes acima**.
+Tem um vidro azul-petróleo próprio, definido no CSS do componente: tinta em degradê
+(mais clara na base), `blur(30px) saturate(1.6)`, aro branco forte embaixo e sombra
+interna junto às bordas. Foi feito a partir de uma referência de *liquid glass* e
+fica restrito àquela tela. O botão "Entrar" do card segue a mesma ideia em pequeno:
+pílula fosca com tinta branca em degradê e `blur(14px)`.
+
+Se outra tela precisar desse material, promova-o a uma classe nova aqui, em vez de
+copiar os valores.
+
 ## Regras
 
 - Uma superfície por nível de profundidade. Cartão dentro de cartão: o de fora

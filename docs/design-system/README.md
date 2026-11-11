@@ -114,6 +114,19 @@ próprios — misturá-las é o erro mais comum.
 brilho interno. **A cor vem de um `bg-{cor}/{alpha}` ao lado** —
 `glass-tint bg-brand-700/85`. Esquecer o `bg-` deixa o botão invisível.
 
+### Tela de login: vidro azul-petróleo
+
+A entrada do painel (`/admin/login`) usa um material próprio, **escopado no
+componente** (`components/LoginCard`): vidro azul-petróleo translúcido, mais claro
+na base, com aro de luz, sombra interna junto às bordas e uma **borda luminosa
+animada**. Tem fundo liso `#E8F0F9` (no escuro, o degradê do hóspede), o "Login" em
+`#B8D0EE` com peso 300 e o botão "Entrar" em vidro fosco. No canto, home, idioma e
+tema — os mesmos botões do cabeçalho do hóspede.
+
+É a **única exceção** às regras de tamanho (campos de 38px, raio de 8px, textos a
+partir de 9,5px). Não copie para outras telas; o contraste calculado e as pendências
+estão no README do componente.
+
 ## Movimento
 
 Discreto e sempre reversível.
@@ -123,6 +136,9 @@ Discreto e sempre reversível.
   independente da taxa de quadros.
 - **Ondas da marca:** `signal-ping`, em sequência de dentro para fora.
 - **Toque:** `active:scale-[0.97]` em todo botão.
+- **Brilho pulsante:** o fio de luz do botão Home (`liquid-shimmer`) e o ícone
+  central do card de login fechado (`au-tip-pulse`) pulsam em ciclo de ~3,4s, sempre
+  suave — o brilho oscila, o objeto não se mexe.
 
 Tudo respeita `prefers-reduced-motion` — um bloco global em `globals.css` zera
 animação, transição e rolagem suave. Não reimplemente essa checagem por
@@ -160,6 +176,8 @@ ficam num só arquivo, `src/lib/content/copy.ts`.
 | Forma, sombras, animações | `tailwind.config.ts` |
 | Superfícies de vidro e utilitários | `src/app/globals.css` |
 | Componentes | `src/components/ui/` |
+| Tela de login (card, barra de ações) | `src/components/admin/sections/aurum-login-card.tsx`, `login-toolbar.tsx` |
+| Botão claro/escuro (hóspede e login) | `src/components/guest/sections/theme-toggle.tsx` |
 | Textos | `src/lib/content/copy.ts` |
 | Editor de cores ao vivo | `/design-system` |
 
