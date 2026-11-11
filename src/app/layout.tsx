@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Doto, Plus_Jakarta_Sans } from "next/font/google";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { DEFAULT_THEME, THEME_STORAGE_KEY, themeToVars, varsToCss } from "@/lib/theme";
 import { LANG_COOKIE, parseLang } from "@/lib/i18n/config";
 import "./globals.css";
@@ -44,6 +44,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // pronuncia com a prosódia errada quando fica fixo em pt e a pessoa escolheu
   // en/es. O idioma vive no mesmo cookie que o site usa.
   const lang = parseLang((await cookies()).get(LANG_COOKIE)?.value) ?? "pt";
+  // Nonce CSP do request. Vem do middleware (src/middleware.ts). Sem ele,
+  // o <script> inline abaixo seria barrado pela CSP do próprio middleware.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
     <html
@@ -55,7 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     >
       <head>
         <style id="smartbar-theme" dangerouslySetInnerHTML={{ __html: BASE_THEME_CSS }} />
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
       </head>
       <body>
         {/* Skip-link: primeiro foco do Tab pula o cabeçalho e vai ao conteúdo.

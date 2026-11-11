@@ -49,32 +49,11 @@ const SEGURANCA = [
 ];
 
 /*
-  CSP em modo RELATÓRIO, de propósito.
-
-  Uma política de conteúdo errada quebra o site inteiro e em silêncio — fonte
-  que não carrega, imagem que não aparece, script que não roda. Em
-  `Report-Only` o navegador aplica a regra, relata o que violaria e NÃO bloqueia
-  nada. É assim que se descobre o que a política precisa permitir antes de ela
-  passar a valer.
-
-  `'unsafe-inline'` em script-src existe porque o Next injeta scripts inline de
-  hidratação; sair disso exige nonce por requisição, que é o próximo passo e
-  vale a pena. Deixar registrado aqui para não parecer descuido.
+  A CSP vive em src/middleware.ts, não aqui — precisa de NONCE por request
+  para proteger scripts inline do Next sem precisar de 'unsafe-inline'. CSP
+  estática neste arquivo seria obrigada a frouxar com `'unsafe-inline'` para
+  a hidratação do Next não quebrar, o que anula metade do valor da CSP.
 */
-const CSP_RELATORIO = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https:",
-  "media-src 'self'",
-  "font-src 'self' data:",
-  // Supabase: REST, Auth e o websocket do Realtime.
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
-  "frame-ancestors 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "object-src 'none'",
-].join("; ");
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -83,7 +62,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
-        headers: [...SEGURANCA, { key: "Content-Security-Policy-Report-Only", value: CSP_RELATORIO }],
+        headers: SEGURANCA,
       },
       {
         // Nada que venha da API pode ser guardado em cache intermediário: são

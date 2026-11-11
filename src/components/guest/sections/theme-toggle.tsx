@@ -23,7 +23,9 @@ export function ThemeToggle({ initialDark }: { initialDark: boolean }) {
       if (next) root.setAttribute("data-theme", "dark");
       else root.removeAttribute("data-theme");
     }
-    document.cookie = `${APPEARANCE_COOKIE}=${next ? "dark" : "light"};path=/;max-age=31536000;samesite=lax`;
+    // `secure` só em HTTPS — em http://localhost (dev) derrubaria o cookie.
+    const secure = window.location.protocol === "https:" ? ";secure" : "";
+    document.cookie = `${APPEARANCE_COOKIE}=${next ? "dark" : "light"};path=/;max-age=31536000;samesite=lax${secure}`;
   };
 
   return (

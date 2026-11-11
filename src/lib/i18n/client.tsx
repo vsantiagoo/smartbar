@@ -21,7 +21,10 @@ const I18nContext = createContext<I18nValue | null>(null);
 
 function writeLangCookie(lang: Lang): void {
   try {
-    document.cookie = `${LANG_COOKIE}=${lang}; path=/; max-age=31536000; samesite=lax`;
+    // `Secure` só em HTTPS — forçar em http://localhost derruba o cookie em
+    // dev. É o próprio navegador que sabe se a conexão é segura.
+    const secure = typeof window !== "undefined" && window.location.protocol === "https:" ? "; secure" : "";
+    document.cookie = `${LANG_COOKIE}=${lang}; path=/; max-age=31536000; samesite=lax${secure}`;
   } catch {
     /* cookies bloqueados: o idioma vale só nesta visita */
   }

@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { guardaRequisicao } from "@/lib/api-guard";
 import { simulationAllowed } from "@/lib/config";
 import { rfidSchema } from "@/lib/schemas";
 import { handleRfidTap } from "@/lib/services/rfid";
@@ -22,6 +23,8 @@ function safeEqual(a: string, b: string): boolean {
  * 403 → { ok: false, reason }             (cartão não pertence à estadia / sem pedido)
  */
 export async function POST(request: Request) {
+  const g = guardaRequisicao(request);
+  if (g.erro) return g.erro;
   // Os leitores do hotel saem todos pela mesma rede: o teto por IP precisa
   // caber o prédio inteiro. O aperto por dispositivo vem depois da validação.
   const flood = freioPorIp("dispositivo", ORCAMENTO.dispositivo, request);

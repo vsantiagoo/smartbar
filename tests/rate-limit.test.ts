@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it, vi, afterEach } from "vitest";
 import { aplicarFreio, freio, freioPorAlvo, freioPorIp, origem, ORCAMENTO } from "@/lib/rate-limit";
 
@@ -190,8 +191,7 @@ describe("origem: resistência a spoof de X-Forwarded-For", () => {
       // SAÍDA do else existe e é alcançável.
       // (Teste de regressão: existência da string no código, para não ser
       //  removida por erro em refatoração futura.)
-      const fs = require("fs") as typeof import("fs");
-      const src = fs.readFileSync("src/lib/rate-limit.ts", "utf8");
+      const src = readFileSync("src/lib/rate-limit.ts", "utf8");
       expect(src).toContain(`"sem-proxy"`);
       expect(src).toContain("RATE_LIMIT_TRUSTS_XFF");
     } finally {

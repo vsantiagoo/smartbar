@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { guardaRequisicao } from "@/lib/api-guard";
 import { DomainError, getGuestRepo } from "@/lib/data";
 import { logErro } from "@/lib/log";
 import { getPixProvider } from "@/lib/payments/pix";
@@ -19,6 +20,9 @@ const ERRORS: Record<string, { status: number; message: string }> = {
  * quando o pagamento/cartão é validado (smartbar_authorize_transaction).
  */
 export async function POST(request: Request) {
+  // Content-Type + tamanho máximo ANTES de qualquer trabalho.
+  const g = guardaRequisicao(request);
+  if (g.erro) return g.erro;
   // Primeiro o freio largo, por IP: detém flood antes de qualquer trabalho.
   const flood = freioPorIp("checkout", ORCAMENTO.checkout, request);
   if (flood) return flood;

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { guardaRequisicao } from "@/lib/api-guard";
 import { DomainError, getGuestRepo } from "@/lib/data";
 import { logErro } from "@/lib/log";
 import { supportSchema } from "@/lib/schemas";
@@ -9,6 +10,8 @@ import { freioPorAlvo, freioPorIp, ORCAMENTO } from "@/lib/rate-limit";
  * Vira uma tarefa para a governança/recepção. Sem dados pessoais: só quarto, tipo e observação.
  */
 export async function POST(request: Request) {
+  const g = guardaRequisicao(request);
+  if (g.erro) return g.erro;
   const flood = freioPorIp("suporte", ORCAMENTO.suporte, request);
   if (flood) return flood;
 

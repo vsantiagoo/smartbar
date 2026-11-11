@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { mockRepository } from "@/lib/data/mock/repo";
 import { getMockStore, invKey } from "@/lib/data/mock/store";
-import { POST } from "@/app/api/pix/webhook/route";
+import { POST, _resetIdempotenciaPix } from "@/app/api/pix/webhook/route";
 
 /*
   O WEBHOOK É O PORTÃO DO DINHEIRO.
@@ -55,7 +55,10 @@ function evento(txId: string, value?: number) {
 }
 
 describe("webhook do Pix", () => {
-  beforeEach(reiniciarBanco);
+  beforeEach(() => {
+    reiniciarBanco();
+    _resetIdempotenciaPix();
+  });
 
   it("recusa sem o token, e não toca na transação", async () => {
     const { tx } = await pedidoPendente();
