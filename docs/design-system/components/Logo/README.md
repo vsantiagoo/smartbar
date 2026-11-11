@@ -60,6 +60,17 @@ Pasta de entrega "Entrega 4K" (para mockups e peças): SVG 4K (3840 px, texto em
 sem a fonte instalada), PNG 4K transparente (logo 3840×1034, ícone 3840×3840, versões para fundo
 escuro e claro) e `smartbar-logo-4k.mp4` (3840×2160, entrada + dois ciclos do pulso).
 
+## Entrada ao rolar (`InViewIntro`)
+
+`src/components/ui/logo-inview.tsx`
+
+A entrada animada (`.sb-intro`) toca ao carregar a página. Para uma logo **abaixo da
+dobra**, isso aconteceria fora do olhar. Com `intro="inview"`, o `Logo` usa o
+`InViewIntro`: uma casca que observa a logo e só liga a entrada quando **60% dela** está
+na tela, uma vez por carga. Se a página já abrir com a logo à vista (rolagem restaurada),
+toca na hora. `intro` aceita `true` (ao carregar), `"inview"` (ao aparecer) e `false`
+(só o pulso).
+
 ## Regras
 
 - **Não recolora o ponto nem o "Bar".** O azul é a assinatura.

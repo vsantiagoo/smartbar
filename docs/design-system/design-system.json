@@ -18,8 +18,8 @@
   },
   "lastChange": {
     "by": "Vanessa Santiago",
-    "at": "2026-11-11T21:36:00.000Z",
+    "at": "2026-11-11T23:55:07.959Z",
     "via": "Claude Code",
-    "note": "Tela de login: componente LoginCard (vidro azul-petróleo, borda animada, botão fosco, barra de ações com home/idioma/tema); ThemeToggle genérico; seção de login no README"
+    "note": "Referência técnica do design system; README dos componentes ThemeToggle, LanguageSwitcher, Eyebrow, Sheet, Sinais, ProductTile e Primitivos; PDF com 39 páginas"
   }
 }

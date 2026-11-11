@@ -172,8 +172,9 @@ transição e rolagem suave. Não reimplemente por componente.
   56px (`h-14`), `icon` 44px. `Input` também `h-11`, texto 0,95rem, em pílula.
 - **Foco visível:** contorno de 2px em `gold-500`, deslocado 2px, raio 12px. Nunca
   remova sem pôr outro.
-- **Contraste conferido por código** (`contrastRatio()` em `theme.ts`). O único par do
-  sistema que reprova é `ink-faint` sobre o fundo, restrito a placeholder.
+- **Contraste conferido por código** (`contrastRatio()` em `theme.ts`). No sistema, o único
+  par que reprova é `ink-faint` sobre o fundo, restrito a placeholder. O card de login
+  tem pares próprios que reprovam (ver Pendências).
 - Texto mínimo: `caption`, 12px.
 
 ## Catálogo de componentes
@@ -189,25 +190,20 @@ transição e rolagem suave. Não reimplemente por componente.
 | `Segmented` | `ui/segmented.tsx` | Abas em pílula, com contador |
 | `Stepper` | `ui/stepper.tsx` | Contador de quantidade |
 | `Reveal` | `ui/reveal.tsx` | Entrada ao rolar |
-| `Logo` · `LogoMark` · `Wordmark` | `ui/logo.tsx` | Logotipo e palavra, medidas dos vídeos de referência |
+| `Logo` · `LogoMark` · `Wordmark` · `InViewIntro` | `ui/logo.tsx`, `ui/logo-inview.tsx` | Logotipo e palavra, medidas dos vídeos de referência; entrada quando a logo aparece na tela |
 | Vidro | `app/globals.css` | As seis superfícies (classes, não componente) |
 | `LoginCard` | `admin/sections/aurum-login-card.tsx`, `login-toolbar.tsx` | Tela de login: vidro azul-petróleo, borda animada, botão fosco, barra home/idioma/tema |
-
-### Sem documentação própria
-
-| Componente | Arquivo | O que é |
-| --- | --- | --- |
 | `ThemeToggle` | `guest/sections/theme-toggle.tsx` | Pílula claro/escuro. Props: `initialDark`, `label`, `rootId` (padrão `guest-root`) |
 | `LanguageSwitcher` | `ui/language-switcher.tsx` | Seletor de idioma (PT, EN, ES); `tone` `dark` ou `light` |
 | `Eyebrow` | `ui/eyebrow.tsx` | Rótulo miúdo acima do título de seção, entreletra 0,2em |
-| `Sheet` | `ui/sheet.tsx` | Bottom sheet mobile-first; fecha com Esc, clique fora e botão |
+| `Sheet` | `ui/sheet.tsx` | Bottom sheet mobile-first em `.glass-strong`; fecha com Esc, clique fora e botão |
 | Sinais da marca | `ui/marks.tsx` | Três desenhos próprios (celular, trava, prateleira): grade 24, traço 1,5 |
-| `ProductIcon` | `ui/product-icon.tsx` | Ícone de produto |
+| `ProductTile` | `ui/product-icon.tsx` | Tile do produto em vidro: foto por SKU ou ícone sobre degradê |
 | Primitivos | `ui/primitives.tsx` | `Skeleton`, `EmptyState`, `Meter`, `LiveDot`, `DotNumber`, `KpiCard` |
-| `InViewIntro` | `ui/logo-inview.tsx` | Dispara a entrada da logo quando ela aparece na tela |
 
-`components/Cover` tem só uma pré-visualização (`preview.html`); não há componente
-com esse nome no código.
+Todos os componentes de `ui/` e os dois do hóspede e do login têm README próprio em
+`components/`. `components/Cover` tem só uma pré-visualização (`preview.html`); não há
+componente com esse nome no código.
 
 ## Exceções documentadas
 
@@ -222,7 +218,11 @@ com esse nome no código.
 - **Contraste do card de login.** Rótulos pequenos (4,15:1 no topo, 2,91:1 na base),
   placeholder (2,84:1) e o texto do botão fosco (3,67:1) reprovam o AA. Detalhes e
   números em `components/LoginCard`.
-- **Componentes sem documentação própria** (tabela acima).
+- **Alvo de toque do `Sheet`:** o botão de fechar tem 40px (`size-10`); o sistema pede 44px.
+- **Acessibilidade do `Sheet` e do `LanguageSwitcher`:** o `aria-label` "Fechar" do sheet
+  está fixo em português, e o menu de idioma fecha só com clique fora (sem Esc nem setas).
+- **Cor fora das escalas:** os degradês do `ProductTile` usam `sky-100` e `amber-100`
+  da paleta padrão do Tailwind, e não tokens do sistema.
 - **Código sem uso:** `admin/sections/login-form.tsx` (substituído pelo `LoginCard`).
 - **Material do login** vive só no CSS do componente; se outra tela precisar, vira
   classe em `globals.css`.
