@@ -362,7 +362,7 @@ export function AurumLoginCard({
                   {/* Eyebrow com o LOGO do SmartBar + "Aurum · SmartBar" com o glow
                       idêntico ao botão "Entrar" da barra de menu (site-header). */}
                   <div className="au-brand">
-                    <LogoMark tone="light" intro={false} className="size-6 shrink-0" />
+                    <LogoMark tone="light" intro={false} className="size-[22px] shrink-0" />
                     <span
                       className="au-brand-txt"
                       style={{ textShadow: GLOW_SHADOW }}
@@ -540,7 +540,7 @@ const CSS = `
 
 .aurum .au-glass{position:relative;z-index:1;background:var(--glass);
   backdrop-filter:var(--blurfx);-webkit-backdrop-filter:var(--blurfx);
-  padding:24px;padding-top:calc(var(--cut) * .46 + 16px);padding-bottom:24px;
+  padding:24px;padding-top:calc(var(--cut) * .46 + 15px);padding-bottom:22px;
   box-shadow:0 22px 58px -24px rgba(0,0,0,.92)}
 .aurum .au-glass::after{content:'';position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse 80% 65% at 50% 46%,rgba(0,0,0,.26),transparent 80%)}
@@ -586,58 +586,56 @@ const CSS = `
 .aurum .au-pane.hide{opacity:0;transform:translateY(9px) scale(.984)}
 
 /* === EYEBROW: LogoMark + "Aurum · SmartBar" com glow do botão do menu ==== */
-/* TAMANHOS E TIPOGRAFIA seguem o design system: controles de 44px (Button md e
-   Input são h-11), texto de campo/botão 0.95rem, raio "chip" (12px) para campo e
-   botão, escala tipográfica do Tailwind (nada abaixo de 12px = text-xs) e espaços
-   em múltiplos de 4px. */
+/* Estilo do card Aurum preservado (fontes leves, rótulos pequenos em caixa-alta
+   espaçada, cantos de 8-9px, espaçamento compacto) em escala ~8-10% maior. */
 .aurum .au-brand{display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .aurum .au-brand-txt{
   display:inline-flex;align-items:center;gap:6px;
-  font-size:.75rem;line-height:1rem;letter-spacing:.22em;text-transform:uppercase;
-  color:#f2f5fa;font-weight:600;
+  font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:#f2f5fa;font-weight:500;
 }
 .aurum .au-brand-txt b{font-weight:700;letter-spacing:.24em}
 
-.aurum .au-head{margin-bottom:16px}
+.aurum .au-head{margin-bottom:15px}
 .aurum .au-title{
   font-family: var(--font-heading, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
-  font-size:1.875rem;line-height:2.25rem;font-weight:700;letter-spacing:-.018em;margin:0;
+  font-size:27px;font-weight:700;letter-spacing:-.018em;line-height:1.08;margin:0;
 }
 /* Cor #B8D0EE. O texto é claro, então um halo azul-claro atrás dele mantém a
    borda da letra nítida (o contrário do que acontecia com o texto escuro). */
-.aurum .au-title b{font-weight:700;color:#b8d0ee;
+.aurum .au-title b{font-weight:600;color:#b8d0ee;
   text-shadow:0 0 10px rgb(140 200 255 / .65),0 0 22px rgb(77 163 255 / .5)}
-.aurum .au-sub{margin:8px 0 0;font-size:.75rem;color:var(--ink2);font-weight:400;line-height:1.125rem}
+.aurum .au-sub{margin:6px 0 0;font-size:11.5px;color:var(--ink2);font-weight:300;line-height:1.45}
 
-.aurum .au-field{margin-bottom:12px}
-.aurum .au-lbl{display:block;font-size:.75rem;line-height:1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:6px;font-weight:500}
+.aurum .au-field{margin-bottom:10px}
+.aurum .au-lbl{display:block;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink2);margin-bottom:4px;font-weight:400}
 .aurum .au-wrap{position:relative;display:flex;align-items:center}
-.aurum .au-wrap .au-ico{position:absolute;left:14px;width:16px;height:16px;color:var(--ink3);transition:color .35s,filter .35s;pointer-events:none}
+.aurum .au-wrap .au-ico{position:absolute;left:11px;width:12px;height:12px;color:var(--ink3);transition:color .35s,filter .35s;pointer-events:none}
 .aurum .au-wrap:focus-within .au-ico{color:var(--gold-hi);filter:drop-shadow(0 0 4px rgb(var(--sb-accent) / .5))}
 
 .aurum input[type=text],.aurum input[type=email],.aurum input[type=password]{
-  width:100%;height:2.75rem;padding:0 44px 0 42px;margin:0;
-  background:rgb(var(--sb-border) / .022);border:1px solid var(--hair);border-radius:12px;
-  color:var(--ink);font-family:inherit;font-size:.95rem;font-weight:400;line-height:1.25rem;letter-spacing:0;outline:none;
+  width:100%;height:38px;padding:0 33px;margin:0;
+  background:rgb(var(--sb-border) / .022);border:1px solid var(--hair);border-radius:8px;
+  color:var(--ink);font-family:inherit;font-size:17px;font-weight:400;line-height:1;letter-spacing:.02em;outline:none;
   transition:border-color .3s,background .3s,box-shadow .3s}
-.aurum input::placeholder{color:var(--ink3);font-weight:400;letter-spacing:0}
+.aurum input::placeholder{color:var(--ink3);font-weight:200;letter-spacing:.06em}
 .aurum input:hover{border-color:rgb(var(--sb-border) / .13)}
 .aurum input:focus{background:rgb(var(--sb-border) / .04);border-color:rgb(var(--sb-accent) / .42);
   box-shadow:0 0 0 2px rgb(var(--sb-accent) / .07)}
 .aurum input.bad{border-color:rgba(226,75,74,.6)}
 
-.aurum .au-err{display:none;margin:6px 0 0;font-size:.75rem;line-height:1rem;color:#e88a89}
+.aurum .au-err{display:none;margin:4px 0 0;font-size:9.5px;color:#e88a89;letter-spacing:.02em}
 .aurum .au-err.show{display:block}
 
-.aurum .au-eye{position:absolute;right:8px;display:grid;place-items:center;width:28px;height:28px;
+.aurum .au-eye{position:absolute;right:8px;display:grid;place-items:center;width:24px;height:24px;
   background:none;border:0;cursor:pointer;color:var(--ink3);transition:color .25s}
 .aurum .au-eye:hover{color:var(--gold-hi)}
-.aurum .au-eye svg{width:16px;height:16px}
+.aurum .au-eye svg{width:13px;height:13px}
 
-.aurum .au-cta{position:relative;width:100%;height:2.75rem;border:0;cursor:pointer;border-radius:12px;overflow:hidden;margin-top:8px;
+.aurum .au-cta{position:relative;width:100%;height:40px;border:0;cursor:pointer;border-radius:9px;overflow:hidden;margin-top:6px;
   background:linear-gradient(180deg,rgb(var(--sb-accent-2)),rgb(var(--sb-accent)) 48%,color-mix(in srgb, rgb(var(--sb-accent)) 82%, #000));
-  color:rgb(var(--sb-on-accent));font-family:inherit;font-size:.95rem;font-weight:600;line-height:1.25rem;
-  display:flex;align-items:center;justify-content:center;gap:8px;
+  color:rgb(var(--sb-on-accent));font-family:inherit;font-size:17px;font-weight:400;line-height:1;letter-spacing:.015em;
+  display:flex;align-items:center;justify-content:center;gap:6px;
   box-shadow:0 6px 16px -10px rgb(var(--sb-accent) / .5),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.28);
   transition:transform .28s var(--ease),box-shadow .28s var(--ease)}
 .aurum .au-cta[disabled]{opacity:.7;cursor:progress}
@@ -646,19 +644,19 @@ const CSS = `
 .aurum .au-cta:hover:not([disabled]){transform:translateY(-1px);box-shadow:0 10px 22px -10px rgb(var(--sb-accent) / .6),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(0,0,0,.28)}
 .aurum .au-cta:hover:not([disabled])::after{left:140%}
 .aurum .au-cta:active{transform:translateY(0)}
-.aurum .au-cta svg{width:16px;height:16px}
+.aurum .au-cta svg{width:13px;height:13px}
 
 .aurum [data-pane="idle"]{padding-top:80px}
 .aurum .au-hint{
-  /* Dica de repouso: text-xs (12px, o mínimo do design system), branca, com a
-     opacidade pulsando. NOTA: inherit não é válido dentro do shorthand font (o
-     navegador descarta a declaração inteira), então tudo aqui é longhand. */
+  /* Dica de repouso: branca, leve, com a opacidade pulsando. NOTA: inherit não é
+     válido dentro do shorthand font (o navegador descarta a declaração inteira),
+     então tudo aqui é longhand. */
   display:block;width:100%;background:none;border:0;cursor:pointer;padding:4px 0;
   color:#ffffff;
-  font-weight:400;
-  font-size:.75rem;
-  line-height:1rem;
-  letter-spacing:.06em;
+  font-weight:300;
+  font-size:9.5px;
+  line-height:1.4;
+  letter-spacing:.09em;
   text-transform:uppercase;
   white-space:nowrap;text-align:center;
   animation:au-hint 3.2s ease-in-out infinite;
