@@ -603,10 +603,13 @@ const CSS = `
   color-mix(in srgb, rgb(var(--sb-accent-2)) 85%, #fff),rgb(var(--sb-accent)) 58%,
   color-mix(in srgb, rgb(var(--sb-accent)) 68%, #000));
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  /* Glow do "SMARTBAR" ao lado (branco + azul-claro), via drop-shadow: text-shadow
-     cobriria o degradê do texto transparente. O branco é mais fraco que no
-     "SMARTBAR" porque aqui o texto é azul e um halo branco forte o borraria. */
-  filter:drop-shadow(0 0 5px rgb(255 255 255 / .4)) drop-shadow(0 0 16px rgb(140 200 255 / .8))}
+  /* Glow via drop-shadow (text-shadow cobriria o degradê do texto transparente).
+     Halo em azul SATURADO (o azul do ponto da logo) e justo: um halo claro/branco
+     tem luminância parecida com a do texto e dissolve a borda das letras, o que
+     lê como desfoque. Com o azul saturado a letra continua nítida sobre o brilho. */
+  filter:drop-shadow(0 0 8px rgb(48 139 255 / .7));
+  /* Contorno fino e claro: define a borda da letra (efeito neon) para o halo não a dissolver. */
+  -webkit-text-stroke:.6px rgb(175 212 255 / .9)}
 .aurum .au-sub{margin:6px 0 0;font-size:10.5px;color:var(--ink2);font-weight:300;line-height:1.45}
 
 .aurum .au-field{margin-bottom:9px}
