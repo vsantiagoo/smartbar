@@ -7,6 +7,10 @@ uma proposta. Cada valor aqui foi gerado executando `src/lib/theme.ts`, lendo
 `tailwind.config.ts` e `src/app/globals.css`. Quando os dois discordarem, o
 código manda.
 
+> A referência técnica **só do design system** (tokens, escalas, vidro, movimento e
+> catálogo de componentes) está em `referencia.md`. Este README trata do produto, dos
+> públicos e da voz.
+
 ## A promessa, e o que ela exige da interface
 
 > **A trava só abre depois que o consumo está pago.**

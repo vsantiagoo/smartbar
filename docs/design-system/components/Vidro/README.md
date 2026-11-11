@@ -1,4 +1,4 @@
-As cinco superfícies de vidro — o material do sistema.
+As seis superfícies de vidro — o material do sistema.
 
 `src/app/globals.css`
 
