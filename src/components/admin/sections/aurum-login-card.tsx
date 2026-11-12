@@ -468,10 +468,6 @@ export function AurumLoginCard({
             {/* contorno + rastro de luz */}
             <svg className="au-outline">
               <path className="au-o-hair" pathLength="1000" />
-              <g className="au-o-pulse">
-                <path className="au-o-halo" pathLength="1000" />
-                <path className="au-o-edge" pathLength="1000" />
-              </g>
               <path className="au-o-tail" pathLength="1000" />
               <path className="au-o-glow" pathLength="1000" />
               <path className="au-o-mid" pathLength="1000" />
@@ -598,21 +594,20 @@ const CSS = `
 .aurum .au-tip-br .au-fill{clip-path:polygon(100% 100%,100% 0,0 100%);border-bottom-right-radius:13px;
   background:linear-gradient(315deg,rgb(var(--sb-accent-2) / .16),transparent 60%),rgb(var(--sb-surface) / .64)}
 .aurum .au-tip svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible}
-/* O brilho pulsante vale nas DUAS posições das pontas: fechado, elas formam o ícone
-   central; aberto, ficam nos cantos. No card aberto o mesmo pulso também percorre a
-   borda (.au-o-pulse). Tudo no mesmo ciclo de 3,4s, então respira em conjunto. */
+/* As pontas têm brilho nas duas posições. FECHADO, formam o ícone central e pulsam
+   (halo + fio, 3,4s). ABERTO, ficam nos cantos e a luz ganha o aspecto do rastro que
+   corre pela borda (fina e incandescente) piscando suave; só nelas, não na borda toda. */
 .aurum .au-t-halo{fill:none;stroke:rgb(var(--sb-accent) / .5);stroke-width:2.6;filter:url(#au-fx-soft);
   animation:au-tip-pulse 3.4s ease-in-out infinite}
 .aurum .au-t-edge{fill:none;stroke-width:1.05;stroke-linejoin:round;stroke:rgb(var(--sb-accent-2) / .85);
   animation:au-edge-pulse 3.4s ease-in-out infinite}
 @keyframes au-tip-pulse{0%,100%{opacity:.5;stroke-width:2.6}50%{opacity:1;stroke-width:5.2}}
 @keyframes au-edge-pulse{0%,100%{opacity:.72}50%{opacity:1}}
-/* Borda do card aberto: fio claro + halo, no mesmo pulso das pontas. Só aparece com o card
-   aberto; o grupo some/entra por opacidade, e as animações seguem contínuas (em fase). */
-.aurum .au-o-pulse{opacity:0;transition:opacity .6s ease}
-.aurum .au-scene:not(.au-joined) .au-o-pulse{opacity:1}
-.aurum .au-o-halo{stroke:rgb(var(--sb-accent) / .5);stroke-width:2.6;filter:url(#au-fx-soft);animation:au-tip-pulse 3.4s ease-in-out infinite}
-.aurum .au-o-edge{stroke:rgb(var(--sb-accent-2) / .85);stroke-width:1.05;animation:au-edge-pulse 3.4s ease-in-out infinite}
+/* Pontas com o card aberto: mesmo azul-claro vivo do halo do rastro e miolo quase branco,
+   piscando suave (a opacidade vai e volta, sem mexer na espessura). */
+.aurum .au-scene:not(.au-joined) .au-t-halo{stroke:rgb(105 178 255 / .8);stroke-width:3.4;animation:au-tip-blink 2.8s ease-in-out infinite}
+.aurum .au-scene:not(.au-joined) .au-t-edge{stroke:color-mix(in srgb, rgb(var(--sb-accent-2)) 85%, #fff);stroke-width:1.3;animation:au-tip-blink 2.8s ease-in-out infinite}
+@keyframes au-tip-blink{0%,100%{opacity:.3}50%{opacity:1}}
 
 .aurum .au-viewport{position:relative;z-index:3;height:0;transition:height .56s var(--spring)}
 .aurum .au-pane{position:absolute;left:0;top:0;width:100%;display:none;

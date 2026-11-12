@@ -63,15 +63,18 @@ arredondado com uma diagonal**. A borda dele **pulsa suave** (`au-tip-pulse`,
 3,4s): o halo vai de 2,6px a 5,2px e a opacidade de 0,5 a 1; o fio acompanha
 (0,72 → 1). Ao passar o mouse, as pontas se separam e o card abre.
 
-**Aberto, o mesmo pulso continua** — e só ele, nas pontas e na borda:
+**Aberto, as duas pontas dos cantos piscam suave** (`au-tip-blink`, 2,8s) — e só elas:
+a borda não tem pulso próprio. A luz das pontas tem o aspecto do rastro que percorre a
+borda: fina e incandescente, com halo azul-claro vivo (`#69B2FF` a 80%, traço 3,4) e fio
+quase branco (`brand-300` com 85% de branco, traço 1,3). O piscar é só de opacidade, de
+30% a 100%, sem mexer na espessura; halo e fio piscam juntos.
 
-- **Pontas:** as duas quinas (topo à esquerda, base à direita) mantêm o halo e o fio
-  pulsando, agora nos cantos.
-- **Borda:** um fio claro e um halo suave (`.au-o-pulse`) percorrem todo o contorno no
-  mesmo ciclo de 3,4s, em fase com as pontas — o card inteiro "respira" junto. Com o
-  card fechado esse conjunto fica apagado; só o ícone central pulsa.
+| Estado | Pontas | Animação |
+| --- | --- | --- |
+| Fechado | Unidas no centro, formam o ícone | `au-tip-pulse` 3,4s (halo 2,6 → 5,2px) |
+| Aberto | Nos cantos (topo à esquerda, base à direita) | `au-tip-blink` 2,8s (opacidade 0,3 → 1) |
 
-O rastro de luz que corre pela borda continua por cima, como antes.
+O rastro de luz que corre pela borda continua igual.
 
 ## Tipografia e cor
 
