@@ -548,7 +548,7 @@ const CSS = `
 
 .aurum .au-glass{position:relative;z-index:1;background:var(--glass);
   backdrop-filter:var(--blurfx);-webkit-backdrop-filter:var(--blurfx);
-  padding:24px;padding-top:calc(var(--cut) * .46 + 15px);padding-bottom:22px;
+  padding:24px;padding-top:calc(var(--cut) * .46 + 15px);padding-bottom:40px;
   /* Material do botão de referência (liquid glass azul-petróleo): fio escuro na borda
      externa, aro de luz teal no topo, aro branco forte embaixo, sombra interna junto às
      bordas (refração) e luz acumulada na base. */
