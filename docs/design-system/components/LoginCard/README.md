@@ -63,6 +63,16 @@ arredondado com uma diagonal**. A borda dele **pulsa suave** (`au-tip-pulse`,
 3,4s): o halo vai de 2,6px a 5,2px e a opacidade de 0,5 a 1; o fio acompanha
 (0,72 → 1). Ao passar o mouse, as pontas se separam e o card abre.
 
+**Aberto, o mesmo pulso continua** — e só ele, nas pontas e na borda:
+
+- **Pontas:** as duas quinas (topo à esquerda, base à direita) mantêm o halo e o fio
+  pulsando, agora nos cantos.
+- **Borda:** um fio claro e um halo suave (`.au-o-pulse`) percorrem todo o contorno no
+  mesmo ciclo de 3,4s, em fase com as pontas — o card inteiro "respira" junto. Com o
+  card fechado esse conjunto fica apagado; só o ícone central pulsa.
+
+O rastro de luz que corre pela borda continua por cima, como antes.
+
 ## Tipografia e cor
 
 | Elemento | Valor |
