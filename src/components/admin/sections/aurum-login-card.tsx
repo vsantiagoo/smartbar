@@ -608,7 +608,13 @@ const CSS = `
    usa o MESMO azul do halo do rastro da borda (105 178 255) para aparecer tanto sobre o
    fundo claro quanto sobre o escuro; um fio quase branco sumia no modo claro. */
 .aurum .au-scene:not(.au-joined) .au-t-halo{animation:none;opacity:0}
-.aurum .au-scene:not(.au-joined) .au-t-edge{stroke:rgb(105 178 255);stroke-width:1.5;animation:au-tip-blink 2.8s ease-in-out infinite}
+.aurum .au-scene:not(.au-joined) .au-t-edge{stroke:rgb(56 146 255);stroke-width:1.8;animation:au-tip-blink-light 2.8s ease-in-out infinite}
+/* Modo escuro: mantém exatamente o azul do rastro (105 178 255), traço 1,5 e piscar de 30% a 100%. */
+[data-theme="dark"] .aurum .au-scene:not(.au-joined) .au-t-edge{stroke:rgb(105 178 255);stroke-width:1.5;animation:au-tip-blink 2.8s ease-in-out infinite}
+/* Modo claro (padrão acima): um pouco mais intenso, porque o azul claro perde força sobre o
+   fundo claro. Sem halo; o brilho vem do azul mais saturado, do traço mais firme e do
+   piscar que não apaga tanto (45% a 100%). */
+@keyframes au-tip-blink-light{0%,100%{opacity:.45}50%{opacity:1}}
 @keyframes au-tip-blink{0%,100%{opacity:.3}50%{opacity:1}}
 
 .aurum .au-viewport{position:relative;z-index:3;height:0;transition:height .56s var(--spring)}

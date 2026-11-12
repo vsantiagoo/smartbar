@@ -64,16 +64,23 @@ arredondado com uma diagonal**. A borda dele **pulsa suave** (`au-tip-pulse`,
 (0,72 → 1). Ao passar o mouse, as pontas se separam e o card abre.
 
 **Aberto, as duas pontas dos cantos piscam suave** (`au-tip-blink`, 2,8s) — e só elas:
-a borda não tem pulso próprio. A luz das pontas é **só o fio**, nítido, no **mesmo azul do
-halo do rastro da borda** (`#69B2FF`, traço 1,5), **sem halo**: o desfoque do halo deixava
-a ponta com cara de desfocada. Esse azul aparece tanto no modo claro quanto no escuro (um
-fio quase branco, usado antes, sumia sobre o fundo claro). O piscar é só de opacidade, de
-30% a 100%, sem mexer na espessura.
+a borda não tem pulso próprio. A luz das pontas é **só o fio**, nítido, **sem halo**: o
+desfoque do halo deixava a ponta com cara de desfocada. O piscar é só de opacidade, sem
+mexer na espessura. O fio é azul nos dois modos (um fio quase branco, usado antes, sumia
+sobre o fundo claro), com intensidades diferentes:
+
+| Modo | Azul | Traço | Piscar (opacidade) |
+| --- | --- | --- | --- |
+| Escuro | `#69B2FF`, o mesmo do halo do rastro da borda | 1,5 | 0,3 → 1 (`au-tip-blink`) |
+| Claro | `#3892FF`, um pouco mais saturado | 1,8 | 0,45 → 1 (`au-tip-blink-light`) |
+
+No claro o azul é mais firme porque o azul claro perde força sobre o fundo `#E8F0F9`;
+no escuro a intensidade não mudou.
 
 | Estado | Pontas | Animação |
 | --- | --- | --- |
 | Fechado | Unidas no centro, formam o ícone | `au-tip-pulse` 3,4s (halo 2,6 → 5,2px + fio) |
-| Aberto | Nos cantos (topo à esquerda, base à direita) | `au-tip-blink` 2,8s, só o fio em `#69B2FF` (opacidade 0,3 → 1); sem halo |
+| Aberto | Nos cantos (topo à esquerda, base à direita) | `au-tip-blink` 2,8s, só o fio, sem halo (azul e intensidade por modo, tabela acima) |
 
 O rastro de luz que corre pela borda continua igual.
 
