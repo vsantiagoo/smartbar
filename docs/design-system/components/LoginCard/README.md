@@ -66,21 +66,23 @@ arredondado com uma diagonal**. A borda dele **pulsa suave** (`au-tip-pulse`,
 **Aberto, as duas pontas dos cantos piscam suave** (`au-tip-blink`, 2,8s) — e só elas:
 a borda não tem pulso próprio. A luz das pontas é **só o fio**, nítido, **sem halo**: o
 desfoque do halo deixava a ponta com cara de desfocada. O piscar é só de opacidade, sem
-mexer na espessura. O fio é azul nos dois modos (um fio quase branco, usado antes, sumia
-sobre o fundo claro), com intensidades diferentes:
+mexer na espessura no escuro. O fio tem **a mesma cor do feixe que percorre a borda**
+(`#69B2FF`) nos dois modos (um fio quase branco, usado antes, sumia sobre o fundo claro).
+A diferença é só a intensidade do brilho ao piscar:
 
-| Modo | Azul | Traço | Piscar (opacidade) |
+| Modo | Cor | Piscar | No pico |
 | --- | --- | --- | --- |
-| Escuro | `#69B2FF`, o mesmo do halo do rastro da borda | 1,5 | 0,3 → 1 (`au-tip-blink`) |
-| Claro | `#3892FF`, um pouco mais saturado | 1,8 | 0,45 → 1 (`au-tip-blink-light`) |
+| Escuro | `#69B2FF` | opacidade 0,3 → 1 (`au-tip-blink`) | traço fixo de 1,5 |
+| Claro | `#69B2FF` | opacidade 0,4 → 1 (`au-tip-blink-light`) | traço de 1,5 a 2,1 e um brilho bem curto (1,5px) da mesma cor |
 
-No claro o azul é mais firme porque o azul claro perde força sobre o fundo `#E8F0F9`;
-no escuro a intensidade não mudou.
+No claro o azul perde força sobre o fundo `#E8F0F9`, então o pico é mais intenso. O
+brilho do pico é curto de propósito, para a ponta não parecer desfocada; no escuro nada
+mudou.
 
 | Estado | Pontas | Animação |
 | --- | --- | --- |
 | Fechado | Unidas no centro, formam o ícone | `au-tip-pulse` 3,4s (halo 2,6 → 5,2px + fio) |
-| Aberto | Nos cantos (topo à esquerda, base à direita) | `au-tip-blink` 2,8s, só o fio, sem halo (azul e intensidade por modo, tabela acima) |
+| Aberto | Nos cantos (topo à esquerda, base à direita) | `au-tip-blink` 2,8s, só o fio, sem halo (intensidade por modo, tabela acima) |
 
 O rastro de luz que corre pela borda continua igual.
 
