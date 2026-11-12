@@ -14,6 +14,7 @@ Os valores saem do código (`src/lib/theme.ts`, `tailwind.config.ts`,
 | `referencia.md` (este) | O design system: tokens, escalas, vidro, movimento, componentes |
 | `README.md` | O produto: promessa, públicos, voz, regras de uso gerais |
 | `identidade-visual.md` | A marca e o site: logotipo, fotos, climas da home |
+| `cores.md` | As cores: escalas com os códigos e **onde cada cor é aplicada em cada componente** |
 | `tokens.json` | Todos os valores, em formato de máquina (cor, tipo, espaço, raio, sombra, desfoque) |
 | `components/<Nome>/README.md` | Um componente: props, visual, regras |
 
@@ -33,7 +34,8 @@ Os valores saem do código (`src/lib/theme.ts`, `tailwind.config.ts`,
 ## Cor
 
 Oito cores-base geram, cada uma, a escala 50→950 em `deriveScale()`: claros
-misturados com branco, escuros com preto.
+misturados com branco, escuros com preto. **Os códigos de cada passo e a cor de cada
+componente estão em `cores.md`** (no PDF, com amostras coloridas).
 
 | Papel | Escala | Base | Onde |
 | --- | --- | --- | --- |
