@@ -603,10 +603,11 @@ const CSS = `
   animation:au-edge-pulse 3.4s ease-in-out infinite}
 @keyframes au-tip-pulse{0%,100%{opacity:.5;stroke-width:2.6}50%{opacity:1;stroke-width:5.2}}
 @keyframes au-edge-pulse{0%,100%{opacity:.72}50%{opacity:1}}
-/* Pontas com o card aberto: mesmo azul-claro vivo do halo do rastro e miolo quase branco,
-   piscando suave (a opacidade vai e volta, sem mexer na espessura). */
-.aurum .au-scene:not(.au-joined) .au-t-halo{stroke:rgb(105 178 255 / .8);stroke-width:3.4;animation:au-tip-blink 2.8s ease-in-out infinite}
-.aurum .au-scene:not(.au-joined) .au-t-edge{stroke:color-mix(in srgb, rgb(var(--sb-accent-2)) 85%, #fff);stroke-width:1.3;animation:au-tip-blink 2.8s ease-in-out infinite}
+/* Pontas com o card aberto: SEM halo (o desfoque deixava a ponta com cara de desfocada);
+   só o fio de luz, nítido e quase branco, piscando suave (a opacidade vai e volta, sem
+   mexer na espessura). */
+.aurum .au-scene:not(.au-joined) .au-t-halo{animation:none;opacity:0}
+.aurum .au-scene:not(.au-joined) .au-t-edge{stroke:color-mix(in srgb, rgb(var(--sb-accent-2)) 85%, #fff);stroke-width:1.4;animation:au-tip-blink 2.8s ease-in-out infinite}
 @keyframes au-tip-blink{0%,100%{opacity:.3}50%{opacity:1}}
 
 .aurum .au-viewport{position:relative;z-index:3;height:0;transition:height .56s var(--spring)}
