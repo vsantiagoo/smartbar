@@ -369,6 +369,7 @@ O card de login tem paleta própria, fora das escalas (vidro azul-petróleo). Ar
 | `#08161E` | `valor fixo` · 30% | Campos de e-mail e senha (afundados no vidro) |
 | `#596F93` | `brand-500` | Acento do card: foco dos campos e halo do ícone central |
 | `#69B2FF` | `valor fixo` · 78% | Rastro de luz da borda: halo (azul-claro vivo, com desfoque) |
+| `#69B2FF` | `valor fixo` | Pontas dos cantos com o card aberto: fio de luz piscando (o mesmo azul do rastro, nos dois modos) |
 | `#97A5BB` | `brand-300` | Acento claro: cauda (36%), fio (95%) e miolo (com 85% de branco) do rastro de luz; fio das pontas |
 | `#FFFFFF` | `branco` | Botão "Entrar" (vidro fosco): tinta de 30% a 18%, borda a 22%, texto branco |
 | `#283E4A` | `valor fixo` · 64% | Pontas recortadas do card: preenchimento (o rastro de luz corre pela borda) |

@@ -64,15 +64,16 @@ arredondado com uma diagonal**. A borda dele **pulsa suave** (`au-tip-pulse`,
 (0,72 → 1). Ao passar o mouse, as pontas se separam e o card abre.
 
 **Aberto, as duas pontas dos cantos piscam suave** (`au-tip-blink`, 2,8s) — e só elas:
-a borda não tem pulso próprio. A luz das pontas é **só o fio**, nítido e quase branco
-(`brand-300` com 85% de branco, traço 1,4), **sem halo**: o desfoque do halo deixava a
-ponta com cara de desfocada. O piscar é só de opacidade, de 30% a 100%, sem mexer na
-espessura.
+a borda não tem pulso próprio. A luz das pontas é **só o fio**, nítido, no **mesmo azul do
+halo do rastro da borda** (`#69B2FF`, traço 1,5), **sem halo**: o desfoque do halo deixava
+a ponta com cara de desfocada. Esse azul aparece tanto no modo claro quanto no escuro (um
+fio quase branco, usado antes, sumia sobre o fundo claro). O piscar é só de opacidade, de
+30% a 100%, sem mexer na espessura.
 
 | Estado | Pontas | Animação |
 | --- | --- | --- |
 | Fechado | Unidas no centro, formam o ícone | `au-tip-pulse` 3,4s (halo 2,6 → 5,2px + fio) |
-| Aberto | Nos cantos (topo à esquerda, base à direita) | `au-tip-blink` 2,8s, só o fio (opacidade 0,3 → 1); sem halo |
+| Aberto | Nos cantos (topo à esquerda, base à direita) | `au-tip-blink` 2,8s, só o fio em `#69B2FF` (opacidade 0,3 → 1); sem halo |
 
 O rastro de luz que corre pela borda continua igual.
 
