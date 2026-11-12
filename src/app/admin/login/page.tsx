@@ -5,7 +5,6 @@ import { APPEARANCE_COOKIE } from "@/lib/appearance";
 import { DEMO_ADMIN, isDemoMode } from "@/lib/config";
 import { I18nProvider } from "@/lib/i18n/client";
 import { LANG_COOKIE, parseLang } from "@/lib/i18n/config";
-import { getT } from "@/lib/i18n/server";
 
 export const metadata = { title: "Login" };
 
@@ -23,7 +22,6 @@ export default async function AdminLoginPage() {
   const cookieStore = await cookies();
   const saved = parseLang(cookieStore.get(LANG_COOKIE)?.value);
   const dark = cookieStore.get(APPEARANCE_COOKIE)?.value === "dark";
-  const t = await getT();
 
   return (
     <I18nProvider initialLang={saved ?? "pt"} hasLangCookie={saved !== null}>
@@ -38,9 +36,6 @@ export default async function AdminLoginPage() {
             demoEmail={isDemoMode ? DEMO_ADMIN.email : undefined}
             demoPassword={isDemoMode ? DEMO_ADMIN.password : undefined}
           />
-          {isDemoMode && (
-            <p className="mt-6 text-center text-xs text-ink-soft">{t("admin.login.demo", { file: ".env.local" })}</p>
-          )}
         </div>
       </main>
     </I18nProvider>

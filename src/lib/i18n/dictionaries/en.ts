@@ -326,7 +326,6 @@ export const en: Record<DictKey, string> = {
   "admin.login.email": "E-mail",
   "admin.login.password": "Password",
   "admin.login.submit": "Sign in",
-  "admin.login.demo": "Demo mode — no database connected. Set up Supabase in {file}.",
   "admin.login.error": "Wrong e-mail or password.",
   "admin.login.missing": "Enter e-mail and password.",
   "admin.login.hint": "Hover to sign in",

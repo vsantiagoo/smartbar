@@ -344,7 +344,6 @@ export const pt = {
   "admin.login.email": "E-mail",
   "admin.login.password": "Senha",
   "admin.login.submit": "Entrar",
-  "admin.login.demo": "Modo demonstração — sem banco conectado. Configure o Supabase em {file}.",
   "admin.login.error": "E-mail ou senha incorretos.",
   "admin.login.missing": "Informe e-mail e senha.",
   "admin.login.hint": "Passe o mouse para entrar",
