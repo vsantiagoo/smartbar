@@ -44,7 +44,19 @@ CSS do componente.
 ## Borda animada e o ícone central
 
 O card tem o contorno cortado em duas quinas (`--cut: 46px`) e um **rastro de luz**
-que percorre a borda (cinco camadas, 9s por volta, `au-tail` → `au-core`).
+que percorre a borda (cinco camadas, 9s por volta, `au-tail` → `au-core`). O rastro é
+**fino e incandescente**, e vale igual no modo claro e no escuro:
+
+| Camada | Cor | Traço |
+| --- | --- | --- |
+| Cauda | `brand-300` a 36% | 1,1 |
+| Halo (com desfoque) | `#69B2FF` a 78% | 3,6 |
+| Fio | `brand-300` a 95% | 1,4 |
+| Miolo | `brand-300` com 85% de branco | 1,3 |
+
+O halo usa um azul-claro vivo, próximo ao azul do logotipo, para o rastro aparecer
+também sobre o fundo claro da página. Todas as camadas terminam na mesma "cabeça" e
+se estendem para trás, então o comprimento e a velocidade não mudam.
 
 Fechado, as duas pontas se unem no centro e formam o **ícone de quadrado
 arredondado com uma diagonal**. A borda dele **pulsa suave** (`au-tip-pulse`,

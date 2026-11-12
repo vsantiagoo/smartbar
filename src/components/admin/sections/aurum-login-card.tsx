@@ -336,7 +336,7 @@ export function AurumLoginCard({
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
         <defs>
           <filter id="au-fx-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="2.2" />
+            <feGaussianBlur stdDeviation="2.6" />
           </filter>
           <filter id="au-fx-soft" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="2" />
@@ -569,16 +569,19 @@ const CSS = `
 
 .aurum .au-outline{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:13}
 .aurum .au-outline path{fill:none;stroke-linejoin:round}
-.aurum .au-o-hair{stroke:rgb(var(--sb-border) / .12);stroke-width:1}
+/* Rastro de luz da borda: segue fino, mas mais incandescente. Cada camada termina na
+   mesma "cabeça" (posição 200) e se estende para trás; o halo usa o azul-claro vivo do
+   logotipo para aparecer também sobre o fundo claro, e o miolo é quase branco. */
+.aurum .au-o-hair{stroke:rgb(var(--sb-border) / .16);stroke-width:1}
 .aurum .au-o-tail,.aurum .au-o-glow,.aurum .au-o-mid,.aurum .au-o-core{stroke-linecap:round}
-.aurum .au-o-tail{stroke:rgb(var(--sb-accent) / .20);stroke-width:1;stroke-dasharray:200 800;animation:au-tail 9s linear infinite}
-.aurum .au-o-glow{stroke:rgb(var(--sb-accent) / .5);stroke-width:3;stroke-dasharray:84 916;filter:url(#au-fx-glow);animation:au-glow 9s linear infinite}
-.aurum .au-o-mid{stroke:rgb(var(--sb-accent-2) / .8);stroke-width:1.2;stroke-dasharray:52 948;animation:au-midk 9s linear infinite}
-.aurum .au-o-core{stroke:color-mix(in srgb, rgb(var(--sb-accent-2)) 72%, #fff);stroke-width:1.1;stroke-dasharray:16 984;animation:au-core 9s linear infinite}
-@keyframes au-tail{from{stroke-dashoffset:0}to{stroke-dashoffset:-1000}}
-@keyframes au-glow{from{stroke-dashoffset:-116}to{stroke-dashoffset:-1116}}
-@keyframes au-midk{from{stroke-dashoffset:-148}to{stroke-dashoffset:-1148}}
-@keyframes au-core{from{stroke-dashoffset:-184}to{stroke-dashoffset:-1184}}
+.aurum .au-o-tail{stroke:rgb(var(--sb-accent-2) / .36);stroke-width:1.1;stroke-dasharray:210 790;animation:au-tail 9s linear infinite}
+.aurum .au-o-glow{stroke:rgb(105 178 255 / .78);stroke-width:3.6;stroke-dasharray:96 904;filter:url(#au-fx-glow);animation:au-glow 9s linear infinite}
+.aurum .au-o-mid{stroke:rgb(var(--sb-accent-2) / .95);stroke-width:1.4;stroke-dasharray:60 940;animation:au-midk 9s linear infinite}
+.aurum .au-o-core{stroke:color-mix(in srgb, rgb(var(--sb-accent-2)) 85%, #fff);stroke-width:1.3;stroke-dasharray:20 980;animation:au-core 9s linear infinite}
+@keyframes au-tail{from{stroke-dashoffset:10}to{stroke-dashoffset:-990}}
+@keyframes au-glow{from{stroke-dashoffset:-104}to{stroke-dashoffset:-1104}}
+@keyframes au-midk{from{stroke-dashoffset:-140}to{stroke-dashoffset:-1140}}
+@keyframes au-core{from{stroke-dashoffset:-180}to{stroke-dashoffset:-1180}}
 
 .aurum .au-tip{position:absolute;z-index:12;pointer-events:none;
   width:calc(var(--cut) - var(--seam) * 1.414);height:calc(var(--cut) - var(--seam) * 1.414);will-change:transform}

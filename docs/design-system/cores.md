@@ -367,8 +367,9 @@ O card de login tem paleta própria, fora das escalas (vidro azul-petróleo). Ar
 | `#F2F5FA` | `valor fixo` | "SMARTBAR" no topo do card |
 | `#F2EFEA` | `valor fixo` | Texto do card (`ink`): rótulos a 60%, placeholder a 36%, texto digitado a 100% |
 | `#08161E` | `valor fixo` · 30% | Campos de e-mail e senha (afundados no vidro) |
-| `#596F93` | `brand-500` | Acento do card: rastro de luz da borda, foco dos campos e halo do ícone central |
-| `#97A5BB` | `brand-300` | Acento claro: miolo do rastro de luz e fio das pontas |
+| `#596F93` | `brand-500` | Acento do card: foco dos campos e halo do ícone central |
+| `#69B2FF` | `valor fixo` · 78% | Rastro de luz da borda: halo (azul-claro vivo, com desfoque) |
+| `#97A5BB` | `brand-300` | Acento claro: cauda (36%), fio (95%) e miolo (com 85% de branco) do rastro de luz; fio das pontas |
 | `#FFFFFF` | `branco` | Botão "Entrar" (vidro fosco): tinta de 30% a 18%, borda a 22%, texto branco |
 | `#283E4A` | `valor fixo` · 64% | Pontas recortadas do card: preenchimento (o rastro de luz corre pela borda) |
 | `#FFFFFF` | `branco` · 85% | Barra de ações: ícone do botão Home (hover: fundo branco a 15%) |
